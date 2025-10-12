@@ -1,0 +1,458 @@
+/* Dashboard.css */
+.dashboard {
+  padding: 20px;
+  height: 100%;
+  max-width: 1200px;
+  margin: auto;
+  margin-top: 110px;
+}
+
+.dashboard-header {
+  margin-bottom: 30px;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.styleimgprofilcust {
+  width: 65px !important;
+  height: 65px !important;
+}
+
+.dashboard-header p {
+  background: #fff;
+  width: 100%;
+  padding: 15px;
+  font-size: 25px;
+  border-radius: 20px;
+  margin-block: 14px !important;
+  font-weight: 800;
+  color: #4a6cf7;
+}
+
+/* شبكة الإحصائيات */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.stat-card {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgb(133 133 133);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.3s ease;
+  border: 4px solid #4a6cf7;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.stat-card.warning {
+  border-left-color: #f59e0b;
+}
+
+.stat-card.danger {
+  border-left-color: #ef4444;
+}
+
+.Orders-User {
+  width: 100% !important;
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #4a6cf7;
+    border-radius: 50%;
+    text-align: center;
+    box-shadow: 2px 2px 10px #7d5555;
+}
+
+.stat-content h3 {
+  font-size: 1rem;
+  color: #64748b;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.stat-number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+/* محتوى اللوحة */
+.dashboard-header h1 {
+  position: relative;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+    width: fit-content;
+    margin: auto;
+    background: #fff;
+    width: 100%;
+    border-radius: 25px;
+    padding: 5px;
+    color: #4a6cf7;
+    overflow: hidden;
+    width: 100% !important;
+}
+
+.dashboard-header h1 span{
+    position: absolute !important;
+    bottom: 0 !important;
+    /* width: 0%; */
+    left: 50%;
+    width: 25px !important;
+    height: 10px !important;
+    border-radius: 22px !important;
+    background-color: #4a6cf7;
+    animation: doactionNow 10s linear infinite forwards;
+}
+
+@keyframes doactionNow {
+  0%{
+    left: 0;
+}
+25%{
+    left: 25%;
+}
+50% {
+    left: 100%;
+}
+  51% {
+    right: 50%;
+  }
+
+  100% {
+    left: 0%;
+  }
+}
+
+.dashboard-content {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  gap: 30px;
+}
+
+/* قسم العملاء */
+
+.analytics-section h2,
+.orders-section h2, 
+.customers-section h2 {
+        margin-bottom: 20px !important;
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin-bottom: 20px;
+    font-weight: 600;
+    background: #fff;
+    padding: 13px;
+    color: #4a6cf7;
+    font-size: 25px;
+    border-radius: 30px;
+}
+
+.customers-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 600px;
+  padding-right: 5px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.customer-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: all 0.3s ease;
+}
+
+.customer-card:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.customer-avatar {
+  font-size: 2rem;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #4a6cf7;
+  border-radius: 50%;
+}
+
+.customer-info {
+  flex: 1;
+}
+
+.customer-info h4 {
+  margin: 0 0 5px 0;
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.debt-status {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.debt-status.danger {
+  color: #ef4444;
+}
+
+.debt-status.success {
+  color: #10b981;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-badge.success {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status-badge.warning {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-badge.danger {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.status-badge.info {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+/* جدول الطلبات */
+.orders-table-container {
+  min-height: 400px;
+  max-height: 600px;
+  padding-right: 5px;
+  overflow: hidden;
+  overflow-y: scroll;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orders-table th {
+  background: #f8fafc;
+  padding: 15px;
+  text-align: right;
+  font-weight: 600;
+  color: #475569;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: center;
+}
+
+.orders-table td {
+  padding: 15px;
+  border-bottom: 1px solid #e2e8f0;
+  color: #475569;
+}
+
+.orders-table tr:last-child td {
+  border-bottom: none;
+}
+
+.orders-table tr:hover {
+  background: #f8fafc;
+}
+
+.view-order-btn {
+  background: #4a6cf7;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.view-order-btn:hover {
+  background: #3a5cd8;
+  transform: translateY(-2px);
+}
+
+/* قسم التحليلات */
+.analytics-section {
+  margin-bottom: 40px;
+}
+
+.analytics-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.analytics-card {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.analytics-card h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.progress-container {
+  margin-bottom: 20px;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-fill.warning {
+  background: #f59e0b;
+}
+
+.progress-fill.danger {
+  background: #ef4444;
+}
+
+.debt-analysis,
+.summary-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.debt-item,
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.debt-item:last-child,
+.summary-item:last-child {
+  border-bottom: none;
+}
+
+.debt-amount,
+.debt-count,
+.debt-average,
+.summary-value {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.summary-label {
+  color: #64748b;
+}
+
+/* التجاوب مع الشاشات */
+@media (max-width: 1024px) {
+  .dashboard-content {
+    flex-direction: column;
+  }
+  .customers-grid {
+    width: 75%;
+    margin: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+  .customers-grid {
+    width: 100%;
+  }
+  .analytics-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .orders-table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard {
+    padding: 15px;
+  }
+  
+  .stat-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+  .customers-grid{
+    width: 75%;
+    margin: auto;
+  }
+  .customer-card {
+    text-align: center;
+  }
+  
+  .dashboard-header h1 {
+    font-size: 2rem;
+  }
+}

@@ -1,0 +1,1053 @@
+.App {
+  text-align: center;
+}
+
+body{
+  background:#f0f4ff !important;
+}
+h1,h2,h3,h4,h5,h6 {
+  margin: 0 !important;
+}
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+  color:rgba(4, 129, 253, 0.235);
+}
+
+.btninputeseatoraction {
+  font-size: 27px !important;
+    padding: 0px 30px !important;
+    /* background: rgba(159, 158, 158, 0.506) !important; */
+    background: none!important;
+    color: #4a6cf7 !important;
+    height: -webkit-fill-available !important;
+    border-radius: 10px 0px 0px 10px !important;
+    border: 2px solid #4a6cf7 !important;
+    border-left: double !important;
+    border-right: none !important;
+}
+
+.stletngenerageforallpageedart {
+      position: fixed;
+    bottom: 50px;
+    width: 1170px;
+    z-index: 1;
+    line-height: 50%;
+    margin: auto;
+    display: flex;
+    justify-content: end;
+}
+
+.stylebtntodoactioninpageedar {
+  background: #4a6cf7 !important;
+    font-size: 25px !important;
+    padding: 30px !important;
+    color: #fff !important;
+}
+
+.normarstlbtnactioninpt {
+  font-size: 27px !important;
+    background: #4a6cf7 !important;
+    color: #fff !important;
+    height: -webkit-fill-available !important;
+    border-radius: 10px 0px 0px 10px !important;
+    border: 2px solid #4a6cf7 !important;
+    border-left: none !important;
+    border-right: none !important;
+}
+
+.stylallsectinpage {
+ display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin-top: 35px; 
+}
+
+.boxMoreForUser {
+  color: rgb(255, 255, 255);
+  align-items: center;
+  background: rgba(159, 158, 158, 0.733);
+  box-shadow: rgba(219, 219, 219, 0.8) 1px 1px 1px 1px;
+  border-radius: 12px;
+  display: flex;
+  direction: rtl;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.styleimgflexandfldcolal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stlemoreinputeandbtnwetherinpageedar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 22px;
+}
+
+.styleinptandbtntodoorshowdataaction {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  gap: 8px;
+  width: 100%;
+  color: rgb(74, 108, 247);
+}
+
+.stlefirstdivcontrolinpage {
+  display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 40px;
+    max-width: 1200px;
+    margin: auto;
+    margin-top: 110px;
+}
+
+.styletitelpage {
+  margin-block: 30px;
+  font-size: 35px;
+  color: rgb(74, 108, 247);
+  padding: 22px 0px;
+  background: rgb(255, 255, 255);
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: rgb(74, 108, 247) 1px 1px 1px 0px;
+}
+
+.styletitelinputeaction {
+      font-size: 25px !important;
+    color: rgb(74, 108, 247) !important;
+    margin-right: 15px !important;
+    margin-bottom: 10px !important;
+}
+
+.colorWIT {
+  color: #FFF !important;
+}
+
+input {
+  font-feature-settings: "tnam" !important;
+  -moz-font-feature-settings: "tnum" !important;
+  -webkit-font-feature-settings: "tnum" !important;
+  font-family: monospace !important;
+}
+
+p{
+  margin: 0 !important;
+}
+
+.dispboxnone {
+  display: none !important;
+}
+
+img{
+  width: 100% !important;
+}
+
+.ImgNowProf{
+  width: 200px !important;
+  height: 200px !important;
+  border-radius: 0 !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  width: fit-content;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.TitelNameWeb{
+  padding: 10px 37px;
+  margin-left: 20px;
+  background: #9b91917d;
+  box-shadow: 2px 2px 1px 1px #fff;
+  font-weight: bold;
+  color: #fff;
+  font-size: 35px;
+  border-radius: 12px;
+}
+
+.titeForWeb{
+  font-size: 65px;
+  height: 450px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.BtnToDoregAndLog {
+  background: #6964648d !important;
+  text-transform: lowercase !important;
+  font-size: 20px !important;
+  color: #fff !important;
+  padding: 7px 20px !important;
+  border-radius: 20px !important;
+  font-weight: bold !important;
+}
+
+.BtnToDoregAndLog {
+  background: #e45c07 !important;
+}
+.BtnToDoregAndLogTou{
+  background: #07e416 !important;
+}
+
+.ShowMenu{
+  display: none;
+}
+
+.dispanone{
+  display: none !important;
+}
+
+.BoxFormCuntry{
+  display: flex;
+}
+
+.boxMoreForUserMore {
+  display: none !important;
+}
+
+.PostContent {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ImgForProdect{
+  width: 250px;
+}
+
+.imgNow{
+  width: 180px !important;
+  height: 180px !important;
+  border-radius: 50% !important;
+  background: #d0cfcfb1 !important;
+  overflow: hidden !important;
+}
+
+.MuiInputBase-input{
+  font-size: 20px !important;
+  color: #fff;
+  padding: 0 !important;
+  margin-right: 60px !important;
+  color: #646161d1;
+}
+
+.MuiInputBase-root {
+  background-color: var(--joy-palette-background-surface, var(--joy-palette-neutral-50, #FBFCFE)) !important;
+  padding: 22px !important;
+}
+
+.css-1n04w30-MuiInputBase-root-MuiOutlinedInput-root:hover{
+  border: none !important;
+  outline: none !important;
+}
+
+.ToDoAction{
+  background-color: #09e2ffd2 !important;
+}
+
+.BtnForProfilt {
+  font-size: 30px;
+  color: rgb(255, 255, 255);
+  padding: 15px 100px;
+  border-radius: 12px;
+  background: rgba(147, 154, 152, 0.56);
+}
+
+.animationBG {
+  animation: rotationBackTou 1s linear infinite forwards;
+}
+
+@keyframes rotationBackTou {
+  0%{
+    background: rgba(159, 158, 158, 0.506);
+  }
+  50% {
+    background: #b6b5b5e4 ;
+    /* transform: rotate(0deg); */
+  }
+  100% {
+    /* background: #e8e8e865 ; */
+    background: #d9cecec7 ;
+    /* transform: rotate(-360deg); */
+  }
+}
+
+.autouMoveIcounDialogSemthingAction {
+  animation: ActiveMoveIcoinDialogAct 3s linear infinite forwards;
+}
+
+.btnnavigation {
+  display: none;
+}
+
+@keyframes ActiveMoveIcoinDialogAct {
+  0% {
+    color: rgba(40, 197, 74, 0.363);
+    font-size: 150px;
+  }
+  50% {
+    font-size: 160px;
+    color: rgb(24, 255, 3);
+  }
+  100% {
+    color: rgba(40, 197, 74, 0.363);
+    font-size: 150px;
+  }
+}
+
+.autouMoveIcounDialogSemthingActionFound {
+  animation: ActiveMoveIcoinDialogFound 3s linear infinite forwards;
+}
+
+@keyframes ActiveMoveIcoinDialogFound {
+  0% {
+    color: rgba(239, 37, 2, 0.973);
+    transform: rotate(-370deg);
+  }
+  50% {
+    color: rgba(143, 11, 4, 0.974);
+    transform: rotate(-260deg);
+  }
+  100% {
+  color: rgba(239, 37, 2, 0.973);
+    transform: rotate(-370deg);
+  }
+}
+
+.css-7u9pju-JoyInput-root:focus-within {
+    outline: 0px solid #fff !important;
+    outline-offset: 2px;
+    font-size: 23px !important;
+}
+
+.MuiInput-root ,.MuiInput-variantOutlined, .MuiInput-colorNeutral, .MuiInput-size20px, .css-7u9pju-JoyInput-root {
+  margin-bottom: 0px !important;
+}
+
+.TotalPageCategory {
+  color: #fff !important;
+}
+
+.BtnSendDateCategory{
+  height: 65px !important;
+}
+
+.CardSheckCategory {
+  position: relative;
+  padding: 15px;
+  color: rgb(255, 255, 255);
+  border-radius: 12px;
+  background: rgba(159, 158, 158, 0.506)!important;
+  padding-left: 30px !important;
+}
+
+.CardSheckCategoryMore {
+  position: relative;
+  padding: 10px 25px !important;
+  color: rgb(255, 255, 255);
+  border-radius: 12px;
+  background: rgba(159, 158, 158, 0.506)!important;
+  font-size: 22px !important;
+  min-width: 225px !important;
+}
+
+.btnDeleteCategory{
+  position: absolute;
+  top: 50% !important;
+  background: #ccc7c7;
+  color: #fff;
+  left: 7px;
+  padding: 5px;
+  border-radius: 50% !important;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.LoginBage {
+  width: 100% !important;
+}
+
+.imgProdectShowMore {
+  width: 300px !important;
+}
+
+.css-10d30g3-MuiPaper-root-MuiDialog-paper {
+  width: 100% !important;
+}
+
+.ImagePorfileUserBss{
+  width: 170px !important;
+  height: 170px !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  border: 3px solid #9ea79d;
+}
+
+.DivShowImageInBigImage {
+  position: absolute !important;
+  bottom: -80px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+.BoxShowMoreDateUserBss {
+  text-align: right;
+  width: 100% !important;
+  background: #9f9e9e81;
+  padding: 12px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.styleDisplayFlexAndDecAndGap12 {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 12px !important;
+  color: #fff;
+}
+
+.styleDisplayFlexAndDecAndWrap {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 12px !important;
+  justify-content: center;
+  width: 100% !important;
+}
+
+.BoxShowMoreDateUserBssZbn{
+  min-width: 272px !important;
+  background: #9f9e9e81;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 5px;
+  border-radius: 12px;
+}
+
+.BtnToSendDateSunmthing {
+  font-size: 20px !important;
+  margin-bottom: 9px !important;
+}
+
+.ShngeSpace{
+  margin-top: 110px;
+  padding: 12px;
+}
+
+.ShowImgaAndNameUserBss{
+  display: none;
+  justify-content: center;
+  margin-bottom: 16px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #9f9e9e81;
+  width: 100%;
+  gap: 10px;
+}
+
+.styleBTbleBodyShowAlss {
+  height: 100% !important;
+  background: #ffff;
+}
+
+.styleBTbleBodyShow {
+  height: 400px !important;
+  background: rgba(159, 158, 158, 0.506);
+}
+
+.headerTable {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-block: 25px;
+}
+
+.stletrintableforpageedar {
+  text-align: center !important;
+  font-size: 22px !important;
+}
+
+.bigImage{
+  position: relative;
+  width: 100%;
+  min-height: 300px !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+}
+
+.css-1miy0lu-MuiTypography-root {
+  text-align: left !important;
+}
+
+.css-1d3gi9d-MuiTypography-root,
+.css-1miy0lu-MuiTypography-root,
+.css-1y0btll-MuiTypography-root {
+  direction: rtl !important;
+}
+
+.porcantengedivandtestcenter {
+  width: 100%;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: right;
+}
+
+.stylebtnstopsereach {
+  font-size: 20px;
+  background: none;
+  border: 2px solid #3F51B5;
+  color: #3F51B5;
+  opacity: 0.8;
+  transition: all 0.5s ease-in-out;
+  padding: 7px 22px;
+  border-radius: 12px;
+}
+
+.stylebtnstopsereach:hover {
+  background-color: #4a6cf7;
+  color: #fff;
+  cursor: pointer;
+}
+
+.Stlybtntoaddmorepaymentmenthod{
+  padding: 12px 22px;
+  font-size: 27px;
+  background: none;
+  border: 2px solid #3F51B5;
+  color: #3F51B5;
+  border-radius: 16px;
+  width: 50%;
+  transition: all 0.5s ease-in-out;
+  cursor: no-drop;
+}
+
+.messagedscandcardtypstyle {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 12px;
+  margin-top: 12px;
+  margin-right: 20px;
+}
+
+.stylmessgtitelandnamesend {
+  margin-top: -8px !important;
+}
+
+.Stlybtntoaddmorepaymentmenthod.active {
+  background-color: #4a6cf7;
+  color: #fff;
+  cursor: pointer;
+}
+
+.styleformlabletosereachaddmeweve {
+  font-size: 25px !important;
+  color: #4a6cf7 !important;
+  margin-right: 15px !important;
+}
+
+.stlcartfroalldatapagaddmeweve {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+}
+
+.styldsiflexandjuscenterandalcemore {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.bigTa{
+  position: absolute !important;
+  width: 100% !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  height: 100% !important;
+}
+.ShowImgaAndNameUserBsstOU{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #9f9e9e81;
+  width: 100%;
+  gap: 10px;
+}
+
+.CardShowDataUserProfile{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    position: relative;
+    width: fit-content !important;
+    background: #bdb8b8;
+    text-align: center;
+    align-items: center;
+    padding: 6px 15px;
+    box-shadow: 2px 2px 9px #ffffff;
+    border-radius: 12px;
+}
+
+.showImgAndNameUserAndType {
+  display: flex;
+  text-align: right;
+  gap: 12px;
+  flex-direction: row-reverse;
+  color: #fff;
+}
+
+.boxForAllCardUserProfile{
+  display: flex;
+  max-height: 750px !important;
+  width: 100%;
+  overflow-y: scroll;
+  align-items: baseline;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.NoneDis{
+  display: none !important;
+}
+.boxNameAndTypeAction {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px 0 !important;
+}
+
+.BtnToSendAction {
+  position: absolute !important;
+  top: 50%;
+  left: 16px;
+  transform: translatey(-50%);
+}
+
+.pragrafProgil{
+  margin: 7px 0 !important;
+}
+
+.ImageForfilUser{
+  width: 200px !important;
+  height: 200px !important;
+}
+
+.css-vycme6-MuiPickersInputBase-root-MuiPickersOutlinedInput-root{
+  padding: 10px !important;
+  overflow: hidden !important;
+}
+
+.dispbtn {
+  cursor: no-drop;
+}
+
+.StyleInptDataAndTime {
+  width: 100% !important;
+}
+
+@media (max-width: 1050px) {
+  .CardProfile {
+  flex-direction: column;
+  gap: 15px;
+}
+
+.styletitelpage {
+  font-size: 30px !important;
+}
+.ImgandNmaeUser{
+  margin-bottom: 20px;
+}
+.boxMoreForUser{
+  padding: 8px 18px !important;
+}
+
+.BoxFormCuntry{
+  display: none !important;
+}
+.boxMoreForUserMore {
+  display: block !important;
+}
+.NameListOneSel{
+  font-size: 30px !important;
+}
+.boxNmaeandAvatar{
+  align-items: center !important;
+}
+.ImganNowAndUpdatedImg{
+  width: 90% !important;
+}
+.TitelUpdateImg{
+  font-size: 35px !important;
+}
+
+.ImageForfilUser{
+  width: 160px !important;
+  height: 160px !important;
+}
+
+}
+
+@media (max-width: 1000px) {
+  .btnnavigation {
+    display: block;
+  }
+}
+
+@media (max-width: 900px) {
+  .ImagePorfileUserBss{
+  width: 180px !important;
+  height: 180px !important;
+}
+
+.DivShowImageInBigImage {
+  display: none !important;
+}
+
+.ShowImgaAndNameUserBss{
+  display: flex;
+}
+
+.ShngeSpace {
+  margin-top: 30px !important;
+}
+.SangeShowName{
+  display: none !important;
+}
+
+.ImageForfilUser{
+  width: 120px !important;
+  height: 120px !important;
+}
+
+}
+
+@media (max-width: 700px) {
+  .TitelNameWeb{
+    font-size: 25px;
+    padding: 7px 27px;
+  }
+  .ContentBtsAction{
+    display: none;
+  }
+  .ShowMenu{
+    display: flex;
+  }
+
+  .styletitelpage {
+  font-size: 27px !important;
+}
+  
+.MoreBetaher {
+  flex-direction: column;
+  margin: auto;
+}
+.CardBetah{
+  width: auto !important;
+}
+
+.allPost{
+  width: 95% !important;
+}
+
+.NameListOneSel{
+  font-size: 27px !important;
+}
+
+.PostContent{
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ImgForProdect{
+  width: 100% !important;
+}
+
+.BtnForProfilt {
+  font-size: 27px !important;
+  padding: 12px 70px !important;
+  border-radius: 7px !important;
+}
+
+.FromDateAddProdect{
+  width: 100% !important;
+}
+
+.BoxHaletUserNow{
+  margin-left: 6px !important;
+  width: 20px !important;
+  height: 20px !important;
+  border-radius: 50% Im !important;
+}
+
+.ImganNowAndUpdatedImg{
+  width: 80% !important;
+  flex-direction: column !important;
+  gap: 20px;
+}
+.TitelUpdateImg{
+  font-size: 30px;
+}
+
+.SendUpdatweCode{
+  font-size: 25px !important;
+  background-color: #797777;
+}
+
+.TotalPageCategory {
+  color: #fff !important;
+  font-size: 20px;
+}
+
+.styledivallbtntablenps {
+  display: flex !important;
+    align-items: center;
+    gap: 12px !important;
+    justify-content: flex-end !important;
+}
+
+.TitelFronRegister {
+  font-size: 39px !important;
+}
+
+.CateRegisterLogin{
+  width: 87% !important;
+}
+
+.TitelLogin {
+  font-size: 45px !important;
+}
+
+.headerTable{
+  width: 100% !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  gap: 15px !important;
+  flex-wrap: wrap !important;
+}
+
+.CardShowDateTable {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  gap: 15px !important;
+}
+
+.imgProdectShowMore {
+  width: 300px !important;
+}
+
+.cartShowMoreDateProdect {
+  width: 50% !important;
+}
+
+.css-10d30g3-MuiPaper-root-MuiDialog-paper {
+  width: 80% !important;
+}
+
+.BoxShowMoreDateUserBssZbn {
+  width: 46% !important;
+  min-width: 0 !important;
+}
+
+.NameUserBsenssShow {
+  font-size: 27px !important;
+  margin-top: 12px;
+}
+
+.ImageForfilUser{
+  width: 150px !important;
+  height: 150px !important;
+}
+
+}
+
+
+@media (max-width: 570px) {
+  .animationBG {
+    width: 100%;
+    margin: auto;
+  }
+  .imgProdectShowMore {
+  width: 250px !important;
+}
+
+.NameUserBsenssShow {
+  font-size: 23px !important;
+}
+
+.css-1qdyvok {
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+
+}
+
+@media (max-width: 500px) {
+  .titeForWeb {
+    font-size: 55px;
+  }
+  .TitelNameWeb{
+    margin-left: 0;
+    background: #9f9e9e81;
+  }
+  .allPost{
+  width: 100% !important;
+}
+
+.styletitelpage {
+  font-size: 22px !important;
+}
+
+.NameListOneSel{
+  font-size: 18px !important;
+}
+.ImagePorfileUserBss{
+  width: 130px !important;
+  height: 130px !important;
+}
+
+.BtnForProfilt {
+  font-size: 22px !important;
+  padding: 12px 40px !important;
+  border-radius: 7px !important;
+}
+
+.TitelUpdateImg{
+  margin-top: 12px !important;
+  font-size: 24px !important;
+}
+
+.imgNow{
+  width: 120px !important;
+  height: 120px !important;
+}
+
+.SendUpdatweCode{
+  width: 170px !important;
+  font-size: 17px !important;
+  height: 67px !important;
+}
+.css-1gw9vc6-JoyInput-input{
+  font-size: 17px !important;
+}
+
+.css-1ckvkg0-JoyFormLabel-root{
+  font-size: 20px !important;
+}
+
+.BtnSendDateCategory {
+  font-size: 20px !important;
+  padding: 0 11px !important;
+}
+
+.css-1gw9vc6-JoyInput-input {
+  font-size: 18px !important;
+}
+
+.TitelFronRegister {
+  font-size: 30px !important;
+}
+.CateRegisterLogin{
+  width: 90% !important;
+}
+
+.TitelLogin {
+  font-size: 38px !important;
+}
+
+.CateRegisterLogin{
+  width: 90% !important;
+}
+
+.imgProdectShowMore {
+  width: 200px !important;
+}
+
+.cartShowMoreDateProdect {
+  width: 100% !important;
+}
+
+.css-10d30g3-MuiPaper-root-MuiDialog-paper {
+  width: 90% !important;
+}
+
+.BoxShowMoreDateUserBssZbn {
+  width: 100% !important;
+}
+
+.NameUserBsenssShow {
+  font-size: 18px !important;
+}
+
+.BtnToSendDateSunmthing {
+  font-size: 18px !important;
+}
+
+.ImageForfilUser{
+  width: 120px !important;
+  height: 120px !important;
+}
+
+.CardShowDataUserProfile{
+  width: 100% !important;
+}
+
+.CardShowDateTable{
+  width: 100% !important;
+}
+
+}

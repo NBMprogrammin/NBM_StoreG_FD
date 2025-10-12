@@ -1,0 +1,427 @@
+/* StoreProfile.css */
+
+.store-profile {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: 110px;
+}
+
+/* صورة الغلاف - تم التصحيح */
+.cover-container {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  height: 300px; /* ارتفاع ثابت */
+}
+
+.stylevirfedsmpl {
+    color: #4a6cf7;
+    font-size: 23px;
+    animation: doactionNow 2s linear infinite forwards;
+}
+
+@keyframes doactionNow {
+  0%{
+    margin-bottom: 0;
+  }
+    50% {
+      margin-bottom: 6px;
+    }
+      100% {
+        margin-bottom: 0px;
+  }
+}
+
+.cover-image {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.cover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.3));
+}
+
+.edit-cover-btn {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.edit-cover-btn:hover {
+  background: white;
+  transform: translateY(-2px);
+}
+
+/* معلومات المتجر */
+.profile-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 30px;
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.store-logo {
+  flex-shrink: 0;
+}
+
+.logo-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  border: 2px solid #2196F3 !important;
+  box-shadow: 0px 0px 3px #2196F3 !important;
+}
+
+.css-i042x9-MuiAvatar-root {
+  width: 90px !important;
+  height: 90px !important;
+}
+
+.edit-logo-btn {
+  position: absolute !important;
+  bottom: 0 !important;
+  right: 0 !important;
+  background: white !important;
+  border: none !important;
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+.edit-logo-btn.active {
+  top: 10px !important;
+  right: 70px !important;
+}
+
+.store-info {
+  flex: 1;
+}
+
+.store-name-section {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.store-name {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.status-badge.active {
+  background: #10b981;
+  color: white;
+}
+
+.status-badge.inactive {
+  background: #ef4444;
+  color: white;
+}
+
+.store-description {
+  color: #718096;
+  margin-bottom: 15px !important;
+  line-height: 1.6;
+}
+
+.store-meta {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.store-details-card, .additional-info-card {
+  width: 100% !important;
+}
+
+.meta-item {
+  background: #f7fafc;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  color: #4a5568;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: #4a6cf7;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #3b5bdb;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: #e2e8f0;
+  color: #4a5568;
+}
+
+.btn-secondary:hover {
+  background: #cbd5e0;
+}
+
+/* البطاقات الإحصائية الرئيسية */
+.main-stats-section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 20px;
+}
+
+.main-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.main-stat-card {
+  background: white;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+}
+
+.main-stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.main-stat-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.main-stat-content h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.main-stat-value {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 5px;
+}
+
+.main-stat-detail {
+  color: #718096;
+  font-size: 0.9rem;
+}
+
+/* معلومات المتجر الكاملة */
+.store-details-section {
+  margin-bottom: 30px;
+}
+
+.store-details-card, .additional-info-card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.store-details-card h3, .additional-info-card h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.3rem;
+  color: #2d3748;
+  font-weight: 600;
+  border-bottom: 2px solid #4a6cf7;
+  padding-bottom: 10px;
+  margin-bottom: 30px;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 15px;
+  background: #f8fafc;
+  border-radius: 10px;
+  border-left: 4px solid #4a6cf7;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 0.9rem;
+}
+
+.detail-value {
+  color: #2d3748;
+  font-size: 1rem;
+}
+
+.status-value {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.additional-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info-item {
+  padding: 12px;
+  background: #f1f5f9;
+  border-radius: 8px;
+  color: #475569;
+}
+
+/* حقول التعديل */
+.edit-store-name, .edit-store-description, .edit-input {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.edit-store-name:focus, .edit-store-description:focus, .edit-input:focus {
+  outline: none;
+  border-color: #4a6cf7;
+}
+
+.edit-store-description {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* responsive */
+@media (max-width: 768px) {
+  .profile-header {
+    flex-direction: row;
+    text-align: center;
+  }
+  
+  .action-buttons {
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  .main-stats-grid {
+    grid-template-columns: 1fr;
+    width: 85%;
+    margin: auto;
+  }
+
+  .store-details-card, .additional-info-card {
+    width: 85% !important;
+    margin-inline: auto !important;
+  }
+  
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .cover-container {
+    height: 200px;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .store-info {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+  }
+  .profile-header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .store-name {
+    font-size: 1.2rem !important;
+    justify-content: end;
+  }
+
+}
+
+@media (max-width: 450px) {
+  .store-details-card, .additional-info-card,
+  .main-stats-grid {
+    width: 100% !important;
+  }
+
+  .store-name {
+  text-align: right;
+  width: -webkit-fill-available;
+  }
+}
