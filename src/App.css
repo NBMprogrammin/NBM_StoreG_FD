@@ -16,26 +16,31 @@ h1,h2,h3,h4,h5,h6 {
 
 .btninputeseatoraction {
   font-size: 27px !important;
-    padding: 0px 30px !important;
-    /* background: rgba(159, 158, 158, 0.506) !important; */
-    background: none!important;
-    color: #4a6cf7 !important;
-    height: -webkit-fill-available !important;
-    border-radius: 10px 0px 0px 10px !important;
-    border: 2px solid #4a6cf7 !important;
-    border-left: double !important;
-    border-right: none !important;
+  padding: 0px 30px !important;
+  background: none!important;
+  color: #4a6cf7 !important;
+  height: -webkit-fill-available !important;
+  border-radius: 10px 0px 0px 10px !important;
+  border: 2px solid #4a6cf7 !important;
+  border-left: double !important;
+  border-right: none !important;
+}
+
+.btncolorserech {
+  width: 35px !important;
+  height: 35px !important;
+  fill: #4a6cf7 !important;
 }
 
 .stletngenerageforallpageedart {
-      position: fixed;
-    bottom: 50px;
-    width: 1170px;
-    z-index: 1;
-    line-height: 50%;
-    margin: auto;
-    display: flex;
-    justify-content: end;
+  position: fixed;
+  bottom: 50px;
+  min-width: 1170px;
+  z-index: 1;
+  line-height: 50%;
+  margin: auto;
+  display: flex;
+  justify-content: end;
 }
 
 .stylebtntodoactioninpageedar {
@@ -56,6 +61,11 @@ h1,h2,h3,h4,h5,h6 {
     border-right: none !important;
 }
 
+.normarstlbtnactioninptbtn {
+  width: 35px !important;
+  height: 35px !important;
+  fill: #fff !important;
+}
 .stylallsectinpage {
  display: flex;
     justify-content: flex-start;
@@ -176,6 +186,14 @@ img{
   color: white;
   width: fit-content;
 }
+
+.styledivallbtntablenps {
+  display: flex !important;
+  align-items: center;
+  gap: 16px !important;
+  justify-content: flex-end !important;
+}
+
 
 .App-link {
   color: #61dafb;
@@ -361,11 +379,142 @@ img{
 }
 
 .TotalPageCategory {
+  display: flex;
+  align-items: center;
+  gap: 15px;
   color: #fff !important;
+}
+
+.StyTitelAleartShow {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  padding-bottom: 0;
+}
+
+.styAllsBoxsToShowMoreDataAleart {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 17px;
+  padding-top: 12px;
+}
+
+.styleDivBigBtnOkInAleartShow {
+  display: flex !important;
+  width: 100% !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+.styleBigBtnOkInAleartShow {
+  text-align: center !important;
+  margin-top: 7px !important;
+  font-size: 30px !important;
+  width: 90% !important;
+  margin: auto !important;
+  margin-bottom: 10px !important;
+  background-color: #626161e6 !important;
+  color: #fff !important;
+}
+
+.DivContentPagAddSalse {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.styLablToDoAc {
+  font-size: 25px !important;
+  margin-right: 15px !important;
+  margin-bottom: 10px !important;
+  color: rgb(74, 108, 247) !important;
+}
+
+.styLableInputeUser {
+  font-size: 25px !important;
+  color: rgb(74, 108, 247) !important;
+  margin-right: 30px !important;
+  margin-bottom: 10px !important;
+}
+
+.stimggprod {
+  width: 200px;
+  height: 200px;
+  margin: auto auto 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 0, 0, 0);
+}
+
+.styleBoxInInpuAndBtrnSerreach {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.styleBoxsShowDat {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  margin-top: 25px;
+}
+.stleboxmoreAlerat {
+  display: flex;
+  justify-content: flex-start;
+  text-align: center;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  gap: 12px;
+  margin-bottom: 15px;
 }
 
 .BtnSendDateCategory{
   height: 65px !important;
+}
+
+.styleBtnShowIndexDataPageTable {
+  font-size: 20px !important;
+  background-color: rgba(250, 249, 249, 0.21) !important;
+  border: 2px solid #4a6cf7 !important;
+  color: #4a6cf7 !important;
+  border-radius: 12px !important;
+  padding: 12px !important;
+  cursor: no-drop !important;
+  direction: rtl !important;
+}
+
+.styleBtnShowIndexDataPageTableDsp {
+  font-size: 20px !important;
+  background-color: #4a6cf7 !important;
+  border: 2px solid #4a6cf7 !important;
+  color: #fff !important;
+  border-radius: 12px !important;
+  padding: 11px 30px !important;
+  cursor: pointer !important;
+  direction: rtl !important;
+}
+
+.styDivShowDatPageMore {
+
+}
+
+.styleDivTouBtnShowNextAndPrevData {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
 }
 
 .CardSheckCategory {
@@ -375,6 +524,72 @@ img{
   border-radius: 12px;
   background: rgba(159, 158, 158, 0.506)!important;
   padding-left: 30px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.styleTatelShowAllsDataCauntite {
+  font-size: 28px;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: rgba(159, 158, 158, 0.506);
+  color: #fff;
+}
+
+.styleContenTAllsDivQantite {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-block: 12px;
+  margin-top: 25px;
+}
+
+.styleImgAndTitelDivCantite {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding-left: 12px;
+}
+
+.styleImgAndTitelBigDivCantite {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  align-items: center;
+}
+
+.styleContelBigDivCantite {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+}
+
+.styleBtnBigDivCantite {
+  width: fit-content;
+  font-size: 40px;
+  font-weight: bold;
+  padding: 22px 10px;
+  height: 25px;
+  display: flex;
+  gap: 10px;
+}
+.styleTitelQuant {
+  background-color: rgb(167 167 167);
+  font-size: 20px;
+  padding: 6px;
+}
+
+.styleBtnDeleteBigDivCantite {
+  cursor: pointer;
+  background-color: #ccc7c7;
+  padding: 5px;
+  border-radius: 50%;
+  position: absolute;
+  top: 22px;
+  left: 12px;
+  transform: translateY('-50%');
 }
 
 .CardSheckCategoryMore {
@@ -496,9 +711,106 @@ img{
   background: rgba(159, 158, 158, 0.506);
 }
 
+
+
+/* شاشة التحميل */
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: var(--white);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999999999999999999999999999999999 !important;
+}
+
+.loading-logo {
+  margin-bottom: 10px;
+  background-color: #f00;
+}
+
+.loading_testgo {
+  position: relative;
+  margin: auto;
+  height: fit-content;
+  background-color: #1075db;
+  animation: pulse 1.5s infinite alternate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.logo-shape {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  top: 0; right: 0; bottom: 0; left: 0;
+  height: 80px;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: 28px;
+  font-weight: bold;
+  box-shadow: 0 10px 20px rgba(74, 108, 247, 0.2);
+  animation: pulse 1.5s infinite alternate;
+  margin: auto;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 10px 20px rgba(74, 108, 247, 0.2);
+  }
+  100% {
+    transform: scale(1.1);
+    box-shadow: 0 15px 30px rgba(74, 108, 247, 0.3);
+  }
+}
+
+.loading-progress {
+  width: 200px;
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  direction: rtl;
+  width: 100%;
+  height: 6px;
+  background: var(--light-bg);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress {
+  direction: rtl;
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+  border-radius: 3px;
+  animation: loading 2s ease-in-out forwards;
+}
+
+
+@keyframes loading {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+
 .headerTable {
   display: flex;
   width: 100%;
+  flex-wrap: wrap;
   justify-content: flex-end;
   gap: 15px;
   margin-block: 25px;
@@ -506,7 +818,18 @@ img{
 
 .stletrintableforpageedar {
   text-align: center !important;
-  font-size: 22px !important;
+  font-size: 16px !important;
+  padding: 5px !important;
+}
+
+.imgintableforcentertr {
+  display: flex !important;
+  height: inherit !important;
+}
+
+.ggggttttbb {
+  width: 70px !important;
+  height: 70px !important;
 }
 
 .bigImage{
@@ -690,12 +1013,64 @@ img{
   overflow: hidden !important;
 }
 
+.css-i042x9-MuiAvatar-root {
+  width: 90px !important;
+  height: 90px !important;
+}
+
+.stycoloandsizeivonnv {
+  color: #fff !important;
+  width: 35px !important;
+  height: 35px !important;
+}
+
+.css-10d30g3-MuiPaper-root-MuiDialog-paper {
+  margin: 0 !important;
+}
+
+.stylecardShowMoreDataTbles {
+  min-width: 300px;
+  display: flex;
+  gap: 15px;
+  height: 55px;
+  border-radius: 12px;
+}
+
+.stylContCardShoDataTable {
+  min-width: 300px;
+  display: flex;
+  gap: 25px;
+  height: 55px;
+  border-radius: 12px;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.stlaleartdl {
+  width: 100%;
+  text-align: center;
+  padding-top: 15px;
+  height: 145px;
+}
+
 .dispbtn {
   cursor: no-drop;
 }
 
+.css-1umw9bq-MuiSvgIcon-root {
+  color: #ffffff !important;
+}
+
 .StyleInptDataAndTime {
   width: 100% !important;
+}
+
+
+@media (max-width: 1210px) {
+  .stletngenerageforallpageedart {
+    right: 16px !important;
+  }
 }
 
 @media (max-width: 1050px) {
@@ -851,13 +1226,6 @@ img{
   font-size: 20px;
 }
 
-.styledivallbtntablenps {
-  display: flex !important;
-    align-items: center;
-    gap: 12px !important;
-    justify-content: flex-end !important;
-}
-
 .TitelFronRegister {
   font-size: 39px !important;
 }
@@ -948,6 +1316,10 @@ img{
   width: 100% !important;
 }
 
+.stlaleartdl {
+  height: 110px;
+}
+
 .styletitelpage {
   font-size: 22px !important;
 }
@@ -955,6 +1327,16 @@ img{
 .NameListOneSel{
   font-size: 18px !important;
 }
+
+.styliconalert {
+    width: 6rem !important;
+    height: 6rem !important;
+  }
+
+  .css-1l4r91p-MuiTypography-root-MuiDialogContentText-root {
+    font-size: 20px !important;
+  }
+
 .ImagePorfileUserBss{
   width: 130px !important;
   height: 130px !important;
@@ -994,6 +1376,10 @@ img{
   padding: 0 11px !important;
 }
 
+.normarstlbtnactioninpt,
+.btninputeseatoraction {
+  padding: 5px 16px !important;
+}
 .css-1gw9vc6-JoyInput-input {
   font-size: 18px !important;
 }
@@ -1047,6 +1433,10 @@ img{
 }
 
 .CardShowDateTable{
+  width: 100% !important;
+}
+
+.css-ucc8ak-JoyModalDialog-root {
   width: 100% !important;
 }
 

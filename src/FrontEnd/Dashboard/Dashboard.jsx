@@ -1,7 +1,7 @@
 import DashboardBss from "./DashboardBss";
 import DashboardUser from "./DashboardUser";
 import DasboardTraver from "./DasboardTraver";
-import Header from "../layoute/Hedaer";
+import Header from "../layoute/Header";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import React, { useEffect } from "react";
@@ -21,6 +21,7 @@ export default function Dashboard() {
         navigate("/home");
         return;
       }
+      
     };
     checkAuthentication();
   }, [navigate === "dashboard", ProfileSnageNow]);
@@ -31,13 +32,14 @@ export default function Dashboard() {
         <Header typeactive={"Dashboardt"} />
         {ProfileSnageNow.TypProf === "user" ? (
           <DashboardUser />
-        ) : "" || ProfileSnageNow.TypProf === "teweve" ? (
-          <DasboardTraver />
-        ) : "" || ProfileSnageNow.TypProf === "bss" ? (
+        ) : ""  || ProfileSnageNow.TypProf === "bss" ? (
           <DashboardBss />
         ) : (
           ""
-        )}
+        ) || ProfileSnageNow.TypProf === "teweve" ? (
+          // <h1>Teweve</h1>
+          <DasboardTraver />
+        ) : ""}
       </div>
     );
   }

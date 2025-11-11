@@ -6,10 +6,11 @@ export default function Reading({ typReading }) {
   return (
     <div>
       <Backdrop
-        sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
+        sx={(theme) => ({ color: "#4a6cf7", zIndex: theme.zIndex.drawer + 1 })}
         open={typReading}
       >
-        <CircularProgress color="inherit" />
+        <CircularProgress 
+        style={{ width: '70px', height: '70px' }} color="inherit" />
       </Backdrop>
     </div>
   );

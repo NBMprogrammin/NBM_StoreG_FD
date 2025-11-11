@@ -10,17 +10,40 @@ export function SelectInputeAndDate({
   keyG,
   typeActionN,
 }) {
+
+  const HandleVluereInputeNow = (e) => {
+    const file = typeMyInput === "file" ? e.target.files[0] : '';
+
+    if (file && typeMyInput === "file") {
+      const reader = new FileReader();
+      
+      reader.onload = (loadEvent) => {
+        const datImg = loadEvent.target.result;
+        
+        ValueInpuNowAndThisShange(
+          typeMyInput == "file" ? e.target.files[0] : e.target.value,
+          TypObj,
+          typeActionN,
+          datImg
+        );
+      };
+      
+      reader.readAsDataURL(file);
+    } else {
+      ValueInpuNowAndThisShange(
+        e.target.value,
+        TypObj,
+        typeActionN,
+        ''
+      );
+    }
+  }
   return (
     <div style={{ width: "100%", textAlign: "right" }}>
       {TitlInp != "" ? (
         <FormLabel
           key={keyG}
-          style={{
-            fontSize: "25px",
-            color: "#9b8b8b",
-            marginRight: "15px",
-            marginBottom: "10px",
-          }}
+          className="styLableInputeUser"
         >
           {TitlInp}
         </FormLabel>
@@ -29,7 +52,6 @@ export function SelectInputeAndDate({
       )}
 
       <Input
-        // value={ValueInputNow}
         sx={{
           "&::before": {
             display: "none",
@@ -43,18 +65,21 @@ export function SelectInputeAndDate({
           padding: "20px",
         }}
         type={typeMyInput}
-        onChange={(valu) => {
-          ValueInpuNowAndThisShange(
-            typeMyInput == "file" ? valu.target.files[0] : valu.target.value,
-            TypObj,
-            typeActionN
-          );
-        }}
+        // onChange={(valu) => {
+        //   const reader = new FileReader();
+        //   const datImg = reader.onload = (e) =>  e.target.result;
+        //   reader.readAsDataURL(valu.target.files[0]);
+        //   ValueInpuNowAndThisShange(
+        //     typeMyInput == "file" ? valu.target.files[0] : valu.target.value,
+        //     TypObj,
+        //     typeActionN,
+        //     typeMyInput == "file" ? datImg : ''
+        //   );
+        // }}
+        onChange={HandleVluereInputeNow}
         size="20px"
         style={{ fontSize: "20px" }}
       />
     </div>
   );
 }
-
-// background-color: ;

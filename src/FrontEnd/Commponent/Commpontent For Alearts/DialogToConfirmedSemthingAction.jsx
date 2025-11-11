@@ -12,6 +12,27 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+const TypIconShowActionA = (status) => {
+  switch (status) {
+    case "Success":
+      return (
+        <CheckCircleIcon
+          style={{ fontSize: "150px" }}
+          color="success"
+          className="autouMoveIcounDialogSemthingAction styliconalert"
+        />
+      );
+    default:
+      return (
+        <HighlightOffIcon
+          style={{ fontSize: "150px" }}
+          color="success"
+          className="autouMoveIcounDialogSemthingActionFound styliconalert"
+        />
+      );
+  }
+}
+
 export default function DialogToConfirmedSemthingAction({
   discription,
   conteOpenDialog,
@@ -22,9 +43,6 @@ export default function DialogToConfirmedSemthingAction({
 }) {
   const handleClose = () => {
     setTypeDialog(false);
-    if (conteOpenDialog == "active") {
-      setTypReading(true);
-    }
   };
 
   return (
@@ -39,26 +57,9 @@ export default function DialogToConfirmedSemthingAction({
         aria-describedby="alert-dialog-slide-description"
       >
         <div
-          style={{
-            width: "100%",
-            textAlign: "center",
-            paddingTop: "15px",
-            height: "145px",
-          }}
+          className="stlaleartdl"
         >
-          {typeShowDialog == "Success" ? (
-            <CheckCircleIcon
-              style={{ fontSize: "150px" }}
-              color="success"
-              className="autouMoveIcounDialogSemthingAction"
-            />
-          ) : (
-            <HighlightOffIcon
-              style={{ fontSize: "150px" }}
-              color="success"
-              className="autouMoveIcounDialogSemthingActionFound"
-            />
-          )}
+          {TypIconShowActionA(typeShowDialog)}
         </div>
         <DialogTitle
           textAlign={"center"}
@@ -66,7 +67,7 @@ export default function DialogToConfirmedSemthingAction({
           bottom="12px"
           fontSize="30px"
         >
-          {typeShowDialog == "Success" ? "تمت لعملية بنجاح" : "حدث خطا"}
+          {typeShowDialog == "Success" ? "تمت بنجاح" : "حدث خطا"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText
@@ -79,13 +80,7 @@ export default function DialogToConfirmedSemthingAction({
           </DialogContentText>
         </DialogContent>
         <Button
-          style={{
-            marginTop: "15px",
-            fontSize: "35px",
-            padding: "10px 15px",
-            color: "#fff",
-            background: " rgba(47, 188, 207, 0.86)",
-          }}
+          className="styleBigBtnOkInAleartShow"
           onClick={handleClose}
         >
           حسنا

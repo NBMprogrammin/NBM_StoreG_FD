@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./Register.css";
 import dayjs from "dayjs";
@@ -41,61 +41,77 @@ import { useDialogActionContext } from "../Context/DialogActionContext";
 import {
   starttocreatenewaccounteforuser,
   stratesendtoconfiremdemailaftercreateacounte,
-} from "../../allsliceproj/Controller Data Profile Now/controolerdataprodfilenow";
+} from "../../allsliceproj/Controller Data Profile Now/controolerdataprodfilenowSlice";
 import Cookies from "js-cookie";
 import InputeForDataAndTime from "../Commponent/inpute and from/InputeForDataAndTime";
+import CountryInput from "../Commponent/CantryInput";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import FaceIcon from '@mui/icons-material/Face';
+import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 
 let typRequest = "";
 
+// Start Here Alls Cantry Sobore Now
 const arabCountries = [
   {
+    id: 1,
     code: "SA",
-    name: "المملكة العربية السعودية",
+    nameOne: "المملكة العربية السعودية",
     dialCode: "+966",
-    flag: "🇸🇦",
+    TypeData: 'categorys',
   },
   {
+    id: 2,
     code: "AE",
-    name: "الإمارات العربية المتحدة",
+    nameOne: "الإمارات العربية المتحدة",
     dialCode: "+971",
-    flag: "🇦🇪",
+    TypeData: 'categorys',
   },
-  { code: "BH", name: "البحرين", dialCode: "+973", flag: "🇧🇭" },
-  { code: "DZ", name: "الجزائر", dialCode: "+213", flag: "🇩🇿" },
-  { code: "EG", name: "مصر", dialCode: "+20", flag: "🇪🇬" },
-  { code: "IQ", name: "العراق", dialCode: "+964", flag: "🇮🇶" },
-  { code: "JO", name: "الأردن", dialCode: "+962", flag: "🇯🇴" },
-  { code: "KW", name: "الكويت", dialCode: "+965", flag: "🇰🇼" },
-  { code: "LB", name: "لبنان", dialCode: "+961", flag: "🇱🇧" },
-  { code: "LY", name: "ليبيا", dialCode: "+218", flag: "🇱🇾" },
-  { code: "MA", name: "المغرب", dialCode: "+212", flag: "🇲🇦" },
-  { code: "MR", name: "موريتانيا", dialCode: "+222", flag: "🇲🇷" },
-  { code: "OM", name: "عمان", dialCode: "+968", flag: "🇴🇲" },
-  { code: "PS", name: "فلسطين", dialCode: "+970", flag: "🇵🇸" },
-  { code: "QA", name: "قطر", dialCode: "+974", flag: "🇶🇦" },
-  { code: "SY", name: "سوريا", dialCode: "+963", flag: "🇸🇾" },
-  { code: "TN", name: "تونس", dialCode: "+216", flag: "🇹🇳" },
-  { code: "YE", name: "اليمن", dialCode: "+967", flag: "🇾🇪" },
-];
+  { id: 3, code: "BH", nameOne: "البحرين", dialCode: "+973", TypeData: 'categorys', },
+  { id: 4, code: "DZ", nameOne: "الجزائر", dialCode: "+213", TypeData: 'categorys', },
+  { id: 5, code: "EG", nameOne: "مصر", dialCode: "+20", TypeData: 'categorys', },
+  { id: 6, code: "IQ", nameOne: "العراق", dialCode: "+964", TypeData: 'categorys', },
+  { id: 7, code: "JO", nameOne: "الأردن", dialCode: "+962", TypeData: 'categorys', },
+  { id: 8, code: "KW", nameOne: "الكويت", dialCode: "+965", TypeData: 'categorys', },
+  { id: 9, code: "LB", nameOne: "لبنان", dialCode: "+961", TypeData: 'categorys', },
+  { id: 10, code: "LY", nameOne: "ليبيا", dialCode: "+218", TypeData: 'categorys', },
+  { id: 11, code: "MA", nameOne: "المغرب", dialCode: "+212", TypeData: 'categorys', },
+  { id: 12, code: "MR", nameOne: "موريتانيا", dialCode: "+222", TypeData: 'categorys', },
+  { id: 13, code: "OM", nameOne: "عمان", dialCode: "+968", TypeData: 'categorys', },
+  { id: 14, code: "PS", nameOne: "فلسطين", dialCode: "+970", TypeData: 'categorys', },
+  { id: 15, code: "QA", nameOne: "قطر", dialCode: "+974", TypeData: 'categorys', },
+  { id: 16, code: "SY", nameOne: "سوريا", dialCode: "+963", TypeData: 'categorys', },
+  { id: 17, code: "TN", nameOne: "تونس", dialCode: "+216", TypeData: 'categorys', },
+  { id: 18, code: "YE", nameOne: "اليمن", dialCode: "+967", TypeData: 'categorys', },
+]; //== End Here Alls Cantry Sobore Now ==//
 
+// Start Here Type Gender User
 const typeGenderUserNow = [
   {
+    id: 1,
     code: "MN",
-    name: "الذكر",
+    nameOne: "الذكر",
     dialCode: "1",
+    TypeData: 'noimg',
+    image: <AccountCircleIcon style={{ width: '40px', height: '40px' }} />
   },
   {
+    id: 2,
     code: "WN",
-    name: "امرة",
+    nameOne: "امرة",
     dialCode: "2",
+    TypeData: 'noimg',
+    image: <FaceIcon style={{ width: '40px', height: '40px' }} />
   },
-];
+]; //== End Here Type Gender User ==//
 
 // الامتدادات المسموح بها
-const ALLOWED_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp"];
+const ALLOWED_EXTENSIONS = [".jpg", ".jpeg", '.png', ".webp"];
 
-const Register = ({ onSwitchToLogin, onSignup }) => {
-  const [signupData, setSignupData] = useState({
+const Register = () => {
+  const navigate = useNavigate();
+
+  const signupData = useRef({
     firstName: "",
     phone: "",
     country: "",
@@ -105,40 +121,62 @@ const Register = ({ onSwitchToLogin, onSignup }) => {
     password: "",
     confirmPassword: "",
     profileImage: null,
-    email: "", // إضافة حقل البريد الإلكتروني
+    email: "",
   });
 
-  const [errors, setErrors] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [imagePreview, setImagePreview] = useState(null);
+  useEffect(() => {
+    const checkAuthentication = () => {
+      const token = Cookies.get("token");
+      if (token) {
+        // إعادة التوجيه بدون إعادة تحميل
+        navigate("/dashboard");
+        return;
+      }
+      typRequest = "";
+    };
+    checkAuthentication();
+  }, [navigate === "/register"]);
+  
+  const errors = useRef();
+
+  const isLoading = useRef(false);
+  const [imgprofuser, setiMgprofuser] = useState(false);
+  const imagePreview = useRef(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+  const [codeCantry, setCodeCantry] = useState('');
+  
   // حالات جديدة للتحقق عبر البريد
-  const [verificationStep, setVerificationStep] = useState("signup"); // signup, verification
-  const [verificationCode, setVerificationCode] = useState("");
+  const verificationStep = useRef('signup');
+  const verificationCode = useRef('');
   const [resendTimer, setResendTimer] = useState(0);
+  
+  const selectedDate = useRef(dayjs(""));
 
-  const [selectedDate, setSelectedDate] = React.useState(dayjs(""));
-
+  // Start Here Shange Value Data Of Birth For User
   const handleDateChange = (newValue) => {
-    setSelectedDate(newValue);
+    selectedDate.current = newValue;
+    
     if (newValue) {
       const age = dayjs().diff(newValue, "year");
       const newErrors = {};
+      const errorDiv = document.getElementById("errordatatime");
       if (age < 15) {
         // تنبيه الكونسول عندما يكون العمر أقل من 15
+        errorDiv.textContent = `🚨 تنبيه! العمر أقل من 15 سنة: ${age} + سنة`;
         newErrors.datatime = `🚨 تنبيه! العمر أقل من 15 سنة: ${age} + سنة`;
       } else {
-        newErrors.datatime = "";
+        errorDiv.textContent = " ";
+        newErrors.datatime = " ";
       }
-      setErrors(newErrors);
+
+      errors.current = newErrors;
       return Object.keys(newErrors).length === 0;
     }
-  };
+  }; // End Here Shange Value Data Of Birth For User ==//
 
   // دالة للتحقق من امتداد الملف
-  function isValidFileExtension(filename) {
+  const isValidFileExtension = (filename) => {
     const extension = filename
       .toLowerCase()
       .substring(filename.lastIndexOf("."));
@@ -169,79 +207,102 @@ const Register = ({ onSwitchToLogin, onSignup }) => {
     return state.datauser.typRequestNow;
   });
   //== End Get Alls Data To Do Semthong In The Page Form Slice Controller ==//
-  const navigate = useNavigate();
 
-  // Start Her To Sheck loding Response
+  // Start Her To Shange Value typRequest To Do Action
   React.useEffect(() => {
     if (lodingtorspact === true) {
       typRequest = typeRequestRsp;
-      HandleCloseOrOpenReadinPage(true);
-    } else {
-      HandleCloseOrOpenReadinPage(false);
     }
-  }, [lodingtorspact]); // End Her To Sheck loding Response
+  }, [lodingtorspact]); // End Her To Shange Value typRequest To Do Action
 
-  React.useMemo(() => {
-    typRequest = "";
-  }, []);
+  // Start Here Change Value Cantry User Now
+  const HandleCantryFoMyAcounte = (val) => {
+    signupData.current.country = val;
+    setCodeCantry(val.dialCode);
+    if (errors.country != '' || errors.country != undefined ) {
+      const input = document.querySelector(`[name="country"]`);
+      if (input) {
+        const errorDiv = document.getElementById(`errorcountry`);
+        errorDiv.textContent = ' ';
+      }
+      errors.current = {
+        ...errors.current,
+        country: ''
+      };
+    }
+  } //== End Here Change Value Cantry User Now ==//
+
+  // Start Here Change Type Gender User Now
+  const HandleTypeGenderUser = (val) => {
+    signupData.current.typegender = val;
+    if (errors.typegender != '' || errors.typegender != undefined ) {
+      const input = document.querySelector(`[name="typegender"]`);
+      if (input) {
+        const errorDiv = document.getElementById(`errortypegender`);
+        errorDiv.textContent = ' ';
+      }
+      errors.current = {
+        ...errors.current,
+        typegender: ''
+      };
+    }
+  } //== End Here Change Type Gender User Now ==//
 
   // Start Here To Get Sult For Semthing Request In Page
   React.useEffect(() => {
     if (typRequest === "starttosendconfirmedemailaftercreateacounte") {
       if (resultrquestaction === 1) {
-        setVerificationStep("verification");
-        setIsLoading(false);
+        verificationStep.current = 'verification';
+        isLoading.current = false;
         startResendTimer();
       } else if (resultrquestaction === 2) {
-        setIsLoading(false);
+        isLoading.current = false;
         OpenDialogForActionFound(
           "يبدو بان البريد الاكتروني مسجل بلفعل من قبل يمكنك تسجيل لدخول"
         );
       } else if (resultrquestaction === 3) {
-        setIsLoading(false);
+        isLoading.current = false;
         OpenDialogForActionFound(
           "يبدو بان الرقم الهاتف مسجل بلفعل من قبل يمكنك تسجيل لدخول"
         );
       } else if (resultrquestaction === 3) {
-        setIsLoading(false);
+        isLoading.current = false;
         OpenDialogForActionFound(
           "حدث خطا فشل ارسال لكود للبريدك الاكتروني رجا تاكد من لبيانات و حاول مرة اخرى"
         );
       } else if (resultrquestaction === 99) {
-        setIsLoading(false);
-        setVerificationStep("");
+        isLoading.current = false;
+        verificationStep.current = '';
         OpenDialogForActionFound(
           "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق"
         );
       }
     } else if (typRequest === "starttocreatenewaccounteforuser") {
       if (resultrquestaction === 2) {
-        setIsLoading(false);
-        setVerificationStep("signup");
+        isLoading.current = false;
+        verificationStep.current = 'signup';
         OpenDialogForActionFound(
           "يبدو بان البريد الاكتروني مسجل بلفعل من قبل يمكنك تسجيل لدخول"
         );
       } else if (resultrquestaction === 3) {
-        setIsLoading(false);
+        isLoading.current = false;
         OpenDialogForActionFound(
           "يبدو بان الرقم الهاتف مسجل بلفعل من قبل يمكنك تسجيل لدخول"
         );
       } else if (resultrquestaction === 4) {
-        setIsLoading(false);
+        isLoading.current = false;
         OpenDialogForActionFound("الرمز غير صحيح أو منتهي الصلاحية");
       } else if (resultrquestaction === 1) {
-        Cookies.set("user_token", typlogoutaccount, { expires: 7 });
         navigate("/dashboard");
       } else if (resultrquestaction === 6) {
-        setIsLoading(false);
-        setVerificationStep("signup");
+        isLoading.current = false;
+        verificationStep.current = 'signup';
         OpenDialogForActionFound(
           "حدث خطا فلشبكة اثناء انشاء حسابك قم بتحميل صفحة و حاول مرة اخرى"
         );
       } else if (resultrquestaction === 99) {
-        setIsLoading(false);
-        setVerificationStep("");
-        setIsLoading(false);
+        isLoading.current = false;
+        verificationStep.current = '';
         OpenDialogForActionFound(
           "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق"
         );
@@ -253,130 +314,155 @@ const Register = ({ onSwitchToLogin, onSignup }) => {
     typeRequestRsp === "starttocreatenewaccounteforuser",
   ]); //== End Here To Get Sult For Semthing Request In Page ==//
 
+  // Start Here Change Vlaue Alls Inpute
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    signupData.current[name] = value;
 
-    setSignupData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    if (errors[name]) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: "",
-      }));
+    if (errors.current[name] != '' && errors.current[name] != undefined ) {
+      const input = document.querySelector(`[name="${name}"]`);
+      if (input) {
+        input.classList.remove('input-error');
+        const errorDiv = document.getElementById(`error${name}`);
+        errorDiv.textContent = ' ';
+      }
+      errors.current = {
+        ...errors.current,
+        [name]: ''
+      };
     }
-  };
+  }; //== End Here Change Vlaue Alls Inpute ==//
 
+  // Start Change Value Image Profile User
   const handleImageChange = (e) => {
+    const { name, value } = e.target;
     const file = e.target.files[0];
     if (file) {
+      const newErrors = {};
+      const input = document.querySelector(`[name="${name}"]`);
       if (file.size > 5 * 1024 * 1024) {
-        setErrors((prev) => ({
-          ...prev,
-          profileImage: "حجم الصورة يجب أن يكون أقل من 5MB",
-        }));
+        if (input) {
+          const errorDiv = document.getElementById(`error${name}`);
+          errorDiv.textContent = "حجم الصورة يجب أن يكون أقل من 5MB";
+        }
         return;
       }
 
       if (!file.type.startsWith("image/")) {
-        setErrors((prev) => ({
-          ...prev,
-          profileImage: "الملف يجب أن يكون صورة",
-        }));
+        if (input) {
+          const errorDiv = document.getElementById(`error${name}`);
+          errorDiv.textContent = "الملف يجب أن يكون صورة";
+        }
         return;
       }
 
       // تحقق إضافي قبل الرفع
       if (!isValidFileExtension(file.name)) {
-        setErrors((prev) => ({
-          ...prev,
-          profileImage:
-            "❌ يجب ان تكون صورة من احد انواع تالية jpeg او webp او png او jpg",
-        }));
+        if (input) {
+          const errorDiv = document.getElementById(`error${name}`);
+          errorDiv.textContent = "❌ يجب ان تكون صورة من احد انواع تالية jpeg او webp او png او jpg";
+        }
         return;
       }
-
-      setSignupData((prev) => ({ ...prev, profileImage: file }));
-
+    
+      newErrors.profileImage = file;
+      errors.current = newErrors;
+      
+      const errorDiv = document.getElementById(`error${name}`);
+        errorDiv.textContent = " ";
+      errors.current = {
+        ...errors.current,
+        profileImage: ""
+      };
+      imagePreview.current = file;
       const reader = new FileReader();
-      reader.onload = (e) => setImagePreview(e.target.result);
+      reader.onload = (e) =>  setiMgprofuser(e.target.result);
       reader.readAsDataURL(file);
-
-      if (errors.profileImage) {
-        setErrors((prev) => ({ ...prev, profileImage: "" }));
-      }
     }
-  };
+  }; //== End Change Value Image Profile User ==//
 
+  // Start Validate Data After Send Request To Do Semthing Action
   const validateForm = () => {
     const newErrors = {};
 
-    if (signupData.firstName.length >= 100)
+    if (signupData.current.firstName.length >= 100)
       newErrors.firstName = "الاسم الأول مطلوب اقل من 100 حرف ";
-    if (!signupData.firstName) newErrors.firstName = "الاسم الأول مطلوب";
+    if (!signupData.current.firstName) newErrors.firstName = "الاسم الأول مطلوب";
 
-    if (!signupData.email) {
+    if (!signupData.current.email) {
       newErrors.email = "البريد الإلكتروني مطلوب";
-    } else if (!/\S+@\S+\.\S+/.test(signupData.email)) {
+    } else if (!/\S+@\S+\.\S+/.test(signupData.current.email)) {
       newErrors.email = "البريد الإلكتروني غير صالح";
     }
 
-    if (!signupData.phone) {
+    if (!signupData.current.phone) {
       newErrors.phone = "رقم الهاتف مطلوب";
-    } else if (!/^[0-9]+$/.test(signupData.phone)) {
+    } else if (!/^[0-9]+$/.test(signupData.current.phone)) {
       newErrors.phone = "رقم الهاتف يجب أن يحتوي على أرقام فقط";
-    } else if (signupData.phone.length >= 15) {
+    } else if (signupData.current.phone.length >= 15) {
       newErrors.phone = "رقم الهاتف يجب أن يحتوي بلكثير على 15 رقم";
-    } else if (signupData.phone.length < 8) {
+    } else if (signupData.current.phone.length < 8) {
       newErrors.phone = "رقم الهاتف يجب ان يحتوي على الاقل 8 ارقام";
     }
 
-    if (!signupData.typegender) newErrors.typegender = "نوع الجنس مطلوب";
+    if (!signupData.current.typegender) newErrors.typegender = "نوع الجنس مطلوب";
 
-    if (!signupData.country) newErrors.country = "البلد مطلوب";
-    if (signupData.city.length >= 100)
+    if (!signupData.current.country) newErrors.country = "البلد مطلوب";
+    if (signupData.current.city.length >= 100)
       newErrors.city = "المدينة مطلوبة اقل من 100 حرف";
-    if (!signupData.city) newErrors.city = "المدينة مطلوبة";
+    if (!signupData.current.city) newErrors.city = "المدينة مطلوبة";
 
-    if (!selectedDate) newErrors.datatime = "اختيار تاريخ الميلاد مطلوب";
+    if (!selectedDate.current) newErrors.datatime = "اختيار تاريخ الميلاد مطلوب";
 
-    const age = dayjs().diff(selectedDate, "year");
+    const age = dayjs().diff(selectedDate.current, "year");
     if (age < 15) {
       newErrors.datatime = `🚨 تنبيه! العمر أقل من 15 سنة: ${age} + سنة`;
     }
 
-    if (!signupData.password) {
+    if (!signupData.current.password) {
       newErrors.password = "كلمة المرور مطلوبة";
-    } else if (signupData.password.length < 6) {
+    } else if (signupData.current.password.length < 6) {
       newErrors.password = "كلمة المرور يجب أن تكون 6 أحرف على الأقل";
     }
 
-    if (!signupData.confirmPassword) {
+    if (!signupData.current.confirmPassword) {
       newErrors.confirmPassword = "تأكيد كلمة المرور مطلوب";
-    } else if (signupData.password !== signupData.confirmPassword) {
+    } else if (signupData.current.password !== signupData.current.confirmPassword) {
       newErrors.confirmPassword = "كلمة المرور غير متطابقة";
     }
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+    errors.current = newErrors;
 
+    if (Object.keys(newErrors).length > 0) {
+      Object.entries(newErrors).forEach(([field, message]) => {
+        if (message) {
+          const input = document.querySelector(`[name="${field}"]`);
+          if (input) {
+            const errorDiv = document.getElementById(`error${field}`);
+            errorDiv.textContent = message;
+          }
+        }
+      });
+    }
+    return Object.keys(newErrors).length === 0;
+  }; //== End Validate Data After Send Request To Do Semthing Action ==//
+
+  // Start Validate Data And Send Request For verived Email User 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
-    setIsLoading(true);
+    isLoading.current = true;
 
     const data = {
-      email: signupData.email,
-      phone: signupData.phone,
+      email: signupData.current.email,
+      phone: signupData.current.phone,
     };
     dispatsh(stratesendtoconfiremdemailaftercreateacounte(data));
-  };
+  }; //== End Validate Data And Send Request For verived Email User ==//
 
+  // Start Here For Confirmed Time To Send Again Code Email 
   const startResendTimer = () => {
     setResendTimer(60); // 60 ثانية
     const timer = setInterval(() => {
@@ -388,46 +474,48 @@ const Register = ({ onSwitchToLogin, onSignup }) => {
         return prev - 1;
       });
     }, 1000);
-  };
+  }; //== End Here For Confirmed Time To Send Again Code Email ==//
 
-  const handleResendCode = () => {
+  // Start To Send Request For Send Code Verived Again Email User
+  const handleResendCode = async () => {
     // إعادة إرسال الرمز
     startResendTimer();
     const data = {
-      email: signupData.email,
-      phone: signupData.phone,
+      email: signupData.current.email,
+      phone: signupData.current.phone,
     };
-    setVerificationCode("");
+    verificationCode.current = '';
     dispatsh(stratesendtoconfiremdemailaftercreateacounte(data));
-  };
+  }; //== End To Send Request For Send Code Verived Again Email User ==//
 
-  const handleVerifyCode = () => {
+  // Start Here Send Request For Confirmed Code And Email To Create Accounte For User
+  const handleVerifyCode = async () => {
     // التحقق من الرمز
-    if (verificationCode.length === 6) {
+    if (verificationCode.current.length === 6) {
       const data = {
-        email: signupData.email,
-        phone: signupData.phone,
-        profileImage: signupData.profileImage,
-        firstName: signupData.firstName,
-        country: selectedCountry.name,
-        typeGender: signupData.typegender === "MN" ? "1" : "2",
-        city: signupData.city,
-        confirmPassword: signupData.confirmPassword,
-        dialCode: selectedCountry.dialCode,
-        code: verificationCode,
-        datatime: selectedDate,
+        email: signupData.current.email,
+        phone: signupData.current.phone,
+        profileImage: imagePreview.current,
+        firstName: signupData.current.firstName,
+        country: signupData.current.country.nameOne,
+        typeGender: signupData.current.typegender.dialCode,
+        city: signupData.current.city,
+        confirmPassword: signupData.current.confirmPassword,
+        dialCode: signupData.current.country.dialCode,
+        code: verificationCode.current,
+        datatime: selectedDate.current,
       };
-      setIsLoading(true);
+      isLoading.current = true;
+      
       HandleCloseOrOpenReadinPage(true);
       dispatsh(starttocreatenewaccounteforuser(data));
     } else {
-      setErrors({ verification: "الرجاء إدخال رمز التحقق المكون من 6 أرقام" });
+      errors.current = {
+          ...errors.current,
+          verification: "الرجاء إدخال رمز التحقق المكون من 6 أرقام" 
+        };
     }
-  };
-
-  const selectedCountry = arabCountries.find(
-    (c) => c.code === signupData.country
-  );
+  }; //== End Here Send Request For Confirmed Code And Email To Create Accounte For User ==//
 
   // تصميم خطوة التسجيل
   const renderSignupStep = () => (
@@ -470,244 +558,235 @@ const Register = ({ onSwitchToLogin, onSignup }) => {
             mb: 3,
           }}
         >
-          <div>
+          <div >
             <input
+              name='profileImage'
               accept="image/*"
               style={{ display: "none" }}
               id="profile-image-upload"
               type="file"
               onChange={handleImageChange}
             />
+            <div className="stylimguserprogile">
             <label htmlFor="profile-image-upload">
               <IconButton component="span">
-                <Avatar src={imagePreview} sx={{ width: 100, height: 100 }}>
+                <Avatar src={imgprofuser} sx={{ width: 100, height: 100 }}>
                   <CameraAlt />
                 </Avatar>
               </IconButton>
             </label>
+            </div>
           </div>
           <Typography variant="body2" sx={{ mt: 1 }}>
-            {imagePreview ? "تغيير الصورة" : "رفع صورة الملف الشخصي"}
+            {imgprofuser ? "تغيير الصورة" : "رفع صورة الملف الشخصي"}
           </Typography>
-          {errors.profileImage && (
-            <Typography color="error" variant="caption">
-              {errors.profileImage}
-            </Typography>
-          )}
+          <Typography variant="caption" id='errorprofileImage' color="error"></Typography>
         </Box>
 
-        <Box component="form" onSubmit={handleSubmit}>
+        <Box component="form" className='stylallinputeregister' onSubmit={handleSubmit}>
           {/* الاسم الأول */}
-          <TextField
-            fullWidth
-            label="الاسم الأول"
-            name="firstName"
-            className={"fontsize25"}
-            value={signupData.firstName}
-            style={{ fontSize: "25px" }}
-            onChange={handleInputChange}
-            error={!!errors.firstName}
-            helperText={errors.firstName}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Person />
-                </InputAdornment>
-              ),
-            }}
-            sx={{ mb: 2 }}
-          />
-
-          {/* البريد الإلكتروني */}
-          <TextField
-            fullWidth
-            label="البريد الإلكتروني"
-            name="email"
-            className={"fontsize25"}
-            type="email"
-            value={signupData.email}
-            onChange={handleInputChange}
-            error={!!errors.email}
-            helperText={errors.email}
-            style={{ fontSize: "25px" }}
-            sx={{ mb: 2 }}
-          />
-
-          {/* البلد */}
-          <FormControl fullWidth error={!!errors.country} sx={{ mb: 2 }}>
-            <InputLabel>البلد</InputLabel>
-            <Select
-              name="country"
-              value={signupData.country}
-              onChange={handleInputChange}
+          <div className='stlinpandlableisnace' >
+            <label>الاسم الأول</label>
+            <TextField
+              fullWidth
+              name="firstName"
               className={"fontsize25"}
-              startAdornment={
-                <InputAdornment position="start">
-                  <Flag />
-                </InputAdornment>
-              }
-            >
-              {arabCountries.map((country) => (
-                <MenuItem key={country.code} value={country.code}>
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <span style={{ marginLeft: 8 }}>{country.flag}</span>
-                    {country.name}
-                  </Box>
-                </MenuItem>
-              ))}
-            </Select>
-            {errors.country && (
-              <Typography variant="caption" color="error">
-                {errors.country}
-              </Typography>
-            )}
-          </FormControl>
-
-          {/* رقم الهاتف */}
-          <TextField
-            fullWidth
-            label="رقم الهاتف"
-            name="phone"
-            value={signupData.phone}
-            className={"fontsize25"}
-            onChange={handleInputChange}
-            style={{ fontSize: "25px" }}
-            error={!!errors.phone}
-            helperText={errors.phone}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Phone />
-                  <Typography variant="body2" sx={{ ml: 1 }}>
-                    {selectedCountry ? selectedCountry.dialCode : "+222"}
-                  </Typography>
-                </InputAdornment>
-              ),
-            }}
-            sx={{ mb: 2 }}
-          />
-
-          {/* نوع الجنس */}
-          <FormControl fullWidth error={!!errors.country} sx={{ mb: 2 }}>
-            <InputLabel>نوع الجنس</InputLabel>
-            <Select
-              name="typegender"
-              value={signupData.typegender}
+              value={signupData.firstName}
+              style={{ fontSize: "25px", direction: 'rtl' }}
               onChange={handleInputChange}
-              className={"fontsize25"}
-            >
-              {typeGenderUserNow.map((country) => (
-                <MenuItem key={country.code} value={country.dialCode}>
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    {country.name}
-                  </Box>
-                </MenuItem>
-              ))}
-            </Select>
-            {errors.country && (
-              <Typography variant="caption" color="error">
-                {errors.typegender}
-              </Typography>
-            )}
-          </FormControl>
-
-          {/* المدينة */}
-          <TextField
-            fullWidth
-            label="المدينة"
-            name="city"
-            className={"fontsize25"}
-            style={{ fontSize: "25px" }}
-            value={signupData.city}
-            onChange={handleInputChange}
-            error={!!errors.city}
-            helperText={errors.city}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <LocationOn />
-                </InputAdornment>
-              ),
-            }}
-            sx={{ mb: 2 }}
-          />
-
-          {/* اختيار تاريخ لميلاد */}
-          <div style={{ marginBottom: "25px" }}>
-            <InputeForDataAndTime
-              handleDateChange={handleDateChange}
-              selectedDate={selectedDate}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Person />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ mb: 2 }}
             />
-            {errors.datatime && (
-              <Typography variant="caption" color="error">
-                {errors.datatime}
-              </Typography>
-            )}
+            <Typography variant="caption" id='errorfirstName' textAlign={'center'} color="error"></Typography>
           </div>
 
-          {/* كلمة المرور */}
-          <TextField
-            fullWidth
-            label="كلمة المرور"
-            name="password"
-            className={"fontsize25"}
-            type={showPassword ? "text" : "password"}
-            style={{ fontSize: "25px" }}
-            value={signupData.password}
-            onChange={handleInputChange}
-            error={!!errors.password}
-            helperText={errors.password}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Lock />
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => setShowPassword(!showPassword)}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            sx={{ mb: 2 }}
-          />
+          <div className='stlinpandlableisnace' >
+            {/* البريد الإلكتروني */}
+            <label>البريد الإلكتروني</label>
+            <TextField
+              fullWidth
+              name="email"
+              className={"fontsize25"}
+              type="email"
+              value={signupData.email}
+              onChange={handleInputChange}
+              style={{ fontSize: "25px", direction: 'rtl' }}
+              sx={{ mb: 2 }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <AlternateEmailIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <Typography variant="caption" id='erroremail' textAlign={'center'} color="error"></Typography>
+          </div>
 
-          {/* تأكيد كلمة المرور */}
-          <TextField
-            fullWidth
-            label="تأكيد كلمة المرور"
-            className={"fontsize25"}
-            style={{ fontSize: "25px" }}
-            name="confirmPassword"
-            type={showConfirmPassword ? "text" : "password"}
-            value={signupData.confirmPassword}
-            onChange={handleInputChange}
-            error={!!errors.confirmPassword}
-            helperText={errors.confirmPassword}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Lock />
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    edge="end"
-                  >
-                    {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            sx={{ mb: 3 }}
-          />
+
+          <div className='stlinpandlableisnace' >
+            <label>البلد</label>
+            <CountryInput
+              name="country"
+              TypeShowData={"Sereash"}
+              ValueUserSeckeClick={HandleCantryFoMyAcounte}
+              dataFeth={arabCountries}
+              typShowImg={'icone'}
+              style={{
+                width: '50px',
+                height: '50px',
+                direction: 'rtl'
+              }}
+            />
+            <Typography variant="caption" id='errorcountry' textAlign={'center'} color="error"></Typography>
+          </div>
+
+          <div className='stlinpandlableisnace' >
+            <label>رقم الهاتف</label>
+            {/* رقم الهاتف */}
+            <TextField
+              fullWidth
+              name="phone"
+              value={signupData.phone}
+              className={"fontsize25"}
+              onChange={handleInputChange}
+              style={{ fontSize: "25px", direction: 'rtl' }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Phone />
+                    <Typography variant="body2" sx={{ ml: 1 }}>
+                      {codeCantry}
+                    </Typography>
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ mb: 2 }}
+            />
+            <Typography variant="caption" id='errorphone' textAlign={'center'} color="error"></Typography>
+          </div>
+
+          {/* نوع الجنس */}
+          <div className='stlinpandlableisnace' >
+            <label>نوع الجنس</label>
+            <CountryInput
+                name="typegender"
+                TypeShowData={"Sereash"}
+                ValueUserSeckeClick={HandleTypeGenderUser}
+                dataFeth={typeGenderUserNow}
+                typShowImg={'icone'}
+                style={{
+                width: '50px',
+                height: '50px', direction: 'rtl'
+                }}
+            />
+            <Typography variant="caption" id='errortypegender' textAlign={'center'} color="error"></Typography>
+          </div>
+
+            {/* المدينة */}
+          <div className='stlinpandlableisnace' >
+            <label>المدينة</label>
+            <TextField
+              fullWidth
+              name="city"
+              className={"fontsize25"}
+              style={{ fontSize: "25px", direction: 'rtl' }}
+              value={signupData.city}
+              onChange={handleInputChange}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LocationOn />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ mb: 2 }}
+            />
+            <Typography variant="caption" id='errorcity' textAlign={'center'} color="error"></Typography>
+          </div>
+
+          {/* اختيار تاريخ لميلاد */}
+          <div className='stlinpandlableisnace'>
+            <label>تاريخ الميلاد</label>
+            <InputeForDataAndTime
+              style={{ direction: 'rtl'}}
+              handleDateChange={handleDateChange}
+              selectedDate={selectedDate.current}
+            />
+            <Typography variant="caption" id='errordatatime' textAlign={'center'} color="error"></Typography>
+          </div>
+
+          <div className='stlinpandlableisnace'>
+            <label>كلمة المرور</label>
+            {/* كلمة المرور */}
+            <TextField
+              fullWidth
+              name="password"
+              className={"fontsize25"}
+              type={showPassword ? "text" : "password"}
+              style={{ fontSize: "25px", direction: 'rtl' }}
+              value={signupData.password}
+              onChange={handleInputChange}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Lock />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ mb: 2 }}
+            />
+            <Typography variant="caption" id='errorpassword' textAlign={'center'} color="error"></Typography>
+          </div>
+
+          <div className='stlinpandlableisnace'>
+            <label>تأكيد كلمة المرور</label>
+            {/* تأكيد كلمة المرور */}
+            <TextField
+              fullWidth
+              className={"fontsize25"}
+              style={{ fontSize: "25px", direction: 'rtl' }}
+              name="confirmPassword"
+              type={showConfirmPassword ? "text" : "password"}
+              value={signupData.confirmPassword}
+              onChange={handleInputChange}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Lock />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      edge="end"
+                    >
+                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ mb: 3 }}
+            />
+            <Typography variant="caption" id='errorconfirmPassword' textAlign={'center'} color="error"></Typography>
+          </div>
 
           {/* زر الإنشاء */}
           <Button
@@ -715,19 +794,26 @@ const Register = ({ onSwitchToLogin, onSignup }) => {
             fullWidth
             variant="contained"
             size="large"
-            disabled={isLoading}
+            disabled={isLoading.current}
             sx={{ py: 1.5 }}
           >
-            {isLoading ? <CircularProgress size={24} /> : "إنشاء حساب"}
+            {isLoading.current ? (
+              <div style={{ direction: 'rtl' }}>
+                جاري تسجيل الدخول
+                <CircularProgress size={24} />
+              </div>
+            ) : (
+              "إنشاء حساب"
+            )}
           </Button>
         </Box>
 
         {/* رابط تسجيل الدخول */}
-        <Box sx={{ textAlign: "center", mt: 2 }}>
+        <Box sx={{ textAlign: "center", }}>
           <Typography variant="body2">
             هل لديك حساب بالفعل؟{" "}
             <Link to="/login" style={{ textDecoration: "none" }}>
-              <Button variant="text" size="small" onClick={onSwitchToLogin}>
+              <Button variant="text" size="small">
                 تسجيل الدخول
               </Button>
             </Link>
@@ -741,7 +827,7 @@ const Register = ({ onSwitchToLogin, onSignup }) => {
   const renderVerificationStep = () => (
     <Dialog
       className={"Dialogcontentregister"}
-      open={verificationStep === "verification"}
+      open={verificationStep.current === "verification"}
       maxWidth="sm"
       fullWidth
     >
@@ -753,16 +839,13 @@ const Register = ({ onSwitchToLogin, onSignup }) => {
       <DialogContent>
         <Box sx={{ textAlign: "center", py: 2 }}>
           <Alert severity="info" sx={{ mb: 3 }}>
-            تم إرسال رمز التحقق إلى بريدك الإلكتروني: {signupData.email}
+            تم إرسال رمز التحقق إلى بريدك الإلكتروني: {signupData.current.email}
           </Alert>
 
           <TextField
             fullWidth
             label="رمز التحقق"
-            value={verificationCode}
-            onChange={(e) => setVerificationCode(e.target.value)}
-            error={!!errors.verification}
-            helperText={errors.verification}
+            onChange={(e) => verificationCode.current = e.target.value}
             inputProps={{ maxLength: 6 }}
             sx={{ mb: 2 }}
           />
@@ -780,7 +863,7 @@ const Register = ({ onSwitchToLogin, onSignup }) => {
               onClick={handleVerifyCode}
               variant="contained"
               className={isLoading ? "dispbtn" : ""}
-              disabled={verificationCode.length !== 6}
+              disabled={verificationCode.current.length !== 6}
             >
               تأكيد
             </Button>

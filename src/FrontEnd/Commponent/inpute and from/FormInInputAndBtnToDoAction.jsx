@@ -38,12 +38,7 @@ export function FormInInputAndBtnToDoAction({
         }}
       >
         <div
-          style={{
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            idth: "100%",
-          }}
+          className="styleBoxInInpuAndBtrnSerreach"
         >
           <SelectInputeAndDate
             typeMyInput={typeMyInput}
@@ -63,7 +58,11 @@ export function FormInInputAndBtnToDoAction({
             }
           >
             {ActionBtn}
-            <AddIcon style={{ fontSize: "25px" }} />
+            <AddIcon className={
+            !valiTypeBtnOpenClose && valiTypeBtnOpenClose.length != dispast
+              ? "btncolorserech"
+              : "normarstlbtnactioninptbtn"
+          } style={{ fontSize: "25px" }} />
           </Button>
         </div>
       </form>

@@ -1,9 +1,9 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/NBM_StoreG_FD/', // ✅ أضف هذا السطر
+  base: process.env.NODE_ENV === 'production' ? '/NBM_StoreG_FD/' : '/',
   server: {
     port: 5173
   }

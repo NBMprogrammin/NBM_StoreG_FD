@@ -4,8 +4,7 @@ import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import { useMemo } from "react";
 import { TableCell, TableHead, TableRow } from "@mui/material";
-let ShowAllTableCell = "";
-let ShowBoxToDoSemthing = "";
+
 export default function AllTabletOShowMoreData({
   background,
   heigthlop,
@@ -16,14 +15,15 @@ export default function AllTabletOShowMoreData({
   datToShowTablec,
   AllsTrAndTdForMyTable,
 }) {
-  useMemo(() => {
-    ShowAllTableCell = datToShowTablec.map((dat) => {
+
+  const ShowAllTableCell =useMemo(() => {
+    return datToShowTablec.map((dat) => {
       return (
         <TableCell
           key={dat.id}
           style={{
             textAlign: "center",
-            fontSize: "20px",
+            fontSize: "16px",
             fontWeight: "bold",
           }}
         >
@@ -32,14 +32,15 @@ export default function AllTabletOShowMoreData({
       );
     });
   }, [datToShowTablec]);
-  useMemo(() => {
-    ShowBoxToDoSemthing = AllsTrAndTdForMyTable.map((dat) => {
+
+  const ShowBoxToDoSemthing = useMemo(() => {
+    return AllsTrAndTdForMyTable.map((dat) => {
       return (
         <TableCell
           key={dat.id}
           style={{
             textAlign: "center",
-            fontSize: "20px",
+            fontSize: "16px",
             fontWeight: "bold",
           }}
         >
@@ -49,6 +50,7 @@ export default function AllTabletOShowMoreData({
       );
     });
   }, [AllsTrAndTdForMyTable, MessageForUser]);
+  
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table" dir="rtl">
@@ -57,6 +59,7 @@ export default function AllTabletOShowMoreData({
         </TableHead>
 
         <TableBody
+        key={98567}
           className={GlesStyleTabl}
           style={{ background: background, height: heigthlop }}
         >

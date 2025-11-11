@@ -1,22 +1,19 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo, useRef, useEffect } from "react";
 import "./Dashboard.css";
 import { useDialogActionContext } from "../Context/DialogActionContext";
 import DropdownMoreActions from "../Commponent/Commponet Table Alls Page/DropdownMoreActions";
 import { useSelector, useDispatch } from "react-redux";
 import { AccountBalance, Store, Work } from "@mui/icons-material";
-import { edartOrdersuserShowAllsDataMyOrder } from "../../allsliceproj/Edart Orders user/edartOrdersUserSlice";
+import { edartOrdersuserShowAllsDataMyOrder } from "../../allsliceproj/Order_Management_User/Order_Management_User_Slice";
 import PeopleYouMayKnow from "../Commponent/PeopleYouMayKnow";
 import CartLoader from "../Commponent/Commponet Table Alls Page/CartLoader";
 import { useNavigate } from "react-router-dom";
-
-let AllsTrAndTdForMyTable = "";
-
-let JSXShowAllsDataBss = "";
-let JsxdatalastBaymentsProdects = "";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import GroupRemoveIcon from '@mui/icons-material/GroupRemove';
+import GroupIcon from "@mui/icons-material/Group";
 
 let datUserClickAct = "";
 let typRequest = "";
-let datShowUser = "";
 
 let DatShowUser = [];
 
@@ -43,24 +40,24 @@ const DashboardUser = () => {
   });
 
   const resultrquestaction = useSelector((state) => {
-    return state.edartOrdersUser.resultrquestaction;
+    return state.Order_Management_User.resultrquestaction;
   });
 
   const typRequestNow = useSelector((state) => {
-    return state.edartOrdersUser.typRequestNow;
+    return state.Order_Management_User.typRequestNow;
   });
 
   const ShowAllsProdData = useSelector((state) => {
-    return state.edartOrdersUser.dataShowPayProd;
+    return state.Order_Management_User.dataShowPayProd;
   });
 
   const lodingtorspact = useSelector((state) => {
-    return state.edartOrdersUser.lodingtorspact;
+    return state.Order_Management_User.lodingtorspact;
   });
 
   // He To Sow Reloding In Table
-  React.useMemo(() => {
-    AllsTrAndTdForMyTable = (
+  const AllsTrAndTdForMyTable = React.useMemo(() => {
+    return (
       <tr>
         <td></td>
         <td></td>
@@ -79,13 +76,6 @@ const DashboardUser = () => {
     );
   }, [AllsDataUserNow.AllsMyOrders.data]); //== He To Sow Reloding In Table ==//
 
-  // Start Her To Get Storage Type Profile Login Now
-  useEffect(() => {
-    if (ProfileSnageNow && ProfileSnageNow.TypProf) {
-      datShowUser = ProfileSnageNow.TypProf;
-    }
-  }, [ProfileSnageNow]); //== End Her To Get Storage Type Profile Login Now ==//
-
   // Start Sheck Type Request To Show Result For User
   React.useMemo(() => {
     if (typRequest === "edartordersuserstomyorder") {
@@ -95,19 +85,28 @@ const DashboardUser = () => {
           `لقد تم تعطيل طلبية لتي تم ارسالها للتاجر  ${datUserClickAct.namebss} بنجاح كما تم اظهار تحديث لبيانات`
         );
         typRequest = "Show";
+        return;
       } else if (resultrquestaction === 3) {
         OpenDialogForActionFound(
           "يبدو بان طلبية لم تعد موجود ربما حذفتها سابقا كما تم تحديث لبيانات يمكنك اعادت لمحاول"
         );
+        return;
       } else if (resultrquestaction === 4) {
         OpenDialogForActionFound(
           `لقد قام تاجر بتعديل على لطلبيتك ${datUserClickAct.namebss} كما تم تحديث لبيانات بلجديدة `
         );
+      return;
       } else if (resultrquestaction === 6) {
         OpenDialogForActionFound(
           " يبدو بانك سبق و قمت بلاغاء طلبية بلفعل و لا يتاح لخيار تعديل لقرارات كما تم تحديث لبيانات"
         );
+      return;
+      } else if (resultrquestaction === 99) {
+        OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+        );
       }
+      return;
     } else if (typRequest === "edartordersuserdeletemyorder") {
       HandleCloseOrOpenReadinPage(false);
       if (resultrquestaction === 1) {
@@ -115,18 +114,27 @@ const DashboardUser = () => {
           `لقد تم الحذف طلبية بنجاح لتي تم ارسالها للتاجر  ${datUserClickAct.namebss} كما تم تحديث لبيانات`
         );
         typRequest = "Show";
+        return;
       } else if (resultrquestaction === 3) {
         OpenDialogForActionFound(
           "يبدو بان طلبية لم تعد موجود ربما حذفتها سابقا كما تم تحديث لبيانات يمكنك اعادت لمحاول"
         );
+        return;
       } else if (resultrquestaction === 4) {
         OpenDialogForActionFound(
           `لقد قام تاجر بتعديل على لطلبيتك ${datUserClickAct.namebss} كما تم تحديث لبيانات بلجديدة `
         );
+        return;
       } else if (resultrquestaction === 6) {
         OpenDialogForActionFound(
           " يبدو بانك سبق و قمت بلاغاء طلبية بلفعل و لا يتاح لخيار تعديل لقرارات كما تم تحديث لبيانات"
         );
+        return;
+      } else if (resultrquestaction === 99) {
+        OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+        );
+        return;
       }
     } else if (typRequest === "ShowAllsMyOrderDataFromEdartOrdersUser") {
       HandleCloseOrOpenReadinPage(false);
@@ -134,6 +142,12 @@ const DashboardUser = () => {
         OpenDialogForActionFound(
           "حدث خطا غير معروف اثناء جذب لبيانات او انك حذفت طلبية لذا تم تحديث لبيانات رجاء حاول مرة اخرى"
         );
+        return;
+      } else if (resultrquestaction === 99) {
+        OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+        );
+        return;
       } else {
         StartShowMoreDatImClick(
           ShowAllsProdData.datone,
@@ -161,10 +175,11 @@ const DashboardUser = () => {
   }, [lodingtorspact]); // End Her To Sheck loding Response
 
   // Start Open Aleart For Semthing Ac tion
-  function HandAddTypeThisActions(AllDataNow, TypeActionnow) {
+  const HandAddTypeThisActions = (AllDataNow, TypeActionnow) => {
     datUserClickAct = AllDataNow;
-    if (TypeActionnow === "StopMyOrderFromEdartOrderUser") {
-      TypeAlearVipNow(
+    switch (TypeActionnow) {
+      case "StopMyOrderFromEdartOrderUser":
+        return TypeAlearVipNow(
         AllDataNow,
         TypeActionnow,
         "",
@@ -177,29 +192,85 @@ const DashboardUser = () => {
         "user",
         "هل انت متاكد من رغبتك في ايقاف طلبية و هي مرحلة ما قبل لحذف اذ لا يتاح لك بعدها سوا لحذف رجاء تاكد من القرار",
         AllDataNow.id
-      );
-    } else if (TypeActionnow === "DeleteMyOrderFromEdartOrderUser") {
-      TypeAlearVipNow(
-        AllDataNow,
-        TypeActionnow,
-        "",
-        "",
-        "",
-        "",
-        `تاكيد الحذف طلبية لمرسلة الى ${AllDataNow.namebss}`,
-        "تاكيد",
-        "",
-        "user",
-        "هل انت متاكد من رغبتك في الحذف و هي مرحلة لا رجع عنها و ستنتج اختفاء طلبية لذا رجاء تاكد من القرار",
-        AllDataNow.id
-      );
-    } else if (TypeActionnow === "ShowMoreDatMyOrderFromEdartOrderUser") {
-      dispatsh(edartOrdersuserShowAllsDataMyOrder(AllDataNow.id));
+      );;
+      case "DeleteMyOrderFromEdartOrderUser":
+        return TypeAlearVipNow(
+          AllDataNow,
+          TypeActionnow,
+          "",
+          "",
+          "",
+          "",
+          `تاكيد الحذف طلبية لمرسلة الى ${AllDataNow.namebss}`,
+          "تاكيد",
+          "",
+          "user",
+          "هل انت متاكد من رغبتك في الحذف و هي مرحلة لا رجع عنها و ستنتج اختفاء طلبية لذا رجاء تاكد من القرار",
+          AllDataNow.id
+        );
+      case "ShowMoreDatMyOrderFromEdartOrderUser":
+        return dispatsh(edartOrdersuserShowAllsDataMyOrder(AllDataNow.id));;
     }
   } //=== End Open Aleart For Semthing Ac tion ===//
 
+  // أضف هذه الـ refs في بداية المكون
+    const numbersAnimated = React.useRef(false);
+    const sectionRef = React.useRef(null);
+
+    // دالة الحركة الرقمية
+  const animateNumber = (element, start, end, duration) => {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      const value = Math.floor(progress * (end - start) + start);
+      element.textContent = value.toLocaleString();
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+    window.requestAnimationFrame(step);
+  };
+
+  // بعد جلب البيانات من API، أضف هذا useEffect منفصل للحركة
+  useEffect(() => {
+    if (!AllsDataUserNow || numbersAnimated.current) return;
+  
+    // انتظر حتى يصبح DOM جاهزاً
+    const timer = setTimeout(() => {
+      const statNumbers = document.querySelectorAll('.stat-number');
+      statNumbers.forEach((element) => {
+        const target = parseInt(element.getAttribute('data-count'));
+        if (!isNaN(target) && target > 0) {
+          animateNumber(element, 0, target, 2000);
+        }
+      });
+      numbersAnimated.current = true;
+    }, 500);
+  
+    return () => clearTimeout(timer);
+  }, [AllsDataUserNow]);
+  
+  // useEffect للحركة
+  React.useEffect(() => {
+    if (!sectionRef.current) return;
+      
+      observer.observe(sectionRef.current);
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+  
+    observer.observe(sectionRef.current);
+  
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
   // محاكاة تحميل البيانات
-  useMemo(() => {
+  const JSXShowAllsDataBss = useMemo(() => {
     if (AllsDataUserNow && AllsDataUserNow.AllsMyOrders) {
       const TotalMyDeyanForBss = AllsDataUserNow.DatBssICalyan.reduce(
         (sum, item) => sum + item.totaleMyDeyn,
@@ -215,48 +286,48 @@ const DashboardUser = () => {
       const MyDataToShow = [
         {
           id: 1,
-          icon: <AccountBalance />,
+          icon: <AccountBalance className="iconShwStyle" />,
           title: "إجمالي المديونية",
-          value: TotalMyDeyanForBss.toLocaleString(),
+          value: TotalMyDeyanForBss,
           color: "#4a6cf7",
         },
         {
           id: 2,
-          icon: <Store />,
+          icon: <GroupIcon className="iconShwStyle" />,
           title: "العلاقات التجارية",
           value: AllsDataUserNow.DatBssICalyan.length.toLocaleString(),
           color: "#10b981",
         },
         {
           id: 3,
-          icon: "💰",
+          icon: <GroupRemoveIcon className="iconShwStyle" />,
           title: "عدد تجار يدينون لي",
           value: `${allbbshasdeyforMy.length.toLocaleString()}`,
           color: "#f59e0b",
         },
         {
           id: 4,
-          icon: <Work />,
+          icon: <Work className="iconShwStyle" />,
           title: "الوظائف النشطة",
           value: `${AllsDataUserNow.Profile_tweve.length.toLocaleString()}`,
           color: "#f59e0b",
         },
         {
           id: 5,
-          icon: <Work />,
+          icon: <AddShoppingCartIcon className="iconShwStyle" />,
           title: "اجمالي طلبيات",
           value: `${AllsDataUserNow.TotalOrderIDo.toLocaleString()}`,
           color: "#f59e0b",
         },
       ];
 
-      JSXShowAllsDataBss = MyDataToShow.map((card, index) => {
+      return MyDataToShow.map((card, index) => {
         return (
-          <div key={index} className="stat-card warning">
+          <div key={index} className="stat-card warning animate-slide-in" style={{ animationDelay: `${index * 0.4}s` }} >
             <div className="stat-icon">{card.icon}</div>
             <div className="stat-content">
               <h3>{card.title}</h3>
-              <span className="stat-number">{card.value}</span>
+              <span className="stat-number" data-count={card.value} ></span>
             </div>
           </div>
         );
@@ -264,9 +335,9 @@ const DashboardUser = () => {
     }
   }, [AllsDataUserNow]);
 
-  useMemo(() => {
+  const JsxdatalastBaymentsProdects = useMemo(() => {
     if (AllsDataUserNow.AllsMyOrders) {
-      JsxdatalastBaymentsProdects = AllsDataUserNow.AllsMyOrders.data.map(
+      return AllsDataUserNow.AllsMyOrders.data.map(
         (order) => (
           <tr key={order.id}>
             <td>#{order.id}</td>
@@ -277,7 +348,8 @@ const DashboardUser = () => {
             </td>
             <td>
               <span
-                className={`status-badge ${getStatusClass(order.TypeOrder)}`}
+                // className={`status-badge ${getStatusClass(order.TypeOrder)}`}
+                style={{ backgroundColor: `${getStatusClass(order.TypeOrder)}` }}
               >
                 {order.TypeOrder == 0
                   ? "فلانتظار"

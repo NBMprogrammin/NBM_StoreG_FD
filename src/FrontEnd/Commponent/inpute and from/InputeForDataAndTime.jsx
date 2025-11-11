@@ -8,17 +8,18 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 export default function InputeForDataAndTime({
   handleDateChange,
   selectedDate,
+  labelGold
 }) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={["DatePicker"]}>
         <DatePicker
+        name="datatime"
           className="StyleInptDataAndTime"
-          label="تاريخ الميلاد"
-          value={selectedDate}
+          label={labelGold}
           fullWidth
           onChange={handleDateChange}
-          defaultValue={dayjs("2022-04-17")}
+          defaultValue={dayjs(" - - ")}
           views={["year", "month", "day"]}
         />
       </DemoContainer>

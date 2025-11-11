@@ -161,20 +161,23 @@ animation: animbgnav .5s alternate-reverse;
 }
 
 .user-profile {
-      display: flex;
-    align-items: center;
-    padding: 20px 0;
-    border-bottom: 1px solid #f1f5f9;
-    margin-bottom: 20px;
-    justify-content: center;
-    gap: 12px;
-    box-shadow: 1px 1px 9px 1px #c9c9c9;
-    background: #ffffffe0;
+  display: flex;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 20px;
+  justify-content: center;
+  gap: 12px;
+  box-shadow: 1px 1px 9px 1px #c9c9c9;
+  background: #ffffffe0;
+  flex-direction: column !important;
 }
 
 .user-avatar {
   position: relative;
   margin-left: 15px;
+  width: 100px;
+  height: 100px;
 }
 
 .user-avatar img {
@@ -182,7 +185,8 @@ animation: animbgnav .5s alternate-reverse;
   height: 60px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid var(--primary-light);
+  border: 2px solid #2196F3 !important;
+  box-shadow: 0px 0px 3px #2196F3 !important;
 }
 
 .online-status {
@@ -218,6 +222,7 @@ animation: animbgnav .5s alternate-reverse;
   padding: 20px 0;
   border-bottom: 1px solid #f1f5f9;
   margin-bottom: 20px;
+  gap: 10px;
 }
 
 .logo-icon {
@@ -295,6 +300,18 @@ animation: animbgnav .5s alternate-reverse;
   flex-direction: column;
 }
 
+.iconShwStyleDanger {
+  fill: #f00 !important;
+  width: 35px !important;
+  height: 35px !important;
+}
+
+.iconShwStyle {
+  fill: #fff !important;
+  width: 35px !important;
+  height: 35px !important;
+}
+
 .nav-link {
   display: flex;
   align-items: center;
@@ -307,7 +324,7 @@ animation: animbgnav .5s alternate-reverse;
   border: none;
   background: transparent;
   cursor: pointer;
-  text-align: right;
+  text-align: right;  
 }
 
 .nav-link:hover {
@@ -318,6 +335,11 @@ animation: animbgnav .5s alternate-reverse;
 .nav-link.active {
   background: var(--primary-light) !important;
   cursor: help;
+}
+
+.ShowAlls {
+  width: 100px !important;
+  height: 100px !important;
 }
 
 .nav-icon {
@@ -335,6 +357,12 @@ animation: animbgnav .5s alternate-reverse;
     width: 50px;
     height: 50px;
     color: #fff;
+}
+
+.stycoloandsizeivonnv {
+  color: #fff !important;
+  width: 35px !important;
+  height: 35px !important;
 }
 
 .nav-text {

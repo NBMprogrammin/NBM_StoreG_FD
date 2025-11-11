@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useRef, useMemo } from "react";
 import "./Dashboard.css";
 import { useDialogActionContext } from "../Context/DialogActionContext";
 import AvatarImgForAllType from "../Commponent/AvatarImgForAllType";
 import DropdownMoreActions from "../Commponent/Commponet Table Alls Page/DropdownMoreActions";
-import { edartpayprodectshowallsdatapaymentprod } from "../../allsliceproj/Edart Pay Prodects/edartPayProdectdsSlice";
+import { edartpayprodectshowallsdatapaymentprod } from "../../allsliceproj/Sales_Management_Bss/Sales_Management_Bss_Slice";
 import { useSelector, useDispatch } from "react-redux";
 import CartLoader from "../Commponent/Commponet Table Alls Page/CartLoader";
 
@@ -44,19 +44,19 @@ const DasboardTraver = () => {
   });
 
   const resultrquestaction = useSelector((state) => {
-    return state.edartpayprodects.resultrquestaction;
+    return state.Sales_Management_Bss.resultrquestaction;
   });
 
   const typRequestNow = useSelector((state) => {
-    return state.edartpayprodects.typRequestNow;
+    return state.Sales_Management_Bss.typRequestNow;
   });
 
   const ShowAllsProdData = useSelector((state) => {
-    return state.edartpayprodects.dataShowPayProd;
+    return state.Sales_Management_Bss.dataShowPayProd;
   });
 
   const lodingtorspact = useSelector((state) => {
-    return state.edartpayprodects.lodingtorspact;
+    return state.Sales_Management_Bss.lodingtorspact;
   });
 
   // Start Her To Get Storage Type Profile Login Now
@@ -236,7 +236,6 @@ const DasboardTraver = () => {
       JsxtopCustomers = AllsDataUserNow.MayZeboune.map((customer) => (
         <div key={customer.id} className="customer-card">
           <AvatarImgForAllType
-            style={"styleimgprofilcust"}
             MyAvatar={customer.image}
           />
           <div className="customer-info">
@@ -267,13 +266,69 @@ const DasboardTraver = () => {
     }
   }, [AllsDataUserNow.MayZeboune]);
 
-  useMemo(() => {
+  // أضف هذه الـ refs في بداية المكون
+      const numbersAnimated = React.useRef(false);
+      const sectionRef = React.useRef(null);
+  
+      // دالة الحركة الرقمية
+    const animateNumber = (element, start, end, duration) => {
+      let startTimestamp = null;
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const value = Math.floor(progress * (end - start) + start);
+        element.textContent = value.toLocaleString();
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        }
+      };
+      window.requestAnimationFrame(step);
+    };
+  
+    // بعد جلب البيانات من API، أضف هذا useEffect منفصل للحركة
+    useEffect(() => {
+      if (!AllsDataUserNow || numbersAnimated.current) return;
+    
+      // انتظر حتى يصبح DOM جاهزاً
+      const timer = setTimeout(() => {
+        const statNumbers = document.querySelectorAll('.stat-number');
+        statNumbers.forEach((element) => {
+          const target = parseInt(element.getAttribute('data-count'));
+          if (!isNaN(target) && target > 0) {
+            animateNumber(element, 0, target, 2000);
+          }
+        });
+        numbersAnimated.current = true;
+      }, 500);
+    
+      return () => clearTimeout(timer);
+    }, [AllsDataUserNow]);
+    
+    // useEffect للحركة
+    React.useEffect(() => {
+      if (!sectionRef.current) return;
+        
+        observer.observe(sectionRef.current);
+        if (sectionRef.current) {
+          observer.unobserve(sectionRef.current);
+        }
+    
+      observer.observe(sectionRef.current);
+    
+      return () => {
+        if (sectionRef.current) {
+          observer.unobserve(sectionRef.current);
+        }
+      };
+    }, []);
+
+  const JSXShowAllsDataBss = useMemo(() => {
     ProdFinsh = AllsDataUserNow.MayProd.filter((prod) => {
       return prod.nameThere == 0;
     });
 
     prodHasFish = AllsDataUserNow.MayProd.filter((prod) => {
-      return prod.nameThere < 15;
+      return prod.nameThere < 15 && prod.nameThere <! 0;
     });
 
     TotalDeynForAlsZeboune = AllsDataUserNow.MayZeboune.filter((Zeboune) => {
@@ -334,13 +389,13 @@ const DasboardTraver = () => {
         },
       ];
 
-      JSXShowAllsDataBss = dataShowMoreBss.map((card, index) => {
+      return dataShowMoreBss.map((card, index) => {
         return (
-          <div key={index} className="stat-card warning">
+          <div key={index} className="stat-card warning animate-slide-in" style={{ animationDelay: `${index * 0.4}s` }} >
             <div className="stat-icon">{card.icon}</div>
             <div className="stat-content">
               <h3>{card.titel}</h3>
-              <span className="stat-number">{card.data}</span>
+              <span className="stat-number" data-count={card.data} ></span>
             </div>
           </div>
         );

@@ -9,7 +9,7 @@ import { useNavigation } from "../hooks/useNavigation";
 import {
   startActionLogoutacountuser,
   startshngeprofileusernowtologin,
-} from "../../allsliceproj/Controller Data Profile Now/controolerdataprodfilenow";
+} from "../../allsliceproj/Controller Data Profile Now/controolerdataprodfilenowSlice";
 
 import VerifiedIcon from "@mui/icons-material/Verified";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -24,7 +24,7 @@ import PersonPinIcon from "@mui/icons-material/PersonPin";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
 import HomeIcon from "@mui/icons-material/Home";
-import SupportAgentIcon from "@mui/icons-material/SupportAgent";
+import QuizIcon from '@mui/icons-material/Quiz';
 
 import { FaGem } from "react-icons/fa";
 import { FaBullseye } from "react-icons/fa";
@@ -94,7 +94,7 @@ const Navigation = ({ typeactive }) => {
   // Start Here To Get Sult For Semthing Request In Page
   React.useEffect(() => {
     if (typeRequestRsp === "StartShangeForNoterProfile") {
-      if (resultrquestaction === 1 || resultrquestaction === 99) {
+      if (resultrquestaction === 1 ) {
         HandleCloseOrOpenReadinPage(false);
         if (resultrquestaction === 99) {
           HandleCloseOrOpenReadinPage(false);
@@ -105,7 +105,7 @@ const Navigation = ({ typeactive }) => {
         }
       }
     } else if (typeRequestRsp === "startactionlogouteaccounteuser") {
-      if (resultrquestaction === 1 || resultrquestaction === 99) {
+      if (resultrquestaction === 1) {
         HandleCloseOrOpenReadinPage(false);
         Cookies.remove("token");
         if (resultrquestaction === 99) {
@@ -132,17 +132,27 @@ const Navigation = ({ typeactive }) => {
   };
 
   const DataUserClickLoginNow = (value, TypeAction) => {
-    if (TypeAction == "user") {
+    if (TypeAction === "user") {
       UrlRequest = {
         profileID: `${value.id}`,
         TypeProfile: "user",
       };
-    } else if (TypeAction == "bss" || TypeAction == "teweve") {
+    } else if (TypeAction === "bss") {
+      UrlRequest = {
+        profileID: `${value.id}`,
+        TypeProfile: TypeAction,
+      };
+    } else if (TypeAction === "teweve") {
       UrlRequest = {
         profileID: `${value.id}`,
         TypeProfile: TypeAction,
       };
     }
+    console.log('=========');
+    console.log(TypeAction);
+    console.log(value);
+    console.log('=========');
+    
     HandleCloseOrOpenReadinPage(true);
     dispatsh(startshngeprofileusernowtologin(UrlRequest));
   };
@@ -205,7 +215,10 @@ const Navigation = ({ typeactive }) => {
             <div className="user-nav">
               <div className="user-profile">
                 <div className="user-avatar">
-                  <AvatarImgForAllType MyAvatar={ProfileSnageNow.image} />
+                  <AvatarImgForAllType typShowImg='ShowAlls' style={{
+                      width: '95%',
+                      height: '95%'
+                    }} MyAvatar={ProfileSnageNow.image} />
                   <div className="online-status"></div>
                 </div>
                 <div className="user-info">
@@ -248,7 +261,7 @@ const Navigation = ({ typeactive }) => {
                       >
                         <span className="nav-icon">
                           <DashboardIcon
-                            style={{ width: "35px", height: "35px" }}
+                              className="iconShwStyle"
                           />
                         </span>
                         <span className="nav-text">لوحة التحكم</span>
@@ -259,7 +272,7 @@ const Navigation = ({ typeactive }) => {
                         ProfileSnageNow.edartpayprodects == 1) ||
                       ProfileSnageNow.TypProf === "bss" ? (
                         <Link
-                          to="/My-Payment-Prodect"
+                          to="/Sales-Management"
                           aria-disabled={typeactive === "EdartPayProdects"}
                           aria-hidden
                           className={`nav-link ${
@@ -268,7 +281,7 @@ const Navigation = ({ typeactive }) => {
                         >
                           <span className="nav-icon">
                             <AddBusinessIcon
-                              style={{ width: "35px", height: "35px" }}
+                              className="iconShwStyle"
                             />
                           </span>
                           <span className="nav-text">إدارة المبيعات</span>
@@ -281,7 +294,7 @@ const Navigation = ({ typeactive }) => {
                         ProfileSnageNow.edartOrders == 1) ||
                       ProfileSnageNow.TypProf === "bss" ? (
                         <Link
-                          to="/My-Orders"
+                          to="/Order-Management"
                           aria-disabled={typeactive === "Edartorders"}
                           aria-hidden
                           className={`nav-link ${
@@ -290,7 +303,7 @@ const Navigation = ({ typeactive }) => {
                         >
                           <span className="nav-icon">
                             <AddShoppingCartIcon
-                              style={{ width: "35px", height: "35px" }}
+                              className="iconShwStyle"
                             />
                           </span>
                           <span className="nav-text">إدارة الطلبات</span>
@@ -303,7 +316,7 @@ const Navigation = ({ typeactive }) => {
                         ProfileSnageNow.edartmaney == 1) ||
                       ProfileSnageNow.TypProf === "bss" ? (
                         <Link
-                          to="/Edart-maney"
+                          to="/Financial-Management"
                           aria-disabled={typeactive === "Edartmaney"}
                           aria-hidden
                           className={`nav-link ${
@@ -312,7 +325,7 @@ const Navigation = ({ typeactive }) => {
                         >
                           <span className="nav-icon">
                             <CreditScoreIcon
-                              style={{ width: "35px", height: "35px" }}
+                              className="iconShwStyle"
                             />
                           </span>
                           <span className="nav-text">إدارة المالية</span>
@@ -324,7 +337,7 @@ const Navigation = ({ typeactive }) => {
                       {ProfileSnageNow.TypProf === "bss" ? (
                         <>
                           <Link
-                            to="/category"
+                            to="/Categories-Management"
                             aria-disabled={typeactive === "category"}
                             aria-hidden
                             className={`nav-link ${
@@ -333,14 +346,14 @@ const Navigation = ({ typeactive }) => {
                           >
                             <span className="nav-icon">
                               <CategoryIcon
-                                style={{ width: "35px", height: "35px" }}
+                                className="iconShwStyle"
                               />
                             </span>
                             <span className="nav-text">إدارة التصنيفات</span>
                           </Link>
 
                           <Link
-                            to="/My-Prodect"
+                            to="/Products-Management"
                             aria-disabled={typeactive === "EdartProdects"}
                             aria-hidden
                             className={`nav-link ${
@@ -349,14 +362,14 @@ const Navigation = ({ typeactive }) => {
                           >
                             <span className="nav-icon">
                               <FaBoxes
-                                style={{ width: "35px", height: "35px" }}
+                                className="iconShwStyle"
                               />
                             </span>
                             <span className="nav-text">إدارة المنتجات</span>
                           </Link>
 
                           <Link
-                            to="/My-mewve"
+                            to="/Employees-Management"
                             aria-disabled={typeactive === "edartmewevs"}
                             aria-hidden
                             className={`nav-link ${
@@ -365,13 +378,13 @@ const Navigation = ({ typeactive }) => {
                           >
                             <span className="nav-icon">
                               <FiUserPlus
-                                style={{ width: "35px", height: "35px" }}
+                                className="iconShwStyle"
                               />
                             </span>
                             <span className="nav-text">إدارة الموظفين</span>
                           </Link>
                           <Link
-                            to="/My-Zebayn"
+                            to="/Customers-Management"
                             aria-disabled={typeactive === "Edartzebayn"}
                             aria-hidden
                             className={`nav-link ${
@@ -380,14 +393,14 @@ const Navigation = ({ typeactive }) => {
                           >
                             <span className="nav-icon">
                               <PeopleIcon
-                                style={{ width: "35px", height: "35px" }}
+                                className="iconShwStyle"
                               />
                             </span>
                             <span className="nav-text">إدارة الزباين</span>
                           </Link>
 
                           <Link
-                            to="/My-PeymentMethod/Setting"
+                            to="/Payment-Settings-Management"
                             aria-disabled={typeactive === "Edartpaymentmethods"}
                             aria-hidden
                             className={`nav-link ${
@@ -398,7 +411,7 @@ const Navigation = ({ typeactive }) => {
                           >
                             <span className="nav-icon">
                               <CurrencyExchangeIcon
-                                style={{ width: "35px", height: "35px" }}
+                                className="iconShwStyle"
                               />
                             </span>
                             <span className="nav-text">إدارة الدفع</span>
@@ -412,13 +425,13 @@ const Navigation = ({ typeactive }) => {
                     {ProfileSnageNow.TypProf === "bss" ? (
                       <div className="nav-section">
                         <h4>التقارير</h4>
-                        <a href="#reports" className="nav-link" dispatsh>
+                        <a href="#reports" className="nav-link">
                           <span className="nav-icon">📊</span>
                           <span className="nav-text">
                             التقارير المالية (TM)
                           </span>
                         </a>
-                        <a href="#analytics" className="nav-link" dispatsh>
+                        <a href="#analytics" className="nav-link">
                           <span className="nav-icon">📈</span>
                           <span className="nav-text">التحليلات (TM)</span>
                         </a>
@@ -445,13 +458,13 @@ const Navigation = ({ typeactive }) => {
                         >
                           <span className="nav-icon">
                             <DashboardIcon
-                              style={{ width: "35px", height: "35px" }}
+                              className="iconShwStyle"
                             />
                           </span>
                           <span className="nav-text">لوحة التحكم رئيسية</span>
                         </Link>
                         <Link
-                          to="/My-Orders"
+                          to="/Order-Management"
                           aria-disabled={typeactive === "Edartorders"}
                           className={`nav-link ${
                             typeactive === "Edartorders" ? "active" : ""
@@ -459,7 +472,7 @@ const Navigation = ({ typeactive }) => {
                         >
                           <span className="nav-icon">
                             <AddShoppingCartIcon
-                              style={{ width: "35px", height: "35px" }}
+                              className="iconShwStyle"
                             />
                           </span>
                           <span className="nav-text">طلبياتي</span>
@@ -477,7 +490,7 @@ const Navigation = ({ typeactive }) => {
                     >
                       <span className="nav-icon">
                         <LocalPostOfficeIcon
-                          style={{ width: "35px", height: "35px" }}
+                          className="iconShwStyle"
                         />
                       </span>
                       <span className="nav-text">لبريد الاشعارات </span>
@@ -494,7 +507,7 @@ const Navigation = ({ typeactive }) => {
                   ) : (
                     <>
                       <Link
-                        to="/MyProfile"
+                        to="/user-profile"
                         aria-disabled={typeactive === "profile"}
                         className={`nav-link ${
                           typeactive === "profile" ? "active" : ""
@@ -502,7 +515,7 @@ const Navigation = ({ typeactive }) => {
                       >
                         <span className="nav-icon">
                           <PersonPinIcon
-                            style={{ width: "35px", height: "35px" }}
+                            className="iconShwStyle"
                           />
                         </span>
                         <span className="nav-text">الملف الشخصي</span>
@@ -516,8 +529,8 @@ const Navigation = ({ typeactive }) => {
                         }`}
                       >
                         <span className="nav-icon">
-                          <ManageAccountsIcon
-                            style={{ width: "35px", height: "35px" }}
+                          <ManageAccountsIcon 
+                            className="iconShwStyle"
                           />
                         </span>
                         <span className="nav-text">الإعدادات</span>
@@ -527,7 +540,7 @@ const Navigation = ({ typeactive }) => {
                   <button className="nav-link" onClick={HandelSendSowProfile}>
                     <span className="nav-icon">
                       <MdSwitchAccount
-                        style={{ width: "35px", height: "35px" }}
+                        className="iconShwStyle"
                       />
                     </span>
                     <span className="nav-text">الاستبدال بين الجسابات</span>
@@ -537,7 +550,7 @@ const Navigation = ({ typeactive }) => {
                     onClick={handleLogout}
                   >
                     <span className="nav-icon">
-                      <LogoutIcon style={{ width: "35px", height: "35px" }} />
+                      <LogoutIcon className="iconShwStyleDanger"  />
                     </span>
                     <span className="nav-text">تسجيل الخروج</span>
                   </button>
@@ -555,37 +568,37 @@ const Navigation = ({ typeactive }) => {
               <div className="nav-links">
                 <a href="#home" className="nav-link" onClick={closeNav}>
                   <span className="nav-icon">
-                    <HomeIcon style={{ width: "35px", height: "35px" }} />
+                    <HomeIcon className="stycoloandsizeivonnv iconShwStyle" />
                   </span>
                   <span className="nav-text">الصفحة الرئيسية</span>
                 </a>
                 <a href="#why-us" className="nav-link" onClick={closeNav}>
                   <span className="nav-icon">
-                    <FaBullseye style={{ width: "35px", height: "35px" }} />
+                    <FaBullseye className="stycoloandsizeivonnv" />
                   </span>
                   <span className="nav-text">لماذا نحن</span>
                 </a>
                 <a href="#services" className="nav-link" onClick={closeNav}>
                   <span className="nav-icon">
                     <FaConciergeBell
-                      style={{ width: "35px", height: "35px" }}
+                      className="stycoloandsizeivonnv"
                     />
                   </span>
                   <span className="nav-text">خدماتنا</span>
                 </a>
                 <a href="#pricing" className="nav-link" onClick={closeNav}>
                   <span className="nav-icon">
-                    <FaGem style={{ width: "35px", height: "35px" }} />
+                    <FaGem className="stycoloandsizeivonnv" />
                   </span>
                   <span className="nav-text">الباقات</span>
                 </a>
-                <a href="#contact" className="nav-link" onClick={closeNav}>
+                <a href="#faq" className="nav-link" onClick={closeNav}>
                   <span className="nav-icon">
-                    <SupportAgentIcon
-                      style={{ width: "35px", height: "35px" }}
+                    <QuizIcon
+                      className="stycoloandsizeivonnv iconShwStyle"
                     />
                   </span>
-                  <span className="nav-text">اتصل بنا</span>
+                  <span className="nav-text">أسئلة شائعة</span>
                 </a>
               </div>
 

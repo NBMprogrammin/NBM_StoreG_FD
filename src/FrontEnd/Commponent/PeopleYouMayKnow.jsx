@@ -26,6 +26,7 @@ import {
 } from "@mui/icons-material";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import AvatarImgForAllType from "./AvatarImgForAllType";
+import StoreMallDirectoryIcon from '@mui/icons-material/StoreMallDirectory';
 
 let JXSShowData = "";
 const PeopleYouMayKnow = ({ FirsttitelComp, DataToShowForUser, typeShow }) => {
@@ -35,9 +36,9 @@ const PeopleYouMayKnow = ({ FirsttitelComp, DataToShowForUser, typeShow }) => {
   const [scrollLeft, setScrollLeft] = useState(0);
   const autoScrollRef = useRef(null);
 
-  useMemo(() => {
+  const JXSShowData = useMemo(() => {
     if (DataToShowForUser) {
-      JXSShowData = DataToShowForUser.map((person) => (
+      return DataToShowForUser.map((person) => (
         <Card
           key={person.id}
           sx={{
@@ -74,7 +75,11 @@ const PeopleYouMayKnow = ({ FirsttitelComp, DataToShowForUser, typeShow }) => {
                   >
                     <AvatarImgForAllType
                       className={"logo-container logo-emoji"}
-                      MyAvatar={person.image}
+                      style={{
+                        width: '95%',
+                        height: '95%'
+                      }}
+                      MyAvatar={person.image ? person.image : ''}
                     />
                   </div>
                 </div>

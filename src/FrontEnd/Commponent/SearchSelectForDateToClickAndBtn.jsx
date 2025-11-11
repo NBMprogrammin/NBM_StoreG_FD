@@ -10,10 +10,12 @@ export function SearchSelectForDateToClickAndBtn({
   ActionBtn,
   TypeShowData,
   currentPayment,
+  TypeAction,
+  style
 }) {
   const [valiTypeBtnOpenClose, setvaliTypeBtnOpenClose] = useState("");
 
-  function ValueUserSeckeClick(value) {
+  const ValueUserSeckeClick = (value) => {
     setvaliTypeBtnOpenClose(value);
   }
 
@@ -32,11 +34,12 @@ export function SearchSelectForDateToClickAndBtn({
             dataFeth={dataFeth}
             ValueUserSeckeClick={ValueUserSeckeClick}
             TypeShowData={TypeShowData}
+            TypeAction={TypeAction}
             currentPayment={currentPayment}
+            style={style}
           />
         </div>
         <Button
-          // className={"BtnSendDateCategory"}
           className={
             !valiTypeBtnOpenClose
               ? "btninputeseatoraction"
@@ -47,7 +50,11 @@ export function SearchSelectForDateToClickAndBtn({
           disabled={!valiTypeBtnOpenClose}
         >
           {ActionBtn}
-          <AddIcon style={{ fontSize: "25px" }} />
+          <AddIcon style={{ fontSize: "25px" }} className={
+            !valiTypeBtnOpenClose
+              ? "btncolorserech"
+              : "normarstlbtnactioninptbtn"
+          } />
         </Button>
       </div>
     </form>

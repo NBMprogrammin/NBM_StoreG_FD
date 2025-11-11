@@ -1,319 +1,643 @@
-import { Button, Container } from "@mui/joy";
-import { SelectInputeAndDate } from "../Commponent/inpute and from/SelectInputeAndDate";
-import { useDialogActionContext } from "../Context/DialogActionContext";
+import { Container } from "@mui/joy";
+
 import * as React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { FormLabel } from "@mui/material";
-import CountryInput from "../Commponent/CantryInput";
-import CartQuantiteProdect from "../Commponent/CartQuantiteProdect";
+// Icon For MaterUi
+import { useDialogActionContext } from "../Context/DialogActionContext";
 import TitelPage from "../Commponent/TitelPage";
-import { edartProdectBssCreateProdect } from "../../allsliceproj/edartProdectsBss/EdartProdectSlice";
-import Header from "../layoute/Hedaer";
+import CardShowDateTableNextPrevMor from "../Commponent/Commponet Table Alls Page/CardShowDateTableNextPrevMor";
+import CartAllBtnClickToGoNextAndPrevShowDataTable from "../Commponent/Commponet Table Alls Page/CartAllBtnClickToGoNextAndPrevShowDataTable";
+import BtnToGoToDoActionForNextPage from "../Commponent/BtnToGoToDoActionForNextPage";
+import { SearchSelectForDateToClickAndBtn } from "../Commponent/SearchSelectForDateToClickAndBtn";
+import { TableCell, TableRow } from "@mui/material";
+import AvatarImgForAllType from "../Commponent/AvatarImgForAllType";
+import DropdownMoreActions from "../Commponent/Commponet Table Alls Page/DropdownMoreActions";
+import CartLoader from "../Commponent/Commponet Table Alls Page/CartLoader";
+import { useSelector, useDispatch } from "react-redux";
+import AllTabletOShowMoreData from "../Commponent/Commponet Table Alls Page/AllTabletOShowMoreData";
+import {
+  edartprodectSearchprodectForCategory,
+  edartprodectSearchprodectname,
+  edartProdectShowAllsDataProd,
+  edartprodectsIndeexShow,
+} from "../../allsliceproj/Products_Management_Bss/EdartProdectSlice";
+import Header from "../layoute/Header";
 import Cookies from "js-cookie";
-const token = Cookies.get("user_token");
+import { useNavigate } from "react-router-dom";
+let titelInp = "ProdectsT";
 
-let ImgMyProdect = "";
-let descProdect = "";
-let priceProdect = "";
-let descriptionProdectAtr = "";
-let titelProdectnow = "";
-let TotalStorageProdect = "";
-let DataMyCategory = "";
-let DatShowFromD = "";
+// Her Place Alls Colums To Start Do Semthing Action
+const datToShowTablec = [
+  {
+    id: 1,
+    titel: "المتغير",
+  },
+  {
+    id: 2,
+    titel: "صورة",
+  },
+  {
+    id: 3,
+    titel: "الاسم المنتج",
+  },
+  {
+    id: 4,
+    titel: "السعر المنتج",
+  },
+  {
+    id: 5,
+    titel: "حالت المنتج",
+  },
+  {
+    id: 6,
+    titel: "تفاعل",
+  },
+]; //== Her Place Alls Colums To Start Do Semthing Action ==//
 
-export default function AddPordect() {
-  const [selectedProdects, setSelectedProdects] = React.useState([]);
+let sangePageDat = 1;
+let typRequest = 1;
+let ModelShowDate = "show";
+let MessageForUser = "";
+
+let valuNameCategoryTosereachAndCreated = "";
+let typActionrespNoew = "";
+
+let datClickUser = [];
+
+let DatMyProds = "";
+let currentPay = "";
+let DatCategory = [];
+
+export default function Products_Management() {
+  const navigate = useNavigate();
   const dispatsh = useDispatch();
 
+  const {
+    OpenDialogForActionSuccess,
+    HandleCloseOrOpenReadinPage,
+    TypeAlearVipNow,
+    StartShowMoreDatImClick,
+    OpenDialogForActionFound,
+  } = useDialogActionContext();
+
   // Start Get Alls Data To Do Semthong In The Page Form Slice Controller
+  const AllsDataUserNow = useSelector((state) => {
+    return state.datauser.datauser;
+  });
+
   const ProfileSnageNow = useSelector((state) => {
     return state.datauser.ProfileSnageNow;
+  });
+
+  const returndata = useSelector((state) => {
+    return state.edartprodectsbss.dataProd;
+  });
+
+  const leadingtable = useSelector((state) => {
+    return state.edartprodectsbss.isLindingProd;
+  });
+
+  const totalalldate = useSelector((state) => {
+    return state.edartprodectsbss.totaldatProd;
+  });
+
+  const currentpagenow = useSelector((state) => {
+    return state.edartprodectsbss.pagenowProd;
+  });
+
+  const currentpagetogo = useSelector((state) => {
+    return state.edartprodectsbss.pagetogoProd;
+  });
+
+  const last_page = useSelector((state) => {
+    return state.edartprodectsbss.last_pageProd;
   });
 
   const resultrquestaction = useSelector((state) => {
     return state.edartprodectsbss.resultrquestactionProd;
   });
-  const typeRequestRsp = useSelector((state) => {
+
+  const typRequestNow = useSelector((state) => {
     return state.edartprodectsbss.typRequestNowProd;
+  });
+
+  const lodingtorspact = useSelector((state) => {
+    return state.edartprodectsbss.lodingtorspactProd;
+  });
+
+  const ShowAllsProdData = useSelector((state) => {
+    return state.edartprodectsbss.dataShowProd;
   });
   //== End Get Alls Data To Do Semthong In The Page Form Slice Controller ==//
 
-  const {
-    OpenDialogForActionSuccess,
-    OpenDialogForActionFound,
-    HandleCloseOrOpenReadinPage,
-    AllDatdsDasb,
-  } = useDialogActionContext();
-
-  // Start Here To Get Sult For Semthing Request In Page
-  React.useMemo(() => {
-    if (resultrquestaction === 1) {
-      HandleCloseOrOpenReadinPage(false);
-      OpenDialogForActionSuccess(
-        `تم انشاء المنتج ${titelProdectnow} بنجاح بعد قليل سيتم توجيهك الى صفحت المنتجاتك`,
-        "active"
-      );
-      setTimeout(() => {
-        window.location.href = "/My-Prodect";
-      }, 5000);
-    } else if (resultrquestaction === 6) {
-      HandleCloseOrOpenReadinPage(false);
-      OpenDialogForActionFound(
-        `سبق و قمت بتخزين منتج باسم ${titelProdectnow} و لا حاج فتعدد اسماء نفس لمنتج رجاء تغييره`
-      );
-    } else if (resultrquestaction === 9) {
-      HandleCloseOrOpenReadinPage(false);
-      OpenDialogForActionFound(
-        "حدث خطا اثناء انشاء المنتجك نعتذر و حاول في وقت لاحق"
-      );
-    }
-  }, [
-    resultrquestaction,
-    typeRequestRsp === "edartprodectsbsstocreatemoreprodect",
-  ]); //== End Here To Get Sult For Semthing Request In Page ==//
-
-  // Start Get Value Varyale Generale To Semthing Action
-  React.useMemo(() => {
-    if (AllDatdsDasb) {
-      DataMyCategory = AllDatdsDasb.MayCategory;
-    }
-  }, [AllDatdsDasb]); //== End Get Value Varyale Generale To Semthing Action ==//
-
-  // Start Get Category Prodect For Content Create Prodect
-  function HandleCategoryProdectIDUserClick(value, bn) {
-    if (value != null) {
-      const prod = selectedProdects.some((prodect) => prodect.id === value.id);
-      if (prod) {
+  // Start Sheck User Login Now To Do Action
+  React.useEffect(() => {
+    const checkAuthentication = () => {
+      const token = Cookies.get("token");
+      if (!token) {
+        // إعادة التوجيه بدون إعادة تحميل
+        navigate("/home");
         return;
       }
-      const prodectNoew = {
-        id: value.id,
-        name: value.nameOne,
-      };
-      setSelectedProdects([...selectedProdects, prodectNoew]);
-    }
-  } //=== End Get Category Prodect For Content Create Prodect ===//
-
-  // Start Skek Eny Action To Do Semthing Now
-  function HandleSheckActionDoNow(value, TypeActio) {
-    if (TypeActio === "ImgToCreateProdecd") {
-      ImgMyProdect = value;
-    } else if (TypeActio === "TitelToCreateProdecd") {
-      titelProdectnow = value;
-    } else if (TypeActio === "DscroptionToCreateProdecd") {
-      descriptionProdectAtr = value;
-    } else if (TypeActio === "FirstPriceToCreateProdecd") {
-      priceProdect = value;
-    } else if (TypeActio === "TotalStorageToCreateProdecd") {
-      TotalStorageProdect = value;
-    } else if (TypeActio === "LastPriceToCreateProdecd") {
-      descProdect = value;
-    }
-  } //=== End Skek Eny Action To Do Semthing Now ===//
-
-  // Start Send Request Data For Create Nou Prodect User
-  const HandleToCreateMyProdect = async (e) => {
-    e.preventDefault();
-    if (selectedProdects.length == 0) {
-      OpenDialogForActionFound(
-        "من اجل اكمال الخطوات التالية من ضروري ادخال علل الاقل تصنيف واحد لهذه المنتج"
-      );
-    } else if (titelProdectnow == undefined || titelProdectnow == "") {
-      OpenDialogForActionFound("من ضروري ادخال اسم للمنتج ");
-    } else if (titelProdectnow.length > 100) {
-      OpenDialogForActionFound(
-        "من ضروري ان لا يتجاوز اسم المنتج اكثر من 10a0 حرف  "
-      );
-    } else if (descriptionProdectAtr.length > 150) {
-      OpenDialogForActionFound(
-        "من ضروري ان لا يتجاوز تفاصيل المنتج اكثر من 150 حرف  "
-      );
-    } else if (
-      priceProdect == undefined ||
-      priceProdect == null ||
-      priceProdect == "" ||
-      priceProdect == 0
-    ) {
-      OpenDialogForActionFound("من ضروري ادخال سعر للمنتج كامل ");
-    } else if (
-      TotalStorageProdect == undefined ||
-      TotalStorageProdect == undefined ||
-      TotalStorageProdect == "" ||
-      TotalStorageProdect == 0
-    ) {
-      OpenDialogForActionFound(
-        "من ضروري ادخال كمية المخوزن المتوفر من او لكمية المتوقع "
-      );
-    } else {
-      let errayDateIDCoop = [];
-      errayDateIDCoop = selectedProdects.map((category) => {
-        return category.id;
-      });
-
-      const DateProdect = {
-        name: titelProdectnow,
-        descprice: descProdect,
-        priceprodect: priceProdect,
-        discreption: descriptionProdectAtr,
-        image: ImgMyProdect,
-        categoryID: errayDateIDCoop,
-        totaleinstorage: TotalStorageProdect,
-      };
-      HandleCloseOrOpenReadinPage(true);
-      dispatsh(edartProdectBssCreateProdect(DateProdect));
-    }
-  }; //=== End Send Data For Create Nou Prodect User ===//
-
-  // Start Here Get Alls Data Inpute To Do Semthing Action In Page From
+      if(ProfileSnageNow && ProfileSnageNow.TypProf !== "bss") {
+        // إعادة التوجيه بدون إعادة تحميل
+        navigate("/dashboard");
+        return;
+      }
+    };
+    checkAuthentication();
+  }, [navigate === "/Products-Management", ProfileSnageNow]); //=== End Sheck User Login Now To Do Action ===//
+  
+  
+  React.useEffect(() => {
+    sangePageDat = 1;
+    typRequest = "Show";
+    typActionrespNoew = "Show";
+    ModelShowDate = "";
+    dispatsh(edartprodectsIndeexShow(1));
+  }, []);
+  
+  // Start Sheck Type Request To Show Result For User
   React.useMemo(() => {
-    const dataShowTable = [
+    if(typRequest === "Show") {
+      if (resultrquestaction === 99) {
+        typRequest = "Show";
+        ModelShowDate = "";
+        sangePageDat = 1;
+        OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+        );
+      }
+    } else if (typRequest === "ActivePayProdect") {
+      typRequest = typActionrespNoew;
+      if (resultrquestaction === 1) {
+        HandleCloseOrOpenReadinPage(false);
+        OpenDialogForActionSuccess(
+          `لقد تم تفعيل لخيار بيع المنتج ${datClickUser.name} بنجاح و تم اظهار تغيير `
+        );
+        typRequest = "Show";
+        ModelShowDate = "";
+        sangePageDat = 1;
+      } else if (resultrquestaction === 4) {
+        HandleCloseOrOpenReadinPage(false);
+        OpenDialogForActionFound(
+          `رجاء ادخال كمية من المنتج ${datClickUser.name} من اجل اتاحت بيعه فهو حاليا لا يحتوي على اي كمية `
+        );
+      } else if (resultrquestaction === 3) {
+        HandleCloseOrOpenReadinPage(false);
+        OpenDialogForActionFound(`يبدو بانك فعلت لخيار لبيع للمنتج من قبل`);
+      } else if (resultrquestaction === 7) {
+        HandleCloseOrOpenReadinPage(false);
+        OpenDialogForActionFound(
+          "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
+        );
+      } else if (resultrquestaction === 8) {
+        HandleCloseOrOpenReadinPage(false);
+        OpenDialogForActionFound(
+          "يبدو بانك لا تمتلمك كلمة السر الاعدادات يمكنك انشائها فلاعدادات الحساب"
+        );
+        // }
+      } else if (resultrquestaction === 99) {
+        OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+        );
+      } else {
+        typRequest = "";
+      }
+    } else if (typRequest === "DscActivePayProdect") {
+      typRequest = typActionrespNoew;
+      if (resultrquestaction === 1) {
+        OpenDialogForActionSuccess(
+          `لقد تم ايقاف لخيار بيع المنتج ${datClickUser.name} بنجاح و اظهار تحديث `
+        );
+        sangePageDat = 1;
+        typRequest = "Show";
+      } else if (resultrquestaction === 3) {
+        OpenDialogForActionFound(
+          `يبدو بانك سبق و ان اوقفت لخيار لبيع للمنتج ${datClickUser.name} من قبل`
+        );
+      } else if (resultrquestaction === 7) {
+        OpenDialogForActionFound(
+          "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
+        );
+      } else if (resultrquestaction === 8) {
+        OpenDialogForActionFound(
+          "يبدو بانك لا تملك كلمة السر الاغدادات يمكنك انشائعا فلمركز الاعدادات"
+        );
+      } else if (resultrquestaction === 99) {
+        OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+        );
+      }
+    } else if (typRequest === "UpdateStorageProdect") {
+      typRequest = typActionrespNoew;
+      if (resultrquestaction === 1) {
+        OpenDialogForActionSuccess(
+          `لقد تم تحديث كمية المخزون من المنتج ${datClickUser.name} بنجاح و تم اظهار تحديث `
+        );
+        sangePageDat = 1;
+        typRequest = "Show";
+      } else if (resultrquestaction === 7) {
+        OpenDialogForActionFound(
+          "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
+        );
+      } else if (resultrquestaction === 8) {
+        OpenDialogForActionFound(
+          "يبدو بانك لا تملك كلمة السر الاغدادات يمكنك انشائعا فلمركز الاعدادات"
+        );
+      } else if (resultrquestaction === 99) {
+        OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+        );
+      }
+    } else if (typRequest === "ShowAllsDataProdectForId") {
+      typRequest = typActionrespNoew;
+      if (resultrquestaction === 99) {
+        OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+        );
+        return;
+      }
+      StartShowMoreDatImClick(
+        ShowAllsProdData.datone,
+        "category",
+        ShowAllsProdData.datthere,
+        ShowAllsProdData.datou,
+        `تفاصيل المنتج المختار  ${ShowAllsProdData.name}`,
+        "صورة المنتج",
+        ShowAllsProdData.img,
+        `تصنيفات المنتمي لها المنتج ${ShowAllsProdData.name}`,
+        `المزيد من المعلومات لمنتج ${ShowAllsProdData.name}`,
+        ShowAllsProdData.created_at,
+        ShowAllsProdData.id
+      );
+    }
+    HandleCloseOrOpenReadinPage(false);
+  }, [resultrquestaction]); //== End Sheck Type Request To Show Result For User ==//
+
+  // He To Sow Reloding In Table
+  const AllsTrAndTdForMyTable = React.useMemo(() => {
+    return [
       {
         id: 1,
-        titepInpt: "صورة المنتج",
-        TypeInput: "file",
-        TypAction: "ImgToCreateProdecd",
+        titel: "",
       },
       {
         id: 2,
-        titepInpt: "الاسم المنتج",
-        TypeInput: "text",
-        TypAction: "TitelToCreateProdecd",
-      },
-      {
-        id: 3,
-        titepInpt: "تفاصيل المنتج",
-        TypeInput: "text",
-        TypAction: "DscroptionToCreateProdecd",
-      },
-      {
-        id: 4,
-        titepInpt: "سعر المنتج الاول",
-        TypeInput: "number",
-        TypAction: "FirstPriceToCreateProdecd",
+        titel: "",
       },
       {
         id: 5,
-        titepInpt: "كمية المخزون من المنتج",
-        TypeInput: "number",
-        TypAction: "TotalStorageToCreateProdecd",
+        titel: <CartLoader />,
+        meesage: MessageForUser,
       },
       {
-        id: 6,
-        titepInpt: "سعر المنتج الثاني",
-        TypeInput: "number",
-        TypAction: "LastPriceToCreateProdecd",
+        id: 8,
+        titel: "",
+      },
+      {
+        id: 9,
+        titel: "",
+      },
+      {
+        id: 10,
+        titel: "",
       },
     ];
+  }, [MessageForUser]); //== He To Sow Reloding In Table ==//
 
-    DatShowFromD = dataShowTable.map((ShowDat) => {
-      return (
-        <div
-          style={{
-            marginBlock: "16px",
-          }}
-          key={ShowDat.id}
-        >
-          <SelectInputeAndDate
-            key={ShowDat.id}
-            TitlInp={ShowDat.titepInpt}
-            typeMyInput={ShowDat.TypeInput}
-            ValueInpuNowAndThisShange={HandleSheckActionDoNow}
-            TypObj={ShowDat.TypAction}
-          />
-        </div>
-      );
-    });
-  }, []); //== End Here Get Alls Data Inpute To Do Semthing Action In Page From ==//
-
-  if (token) {
-    if (ProfileSnageNow && ProfileSnageNow.TypProf == "bss") {
-      return (
-        <div style={{ marginTop: "110px" }}>
-          <Header typeactive={"EdartProdects"} />
-          <Container>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-                height: "100%",
-                marginBottom: "30px",
-                width: "100%",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  flexDirection: "column",
-                  gap: "10px",
-                  width: "100%",
-                }}
-              >
-                <TitelPage TitelPage="الاضافة المنتجات" />
-
-                <form
-                  className="FromDateAddProdect"
-                  style={{ width: "90%", direction: "rtl" }}
-                  onSubmit={(e) => HandleToCreateMyProdect(e)}
-                >
-                  {/*  Start User Prodect Sheck For Select And Shange Quantite Prodect */}
-                  <div style={{ textAlign: "right", marginTop: "25px" }}>
-                    <FormLabel
-                      style={{
-                        fontSize: "25px",
-                        color: "#fff",
-                        marginRight: "15px",
-                        marginBottom: "10px",
-                      }}
-                    >
-                      الاختيار تصنيف
-                    </FormLabel>
-                    <div style={{ textAlign: "right", marginBottom: "12px" }}>
-                      <CountryInput
-                        TypeShowData="AddProdectBss"
-                        ValueUserSeckeClick={HandleCategoryProdectIDUserClick}
-                        dataFeth={DataMyCategory}
-                      />
-                    </div>
-
-                    <CartQuantiteProdect
-                      TypeShowDate={"CategoryBss"}
-                      oneSelSel={"oneSelSel"}
-                      SheckCategoruProd={selectedProdects}
-                      setSheckCategoruProd={setSelectedProdects}
-                    />
-                  </div>
-                  {/*===  End User Prodect Sheck For Select And Shange Quantite Prodect ===*/}
-
-                  {DatShowFromD}
-
-                  <Button
-                    style={{
-                      marginTop: "12px",
-                      padding: "12px 22px",
-                      fontSize: "27px",
-                    }}
-                    type="submit"
-                  >
-                    اصافة
-                  </Button>
-                </form>
-              </div>
-            </div>
-          </Container>
-        </div>
-      );
-    } else {
-      HandleCloseOrOpenReadinPage(true);
-      Cookies.remove("user_token");
-      window.location.href = "home";
+  // Start Get Value Varyale Generale To Semthing Action
+  React.useMemo(() => {
+    if (AllsDataUserNow) {
+      DatMyProds = AllsDataUserNow.MayProd;
+      DatCategory = AllsDataUserNow.MayCategory;
+      currentPay =
+        AllsDataUserNow || AllsDataUserNow.MyCurrentPaymentPay.currentCantry;
     }
-  } else {
-    HandleCloseOrOpenReadinPage(true);
-    Cookies.remove("user_token");
-    window.location.href = "home";
+  }, [AllsDataUserNow]); //== End Get Value Varyale Generale To Semthing Action ==//
+
+  // Start Her To Sheck loding Response
+  React.useEffect(() => {
+    if (lodingtorspact === true) {
+      typRequest = typRequestNow;
+      HandleCloseOrOpenReadinPage(true);
+    } else {
+      HandleCloseOrOpenReadinPage(false);
+    }
+  }, [lodingtorspact]); //== End Her To Sheck loding Response ==//
+
+  // Start Handle Click Sereach To Prodect Id
+  const HandleToSereachNameProdect = async (val) => {
+    if (val != null) {
+      typActionrespNoew = "Sereach";
+      typRequest = "Sereach";
+      ModelShowDate = "GoToAllMyCategory";
+      valuNameCategoryTosereachAndCreated = val;
+      sangePageDat = 1;
+      dispatsh(edartprodectSearchprodectname(val.id));
+    }
+  }; // === End Handle Click Sereach To Prodect Id === //
+
+  // Start Handle Click Sereach To Prodect Id
+  const HandleSereachForProdectContectCategory = async (val) => {
+    if (val != null) {
+      typActionrespNoew = "Sereachprodcateg";
+      typRequest = "Sereachprodcateg";
+      ModelShowDate = "GoToAllMyCategory";
+      valuNameCategoryTosereachAndCreated = val;
+      sangePageDat = 1;
+      const data = {
+        id: val.id,
+        page: sangePageDat,
+      };
+      dispatsh(edartprodectSearchprodectForCategory(data));
+    }
+  }; // === End Handle Click Sereach To Prodect Id === //
+
+  // Start Sheck Loaading Now For Eny Request User
+  React.useEffect(() => {
+    if (typRequest === "Show") {
+      if (leadingtable === true) {
+        MessageForUser = "لا يوجد اي بيانات الان يمكنك بدا لغمل";
+        MessageForUser = "ينم الان البحث عن البيانات";
+      } else if (leadingtable === "active") {
+        MessageForUser = "ينم الان البحث عن البيانات";
+      } else {
+        MessageForUser = "ينم الان البحث عن البيانات";
+      }
+    } else if (typRequest === "Sereach" || typRequest === "Sereachprodcateg") {
+      ModelShowDate = "GoToAllMyCategory";
+      if (leadingtable === true) {
+        MessageForUser = `لا يوجد اي منتجات مرتبطة بتصنيف ${valuNameCategoryTosereachAndCreated.nameOne} تاكد من تصنيف تريده و حاول مر اخرى`;
+        ModelShowDate = "GoToAllMyCategory";
+      } else if (leadingtable === "active") {
+        MessageForUser = `لا يوجد اي منتجات مرتبطة بتصنيف ${valuNameCategoryTosereachAndCreated.nameOne} تاكد من تصنيف تريده و حاول مر اخرى`;
+      } else if (returndata.length < 0) {
+        MessageForUser = `لا يوجد اي بيانات بهذه الاسم ${valuNameCategoryTosereachAndCreated.nameOne} تاكد من الاسم و حاول مر اخرى`;
+        ModelShowDate = "GoToAllMyCategory";
+      } else {
+        MessageForUser = "ينم الان البحث عن البيانات";
+        ModelShowDate = "GoToAllMyCategory";
+      }
+    }
+  }, [leadingtable]); //== End Sheck Loaading Now For Eny Request User ==//
+
+  // Start To Send Request Semthibg Action Now To Return Show Prev Data
+  function HandleSowPrevMyCategory() {
+    if (typRequest === "Show") {
+      if (sangePageDat > 1) {
+        sangePageDat = sangePageDat - 1;
+        typRequest = "Show";
+        dispatsh(edartprodectsIndeexShow(sangePageDat));
+      }
+    } else if (typRequest === "Sereachprodcateg") {
+      if (sangePageDat > 1) {
+        sangePageDat = sangePageDat - 1;
+        typRequest = "Sereachprodcateg";
+        const data = {
+          id: valuNameCategoryTosereachAndCreated.id,
+          page: sangePageDat,
+        };
+        dispatsh(edartprodectSearchprodectForCategory(data));
+      }
+    }
+  } //== End To Send Request Semthibg Action Now To Return Show Prev Data ==//
+
+  // Start To Send Request Semthibg Action Now To Show More Data
+  function HandleSowNextMyCategory() {
+    if (typRequest == "Show") {
+      if (sangePageDat < last_page) {
+        sangePageDat = sangePageDat + 1;
+        typRequest = "Show";
+        dispatsh(edartprodectsIndeexShow(sangePageDat));
+      }
+    } else if (typRequest == "Sereachprodcateg") {
+      if (sangePageDat < last_page) {
+        sangePageDat = sangePageDat + 1;
+        typRequest = "Sereachprodcateg";
+        const data = {
+          id: valuNameCategoryTosereachAndCreated.id,
+          page: sangePageDat,
+        };
+        dispatsh(edartprodectSearchprodectForCategory(data));
+      }
+    }
+  } //== End To Send Request Semthibg Action Now To Show More Data ==//
+
+  // Start To Show All Data Index In Page
+  function HandleShowSAllProdectsUser() {
+    typRequest = "Show";
+    ModelShowDate = "";
+    MessageForUser = "ينم الان البحث عن البيانات";
+    sangePageDat = 1;
+    dispatsh(edartprodectsIndeexShow(sangePageDat));
+  } //== End To Show All Data Index In Page ==//
+
+  // Start Open Aleart For Semthing Action
+  function HandleToDoActionsNow(data, type, keyG) {
+    datClickUser = data;
+    if (typRequest === "Sereach") {
+      ModelShowDate = "GoToAllMyCategory";
+    }
+    if (type === "UpdateProdectFromEdartProdects") {
+        navigate(`/Products-Management-update/${data.id}`);
+    } else if (type === "ActivePayProdFromEdartProdects") {
+      TypeAlearVipNow(
+        data,
+        "ActivePayProdFromEdartProdects",
+        "",
+        "",
+        "كلمة السر الاعدادات",
+        "password",
+        `تاكيد سماح البيع لهذ المنتج ${data.name}`,
+        "تاكيد",
+        "",
+        "bss",
+        "من اجل اتمام اجراء تفعيل خيار البيع المنتج رجاء ادخال كلمة السر الاعدادات",
+        data.id + 234567
+      );
+    } else if (type === "DscActivePayProdFromEdartProdects") {
+      TypeAlearVipNow(
+        data,
+        type,
+        "",
+        "",
+        "كلمة السر الاعدادات",
+        "password",
+        `تاكيد ايقاف البيع لهذ المنتج ${data.name}`,
+        "تاكيد",
+        "",
+        "bss",
+        "من اجل اتمام اجراء ايقاف خيار البيع المنتج رجاء ادخال كلمة السر الاعدادات",
+        data.id + 23497867564
+      );
+    } else if (type === "UpdateStorageThisProdectFromEdartProdect") {
+      TypeAlearVipNow(
+        data,
+        type,
+        `اخال المخزون الجديد يدويا (${
+          data.totaleinstorage === 0 ? "خاوي" : data.totaleinstorage
+        })`,
+        "number",
+        "كلمة السر الاعدادات",
+        "password",
+        `تاكيد تحديث كمية المخزون لهذ المنتج ${data.name}`,
+        "تحديث",
+        "",
+        "importtouinputepayment",
+        "",
+        data.id + 9876543234567
+      );
+    } else if (type === "ShowMoreDataThisProdectFromEdartProdect") {
+      dispatsh(edartProdectShowAllsDataProd(data.id));
+    }
+  } //== End Open Aleart For Semthing Action ==//
+
+  // Start JSX To Show All Date For Prodect User
+  const dateJSX = React.useMemo(() => {
+    if (returndata) {
+      return returndata.map((dat) => {
+        return (
+          <TableRow
+            key={dat.id}
+            sx={{
+              "&:last-child td, &:last-child th": { border: 0 },
+              height: "70px",
+            }}
+          >
+            <TableCell className="stletrintableforpageedar">{dat.id}</TableCell>
+
+            <TableCell className="stletrintableforpageedar imgintableforcentertr">
+              <AvatarImgForAllType MyAvatar={dat.img} />
+            </TableCell>
+
+            <TableCell className="stletrintableforpageedar">
+              {dat.name}
+            </TableCell>
+
+            <TableCell className="stletrintableforpageedar">
+              {dat.price + dat.currentPay}
+            </TableCell>
+
+            <TableCell className="stletrintableforpageedar">
+              <span
+                className='status-badge'
+                style={{ backgroundColor: `${dat.TypePayprd == 1 ? '#d1fae5' : '#fee2e2'
+                }`, color: `${dat.TypePayprd == 1 ? '#065f46' : '#b91c1c'
+                }` }}
+              >
+                {dat.TypePayprd == 1 ? "مفعل" : "موقف"}
+              </span>
+            </TableCell>
+
+            <TableCell className="stletrintableforpageedar">
+              <div className="styldsiflexandjuscenterandalcemore">
+                <DropdownMoreActions
+                  dataZebouneClick={dat}
+                  TypeShow={"EdartProdects"}
+                  NowProfilShanfe={ProfileSnageNow}
+                  HandleToDoActionsNow={HandleToDoActionsNow}
+                />
+              </div>
+            </TableCell>
+          </TableRow>
+        )
+      });
+    }
+  }, [returndata]); //=== End JSX To Show All Date For Prodect User ===//
+
+  if (AllsDataUserNow && ProfileSnageNow.TypProf === "bss") {
+    return (
+      <div className="stlefirstdivcontrolinpage">
+        <Header typeactive={"EdartProdects"} />
+        <Container>
+          <div className="stylallsectinpage">
+            <TitelPage TitelPage="ادارة المنتجات" />
+
+            <div className="stlemoreinputeandbtnwetherinpageedar">
+              {leadingtable ? (
+                ""
+              ) : totalalldate >= 9 ? (
+                <div className="styleinptandbtntodoorshowdataaction">
+                  <h3>بحث من خلال تصنيف المنتجات</h3>
+                  <SearchSelectForDateToClickAndBtn
+                    dataFeth={DatCategory}
+                    profileNow={ProfileSnageNow.TypProf}
+                    HandelSendDateAllsInThisForm={
+                      HandleSereachForProdectContectCategory
+                    }
+                    ActionBtn="لبحث"
+                    TypeShowData="Sereash"
+                    TypeShowDataT={titelInp}
+                    TypUserShowData="bss"
+                  />
+                </div>
+              ) : (
+                ""
+              )}
+
+              {leadingtable ? (
+                ""
+              ) : totalalldate >= 9 ? (
+                <div className="styleinptandbtntodoorshowdataaction">
+                  <h3>بحث من خلال الاسم المنتجات</h3>
+                  <SearchSelectForDateToClickAndBtn
+                    dataFeth={DatMyProds}
+                    currentPayment={currentPay}
+                    profileNow={ProfileSnageNow.TypProf}
+                    HandelSendDateAllsInThisForm={HandleToSereachNameProdect}
+                    TypeShowData="Sereash"
+                    TypeShowDataT={titelInp}
+                    ActionBtn="لبحث"
+                    TypUserShowData="bss"
+                  />
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+
+            <div className="headerTable">
+              <CardShowDateTableNextPrevMor
+                loadingTabelBody={leadingtable}
+                TypShow="More"
+                TitelFirst="الاجمالي"
+                totelPageCategory={totalalldate}
+                startPageNow={currentpagenow}
+                startPageTo={currentpagetogo}
+              />
+
+              <CartAllBtnClickToGoNextAndPrevShowDataTable
+                loadingTabelBody={leadingtable}
+                ModelShowDate={leadingtable != true ? ModelShowDate : ""}
+                HandleShowSAllProdectsUser={HandleShowSAllProdectsUser}
+                currentPageAndTypeShow={sangePageDat}
+                last_Page={last_page}
+                HandleSowNextMyCategory={HandleSowNextMyCategory}
+                HandleSowPrevMyCategory={HandleSowPrevMyCategory}
+              />
+            </div>
+
+            <AllTabletOShowMoreData
+              datToShowTablec={datToShowTablec}
+              AllsTrAndTdForMyTable={AllsTrAndTdForMyTable}
+              MessageForUser={MessageForUser}
+              GlesStyleTabl={
+                leadingtable == false
+                  ? "styleBTbleBodyShowAlss"
+                  : "styleBTbleBodyShow"
+              }
+              loadingTabelBody={leadingtable}
+              dateX={dateJSX}
+            />
+          </div>
+        </Container>
+
+        <BtnToGoToDoActionForNextPage
+          pargrafe={" اضافة المنتج "}
+          disabled={leadingtable && leadingtable != "active"}
+          linck={`Pordect/add`}
+        />
+      </div>
+    );
   }
 }

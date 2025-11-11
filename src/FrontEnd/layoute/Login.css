@@ -182,9 +182,19 @@
   margin: 0;
 }
 
+.css-ymgipe-MuiTypography-root {
+  font-size: 17px !important;
+}
+.css-dzmwfx-MuiFormControl-root-MuiTextField-root {
+  margin-bottom: 0 !important;
+}
+
 /* نموذج التسجيل */
 .login-form-main {
   margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .input-group-main {
@@ -216,6 +226,24 @@
   background: var(--white);
   box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.1);
   transform: translateY(-2px);
+}
+
+.css-2u11ia-MuiInputBase-input-MuiOutlinedInput-input,
+.css-qve9l1-MuiInputBase-input-MuiOutlinedInput-input {
+  margin-right: 15px !important;
+}
+
+.css-dzmwfx-MuiFormControl-root-MuiTextField-root {
+  margin-right: 0px !important;
+}
+
+.stlinpandlableisnace {
+    text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: right;
 }
 
 .input-group-main input.input-error {

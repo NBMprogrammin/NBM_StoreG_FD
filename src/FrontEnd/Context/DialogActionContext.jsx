@@ -13,14 +13,14 @@ import { useNavigate } from "react-router-dom";
 import {
   showdatausernow,
   starttoshangMyPhoneNumberInProfile,
-} from "../../allsliceproj/Controller Data Profile Now/controolerdataprodfilenow";
+} from "../../allsliceproj/Controller Data Profile Now/controolerdataprodfilenowSlice";
 //== Start Inport For Get Alls Data User Now ==//
 
 // Start Inport For Edart Category Bss
 import {
   edartcategoryBssCreate,
   edartcategoryUpdate,
-} from "../../allsliceproj/edartcategoryuserBss/edartcategorySlice";
+} from "../../allsliceproj/Categories_Management_Bss/Categories_Management_Bss_Slice";
 //== Start Inport For Edart Category Bss ==//
 
 // Start Inport For Edart Prodects Bss
@@ -28,14 +28,14 @@ import {
   edartProdectActivePayProd,
   edartProdectDscActivePayProd,
   edartProdectUpdateStorageProd,
-} from "../../allsliceproj/edartProdectsBss/EdartProdectSlice";
+} from "../../allsliceproj/Products_Management_Bss/Products_Management_Bss_Slice";
 //== End Inport For Edart Prodects Bss ==//
 
 // Start Inport For Edart Pay Prodects Bss
 import {
   edartpayprodectconfirmedpaymentProdect,
   edartpayprodectdscconfirmedpaymentProdect,
-} from "../../allsliceproj/Edart Pay Prodects/edartPayProdectdsSlice";
+} from "../../allsliceproj/Sales_Management_Bss/Sales_Management_Bss_Slice";
 //== End Inport For Edart Pay Prodects Bss ==//
 
 // Start Inport For Edart Orders Bss
@@ -43,14 +43,14 @@ import {
   edartordersbssconfirmedOrder,
   edartordersbssconfirmedpaymentOrder,
   edartordersbssdscconfirmedpaymentOrder,
-} from "../../allsliceproj/Edart Orders bss/edartOrdersBssSlice";
+} from "../../allsliceproj/Order_Management_Bss/Order_Management_Bss_Slice";
 //== End Inport For Edart Orders Bss ==//
 
 //== End Inport For Edart Orders User ==//
 import {
   edartordersuserdeletemyOrder,
   edartordersuserstopmyOrder,
-} from "../../allsliceproj/Edart Orders user/edartOrdersUserSlice";
+} from "../../allsliceproj/Order_Management_User/Order_Management_User_Slice";
 //== End Inport For Edart Orders User ==//
 
 // Start Inport For Edart Teweve Bss
@@ -68,7 +68,7 @@ import {
   edarttewevebsstoupdateratibemeweve,
   edarttewevesbsstoadduserinteweves,
   edarttewevesbsstoSendMessageAddUserTeweve,
-} from "../../allsliceproj/Edart teweves/edartTewevesBssSlice";
+} from "../../allsliceproj/Employees_Management_Bss/Employees_Management_Bss_Slice";
 // Start Inport For Edart Teweve Bss
 
 // Start Inport For Edart Zeboaynes Bss
@@ -77,7 +77,7 @@ import {
   edartzebayensbssdscactivedeyneforzeboune,
   edartzebayensbsstoupdatedeynezeboune,
   edartZebouneBssToAddNewZebouneOnlineWithBss,
-} from "../../allsliceproj/Edart zebayens/edartZebayensBssSlice";
+} from "../../allsliceproj/Customers_Management_Bss/Customers_Management_Bss_Slice";
 // End Inport For Edart Zeboaynes Bss ==//
 
 // Start Inport For Edart Payments Methods Bss
@@ -86,14 +86,14 @@ import {
   edartpaymentsmethodsbsstoaddcurrentpaymentforbss,
   edartpaymentsmethodsbsstodscactivepayment,
   edartpaymentsmethodsbsstoupdatepaymentmethod,
-} from "../../allsliceproj/Edart Peyments Methods/edartPaymentsMethodsBssSlice";
+} from "../../allsliceproj/Payment_Settings_Management_Bss/Payment_Settings_Management_Bss_Slice";
 //== End Inport For Edart Payments Methods Bss ==//
 
 // Start Inport For Edart Maney Bss
 import {
   edartmaneybsstoAddsemthingforedartmaney,
   edartmaneybsstoUpdatesemthingforedartmany,
-} from "../../allsliceproj/Edart Maney/edartManeyBssSlice";
+} from "../../allsliceproj/Financial_Management_Bss/Financial_Management_Bss_Slice";
 import {
   StartToConfirmedAddMyZebouneForBss,
   StartToConfirmedMyDemandToTraveForBss,
@@ -179,8 +179,9 @@ export const DialogActionContextProvider = ({ children }) => {
   }, [navigate]);
 
   const [typeDialog, setTypeDialog] = React.useState(false);
+  const [typfirstalertdat, settypfirstalertdat] = React.useState(false);
+
   const [typeDialogAl, settypeDialogAl] = React.useState(false);
-  const [showDateUser, setShowDateUser] = React.useState("");
   const [OpenCloceAleartT, setOpenCloceAleartT] = React.useState(false);
   const [valueInputeSmt, setvalueInputeSmt] = React.useState({
     valueOne: "",
@@ -189,7 +190,6 @@ export const DialogActionContextProvider = ({ children }) => {
   });
 
   const [typReading, setTypReading] = React.useState(false);
-  const [NowProfilShanfe, setNowProfilShanfe] = React.useState({});
 
   // Start Sheck Loaading Now For Eny Request User
   React.useEffect(() => {
@@ -203,8 +203,8 @@ export const DialogActionContextProvider = ({ children }) => {
   // Start Here To Get Sult For Semthing Request In Page
   React.useEffect(() => {
     if (typeRequestRsp === "ShowAllsDataUserLoginNow") {
+        settypfirstalertdat(false)
       if (resultrquestaction === 99) {
-        Cookies.remove("token");
         navigate("/home");
       }
     }
@@ -213,19 +213,21 @@ export const DialogActionContextProvider = ({ children }) => {
 
   // Here Sheck User Login And Send Request For Get Alls Data Profile Login Now
   React.useEffect(() => {
-    if (tokenFoul) {
+    const token = Cookies.get("token");
+    if (token) {
+      settypfirstalertdat(true);
       dispatsh(showdatausernow());
     }
   }, []);
   //== Here Sheck User Login And Send Request For Get Alls Data Profile Login Now ==//
 
-  // Start Here To Controller Typ Reading For Any Page
-  function HandleCloseOrOpenReadinPage(type) {
+  // Start Here To Controller Typ ReadiOpenDialogForActionFoundng For Any Page
+  const HandleCloseOrOpenReadinPage = (type) => {
     setTypReading(type);
   } //== End Here To Controller Typ Reading For Any Page ==//
 
   // Start Open Aleart Success Semthing Action
-  function OpenDialogForActionSuccess(message, importe) {
+  const OpenDialogForActionSuccess = (message, importe) => {
     setTypeDialog(true);
     discriptionmMessageAleart = message;
     TypeContentStiopActionUser = importe;
@@ -233,14 +235,14 @@ export const DialogActionContextProvider = ({ children }) => {
   } //== End Open Aleart Success Semthing Action ==//
 
   // Start Open Aleart Found Semthing Action
-  function OpenDialogForActionFound(message, importe) {
+  const OpenDialogForActionFound = (message, importe) => {
     discriptionmMessageAleart = message;
     TypeContentStiopActionUser = importe;
     TypeShowAleartMessageAction = "Found";
     setTypeDialog(true);
   } //== End Open Aleart Found Semthing Action ==//
 
-  function MyDataGrid() {
+  const MyDataGrid = () => {
     const { data } = useDemoData({
       dataSet: "Commodity",
       rowLength: 100,
@@ -255,7 +257,7 @@ export const DialogActionContextProvider = ({ children }) => {
   }
 
   // Start Open Aleart To Confirmed Or Not Semthing Action
-  function TypeAlearVipNow(
+  const TypeAlearVipNow = (
     data,
     typeShowAleartQ,
     TitelInpuOneQ,
@@ -270,7 +272,7 @@ export const DialogActionContextProvider = ({ children }) => {
     keyG,
     titepinputther,
     typepinputther
-  ) {
+  ) => {
     TitelInpuThereAlertAct = titepinputther;
     TypeInpuThereAlertAct = typepinputther;
     setOpenCloceAleartT(true);
@@ -289,13 +291,13 @@ export const DialogActionContextProvider = ({ children }) => {
   } //== End Open Aleart To Confirmed Or Not Semthing Action ==//
 
   // Start Alls Action Confirmed Now To Send Request
-  function HandleConfirmedAleartToDoActionT(
+  const HandleConfirmedAleartToDoActionT = async (
     val,
     valw,
     TypeAction,
     dat,
     valuethere
-  ) {
+  ) => {
     generaldatClick = val;
     setOpenCloceAleartT(false);
     setvalueInputeSmt({
@@ -310,234 +312,315 @@ export const DialogActionContextProvider = ({ children }) => {
       data: dat,
     };
 
-    // Start Alls Action For Profile User
-    if (TypeAction === "StartToShangeMyNumberPhone") {
-      Quadata = {
-        passwordSetting: valw,
-        PhoneUpd: DagtDoAct.numberphone,
-      };
-      dispatsh(starttoshangMyPhoneNumberInProfile(Quadata));
+    switch (TypeAction) {
+      // Start Alls Action For Profile User
+      case "StartToShangeMyNumberPhone":
+        dispatsh(starttoshangMyPhoneNumberInProfile({
+          passwordSetting: valw,
+          PhoneUpd: DagtDoAct.numberphone,
+        }));
+        return;
+      //== End Alls Action For Profile User ==//
+
+      // Sart Alss Actions User For Them Message
+      case "DscConfirmedGetMyRatibeTeweveUser":
+        HandleCloseOrOpenReadinPage(true);
+        dispatsh(StartToDscConfirmedMyRatibeForTraveBss({
+          id: DagtDoAct.id,
+        }));
+        return;
+      case "ConfirmedGetMyRatibeTeweve":
+        HandleCloseOrOpenReadinPage(true);
+        dispatsh(StartToConfirmedMyRatibeForTraveBss({
+          id: DagtDoAct.id,
+        }));
+        return;
+      case "ConfirmedMessagForAddMyZeboune":
+        HandleCloseOrOpenReadinPage(true);
+        dispatsh(StartToConfirmedAddMyZebouneForBss({
+          id: DagtDoAct.id,
+        }));
+        return;
+      case "ConfirmedMessagForAddMyTeweve":
+        HandleCloseOrOpenReadinPage(true);
+        dispatsh(StartToConfirmedMyDemandToTraveForBss({
+          id: DagtDoAct.id,
+        }));
+        return;
+      case "DscConfirmedMessagForAddMyZeboune":
+        HandleCloseOrOpenReadinPage(true);
+        dispatsh(StartToStopAddMyZebouneForBss({
+          id: DagtDoAct.id,
+        }));
+        return;
+      case 'DscConfirmedMessagForAddTewve':
+        dispatsh(StartToDscConfirmedMyDemandToTraveForBss({
+          id: DagtDoAct.id,
+        }));
+        return;
+      // Sart Alss Actions User For Them Message
+
+      // Start Actions For Edart Meweves Bss
+      case 'addUserTewiveFormEdartTewevesBss':
+        dispatsh(edarttewevesbsstoadduserinteweves({
+          passwordSetting: valw,
+          id: DagtDoAct.id,
+        }));
+        return;
+      case 'StopToweve':
+        dispatsh(edartmewwvestostoptewevesemthinguserintrave({
+          passwordSetting: valw,
+          id: DagtDoAct.id,
+        }));
+        return;
+      case 'SlaheyetEdartMany':
+        dispatsh(edarttewevebsstoactiveselahiyetedartmaney({
+          passwordSetting: valw,
+          id: DagtDoAct.id,
+        }));
+        return;
+      case 'StopSlaheyetEdartMany':
+        dispatsh(edarttewevebsstodscactiveselahiyetedartmaney({
+          passwordSetting: valw,
+          id: DagtDoAct.id,
+        }));
+        return;
+      case 'SlaheyetEdartPaymentProdectsSlaheyetEdartOrders':
+        dispatsh(edarttewevebsstoactiveslahiyetedartpayprodect({
+          passwordSetting: valw,
+          id: DagtDoAct.id,
+        }));
+        return;
+      case 'StopSlaheyetEdartPaymentProdects':
+        dispatsh(edarttewevebsstodscactiveslahiyetedartpayprodect({
+          passwordSetting: valw,
+          id: DagtDoAct.id,
+        }));
+        return;
+      case 'SlaheyetEdartOrdersFormEdartTewevesBss':
+        dispatsh(edarttewevebsstoactiveslahiyetedartorders({
+          passwordSetting: valw,
+          id: DagtDoAct.id,
+        }));
+        return;
+      case 'StopSlaheyetOrders':
+        dispatsh(edarttewevebsstoadscctiveslahiyetedartorders({
+          passwordSetting: valw,
+          id: DagtDoAct.id,
+        }));
+        return;
+      case 'SlaheyetPaymentMethodEctFormEdartTewevesBss':
+        dispatsh(edarttewevebsstoactiveselahiyetpaymentelectronect({
+          passwordSetting: valw,
+          id: DagtDoAct.id,
+        }));
+        return;
+      case 'StopSlaheyetPaymentMethodEctEct':
+        dispatsh(edarttewevebsstoadscctiveselahiyetpaymentelectronect({
+          passwordSetting: valw,
+          id: DagtDoAct.id,
+        }));
+        return;
+      case 'UpdateRatibeMeweve':
+        dispatsh(edarttewevebsstoupdateratibemeweve({
+          passwordSetting: valw,
+          id: DagtDoAct.id,
+        }));
+        return;
+      case 'GetRatibeMeweve':
+        dispatsh(edarttewevebsstogetratibeformeweve({
+          passwordSetting: valw,
+          id: DagtDoAct.id,
+        }));
+        return;
+      // End Actions For Edart Meweves Bss
+
+      // Start Send Message User bss To Add Trave
+      case 'SendDemendAddUserToTrave':
+        dispatsh(edarttewevesbsstoSendMessageAddUserTeweve({
+          passwordSetting: valw,
+          ratibeMeweve: val,
+          user_id: DagtDoAct.user_id,
+        }));
+        return;
+      // End Send Message User bss To Add Trave
+
+      // Start All Requests For Edart Prodects Bss
+      case 'ActivePayProdFromEdartProdects':
+        dispatsh(edartProdectActivePayProd({
+          passwordSetting: valw,
+          StorageUp: val,
+          id: DagtDoAct.id,
+        }));
+        return;
+      case 'DscActivePayProdFromEdartProdects':
+        dispatsh(edartProdectDscActivePayProd({
+          passwordSetting: valw,
+          StorageUp: val,
+          id: DagtDoAct.id,
+        }));
+        return;
+      case 'UpdateStorageThisProdectFromEdartProdect':
+        dispatsh(edartProdectUpdateStorageProd({
+          passwordSetting: valw,
+          StorageUp: val,
+          id: DagtDoAct.id,
+        }));
+        return;
+      // End All Requests For Edart Prodects Bss
+
+      // Start All Requests For Edart Pay Prodects Bss
+      case 'ConfirmedPaymentProdFromEdartPayprod':
+        dispatsh(edartpayprodectconfirmedpaymentProdect({
+          passwordSetting: valw,
+          id: dat,
+        }));
+        return;
+      case 'StopPaymentProdFromEdartPayprod':
+        dispatsh(edartpayprodectdscconfirmedpaymentProdect({
+          passwordSetting: valw,
+          id: dat,
+        }));
+        return;
+      //== End All Requests For Edart Pay Prodects Bss ==//
+
+      // Start All Requests For Edart Orders
+      // Start All Requests For Edart Orders Bss
+      case 'ConfirmedPaymentOrderFromEdartOrdersBss':
+        dispatsh(edartordersbssconfirmedpaymentOrder({
+          passwordSetting: valw,
+          id: DagtDoAct.id,
+        }));
+        return;
+      case 'ConfirmedOrderFromEdartOrdersBss':
+        dispatsh(edartordersbssconfirmedOrder({
+          passwordSetting: valw,
+          id: DagtDoAct.id,
+        }));
+        return;
+      case 'DscConfirmedPaymentOrderFromEdartOrdersBss':
+        dispatsh(edartordersbssdscconfirmedpaymentOrder({
+          passwordSetting: valw,
+          id: DagtDoAct.id,
+        }));
+        return;
+      //== End All Requests For Edart Orders Bss ==//
+
+      // Start Send Alls Request For Edart Orders For User
+      case 'StopMyOrderFromEdartOrderUser':
+        dispatsh(edartordersuserstopmyOrder({
+          id: DagtDoAct.id,
+        }));
+        return;
+      case 'DeleteMyOrderFromEdartOrderUser':
+        dispatsh(edartordersuserdeletemyOrder({
+          id: DagtDoAct.id,
+        }));
+        return;
+      // End Send Alls Request For Edart Orders For User
+      // End All Requests For Edart Orders From Zeboune Bss
+
+      // Start All Requests For Edart Many From Bss
+      case 'CreateOneEdartManForDayInEdarManyMenh':
+        dispatsh(edartmaneybsstoAddsemthingforedartmaney({
+          totalePaye: val,
+          totaleIpay: valw,
+          dscripctionday: valuethere,
+        }));
+        return;
+      case 'UpdateOneEdartManForDayInEdarManyMenh':
+        dispatsh(edartmaneybsstoUpdatesemthingforedartmany({
+          id: DagtDoAct.id,
+          totalePaye: val,
+          totaleIpay: valw,
+          dscripctionday: valuethere,
+        }));
+        return;
+      //== End All Requests For Edart Many From Bss ==//
+
+      // Start All Requests For Edart Payment Method From Bss
+      case 'StopPaymentFromEdartPaymentMethodsBss':
+        dispatsh(edartpaymentsmethodsbsstodscactivepayment({
+          passwordSetting: valw,
+          PaymentID: DagtDoAct.id,
+        }));
+        return;
+      case 'ActivePaymentFromEdartPaymentMethodsBss':
+        dispatsh(edartpaymentsmethodsbsstoactivepayment({
+          passwordSetting: valw,
+          PaymentID: DagtDoAct.id,
+        }));
+        return;
+      case 'UpdatePaymentFromEdartPayprod':
+        dispatsh(edartpaymentsmethodsbsstoupdatepaymentmethod({
+          numberPay: val,
+          passwordSetting: valw,
+          id: DagtDoAct.id,
+        }));
+        return;
+      case 'CreateCurrentPaymentFromEdartPaymentMethodsBss':
+        HandleCloseOrOpenReadinPage(true);
+        dispatsh(edartpaymentsmethodsbsstoaddcurrentpaymentforbss({
+          currentCantery: DagtDoAct.nameOne,
+          passwordSetting: valw,
+        }));
+        return;
+      //== End All Requests For Edart Payment Method From Bss ==//
+
+      // Start All Requests For Edart Zebayens From Bss
+      case 'addUserToMyZebounFromEdartZebayens':
+        HandleCloseOrOpenReadinPage(true);
+        dispatsh(edartZebouneBssToAddNewZebouneOnlineWithBss({
+          TypeAddZeboune: "Online",
+          IdUser: DagtDoAct.user_id,
+          numberPhone: DagtDoAct.NumberPhone,
+          passwordSetting: valw,
+        }));
+        return;
+      case 'ActiveDeynFromEdartZebayensBss':
+        dispatsh(edartzebayensbssactivedeyneforzeboune({
+          id: DagtDoAct.id,
+          passwordSetting: valw,
+        }));
+        return;
+      case 'DscActiveDeynFromEdartZebayensBss':
+        dispatsh(edartzebayensbssdscactivedeyneforzeboune({
+          id: DagtDoAct.id,
+          passwordSetting: valw,
+        }));
+        return;
+      case 'UpdateDeynMyZebouneFromEdartZebouns':
+        dispatsh(edartzebayensbsstoupdatedeynezeboune({
+          id: DagtDoAct.id,
+          deynUpdate: val,
+          passwordSetting: valw,
+        }));
+        return;
+      // Start All Requests For Edart Zebayens From Bss
+
+      // Start All Requests For Edart Category Bss
+      case 'CreateMyCategoryFromEdartCategory':
+        dispatsh(edartcategoryBssCreate({
+          id: DagtDoAct.id,
+          category: val,
+          passwordSetting: valw,
+        }));
+        return;
+      case 'UpdateMyCategoryFromEdartCategory':
+        dispatsh(edartcategoryUpdate({
+          id: DagtDoAct.id,
+          category: val,
+          passwordSetting: valw,
+        }));
+        return;
+      // End All Requests For Edart Category Bss
+
     }
-    //== End Alls Action For Profile User ==//
 
-    // Sart Alss Actions User For Them Message
-    Quadata = {
-      id: DagtDoAct.id,
-    };
-    if (TypeAction === "DscConfirmedGetMyRatibeTeweveUser") {
-      HandleCloseOrOpenReadinPage(true);
-      dispatsh(StartToDscConfirmedMyRatibeForTraveBss(DagtDoAct));
-    } else if (TypeAction === "ConfirmedGetMyRatibeTeweve") {
-      dispatsh(StartToConfirmedMyRatibeForTraveBss(DagtDoAct));
-    } else if (TypeAction === "ConfirmedMessagForAddMyZeboune") {
-      dispatsh(StartToConfirmedAddMyZebouneForBss(DagtDoAct));
-    } else if (TypeAction === "ConfirmedMessagForAddMyTeweve") {
-      dispatsh(StartToConfirmedMyDemandToTraveForBss(DagtDoAct));
-    } else if (TypeAction === "DscConfirmedMessagForAddMyZeboune") {
-      dispatsh(StartToStopAddMyZebouneForBss(DagtDoAct));
-    } else if (TypeAction === "DscConfirmedMessagForAddTewve") {
-      dispatsh(StartToDscConfirmedMyDemandToTraveForBss(DagtDoAct));
-    }
-    // Sart Alss Actions User For Them Message
-
-    // Start Actions For Edart Meweves Bss
-    Quadata = {
-      passwordSetting: valw,
-      id: DagtDoAct.id,
-    };
-    if (TypeAction === "addUserTewiveFormEdartTewevesBss") {
-      dispatsh(edarttewevesbsstoadduserinteweves(Quadata));
-    } else if (TypeAction === "StopToweve") {
-      dispatsh(edartmewwvestostoptewevesemthinguserintrave(Quadata));
-    } else if (TypeAction === "SlaheyetEdartMany") {
-      dispatsh(edarttewevebsstoactiveselahiyetedartmaney(Quadata));
-    } else if (TypeAction === "StopSlaheyetEdartMany") {
-      dispatsh(edarttewevebsstodscactiveselahiyetedartmaney(Quadata));
-    } else if (
-      TypeAction === "SlaheyetEdartPaymentProdectsSlaheyetEdartOrders"
-    ) {
-      dispatsh(edarttewevebsstoactiveslahiyetedartpayprodect(Quadata));
-    } else if (TypeAction === "StopSlaheyetEdartPaymentProdects") {
-      dispatsh(edarttewevebsstodscactiveslahiyetedartpayprodect(Quadata));
-    } else if (TypeAction === "SlaheyetEdartOrdersFormEdartTewevesBss") {
-      dispatsh(edarttewevebsstoactiveslahiyetedartorders(Quadata));
-    } else if (TypeAction === "StopSlaheyetOrders") {
-      dispatsh(edarttewevebsstoadscctiveslahiyetedartorders(Quadata));
-    } else if (TypeAction === "SlaheyetPaymentMethodEctFormEdartTewevesBss") {
-      dispatsh(edarttewevebsstoactiveselahiyetpaymentelectronect(Quadata));
-    } else if (TypeAction === "StopSlaheyetPaymentMethodEctEct") {
-      dispatsh(edarttewevebsstoadscctiveselahiyetpaymentelectronect(Quadata));
-    } else if (TypeAction === "UpdateRatibeMeweve") {
-      dispatsh(edarttewevebsstoupdateratibemeweve(Quadata));
-    } else if (TypeAction === "GetRatibeMeweve") {
-      dispatsh(edarttewevebsstogetratibeformeweve(Quadata));
-    }
-    // End Actions For Edart Meweves Bss
-
-    // Start Send Message User bss To Add Trave
-    if (TypeAction === "SendDemendAddUserToTrave") {
-      Quadata = {
-        passwordSetting: valw,
-        ratibeMeweve: val,
-        user_id: DagtDoAct.user_id,
-      };
-      dispatsh(edarttewevesbsstoSendMessageAddUserTeweve(Quadata));
-    }
-    // End Send Message User bss To Add Trave
-
-    // Start All Requests For Edart Prodects Bss
-    Quadata = {
-      passwordSetting: valw,
-      StorageUp: val,
-      id: DagtDoAct.id,
-    };
-    if (TypeAction === "ActivePayProdFromEdartProdects") {
-      dispatsh(edartProdectActivePayProd(Quadata));
-    } else if (TypeAction === "DscActivePayProdFromEdartProdects") {
-      dispatsh(edartProdectDscActivePayProd(Quadata));
-    } else if (TypeAction === "UpdateStorageThisProdectFromEdartProdect") {
-      dispatsh(edartProdectUpdateStorageProd(Quadata));
-    }
-    // End All Requests For Edart Prodects Bss
-
-    // Start All Requests For Edart Pay Prodects Bss
-    Quadata = {
-      passwordSetting: valw,
-      id: dat,
-    };
-    if (TypeAction === "ConfirmedPaymentProdFromEdartPayprod") {
-      dispatsh(edartpayprodectconfirmedpaymentProdect(Quadata));
-    } else if (TypeAction === "StopPaymentProdFromEdartPayprod") {
-      dispatsh(edartpayprodectdscconfirmedpaymentProdect(Quadata));
-    }
-    //== End All Requests For Edart Pay Prodects Bss ==//
-
-    // Start All Requests For Edart Orders
-    // Start All Requests For Edart Orders Bss
-    Quadata = {
-      passwordSetting: valw,
-      id: DagtDoAct.id,
-    };
-    if (TypeAction === "ConfirmedPaymentOrderFromEdartOrdersBss") {
-      dispatsh(edartordersbssconfirmedpaymentOrder(Quadata));
-    } else if (TypeAction === "ConfirmedOrderFromEdartOrdersBss") {
-      dispatsh(edartordersbssconfirmedOrder(Quadata));
-    } else if (TypeAction === "DscConfirmedPaymentOrderFromEdartOrdersBss") {
-      dispatsh(edartordersbssdscconfirmedpaymentOrder(Quadata));
-    }
-    //== End All Requests For Edart Orders Bss ==//
-
-    Quadata = {
-      id: DagtDoAct.id,
-    };
-    // Start Send Alls Request For Edart Orders For User
-    if (TypeAction === "StopMyOrderFromEdartOrderUser") {
-      dispatsh(edartordersuserstopmyOrder(Quadata));
-    } else if (TypeAction === "DeleteMyOrderFromEdartOrderUser") {
-      dispatsh(edartordersuserdeletemyOrder(Quadata));
-    }
-    // End Send Alls Request For Edart Orders For User
-    // End All Requests For Edart Orders From Zeboune Bss
-
-    // Start All Requests For Edart Many From Bss
-
-    if (TypeAction === "CreateOneEdartManForDayInEdarManyMenh") {
-      const LQuadata = {
-        totalePaye: val,
-        totaleIpay: valw,
-        dscripctionday: valuethere,
-      };
-      dispatsh(edartmaneybsstoAddsemthingforedartmaney(LQuadata));
-    } else if (TypeAction === "UpdateOneEdartManForDayInEdarManyMenh") {
-      const LQuadata = {
-        id: DagtDoAct.id,
-        totalePaye: val,
-        totaleIpay: valw,
-        dscripctionday: valuethere,
-      };
-      dispatsh(edartmaneybsstoUpdatesemthingforedartmany(LQuadata));
-    }
-    //== End All Requests For Edart Many From Bss ==//
-
-    // Start All Requests For Edart Payment Method From Bss
-    Quadata = {
-      passwordSetting: valw,
-      PaymentID: DagtDoAct.id,
-    };
-
-    if (TypeAction === "StopPaymentFromEdartPaymentMethodsBss") {
-      dispatsh(edartpaymentsmethodsbsstodscactivepayment(Quadata));
-    } else if (TypeAction === "ActivePaymentFromEdartPaymentMethodsBss") {
-      dispatsh(edartpaymentsmethodsbsstoactivepayment(Quadata));
-    } else if (TypeAction === "UpdatePaymentFromEdartPayprod") {
-      Quadata = {
-        numberPay: val,
-        passwordSetting: valw,
-        id: DagtDoAct.id,
-      };
-      dispatsh(edartpaymentsmethodsbsstoupdatepaymentmethod(Quadata));
-    } else if (
-      TypeAction === "CreateCurrentPaymentFromEdartPaymentMethodsBss"
-    ) {
-      Quadata = {
-        currentCantery: DagtDoAct.nameOne,
-        passwordSetting: valw,
-      };
-      HandleCloseOrOpenReadinPage(true);
-      dispatsh(edartpaymentsmethodsbsstoaddcurrentpaymentforbss(Quadata));
-    }
-    //== End All Requests For Edart Payment Method From Bss ==//
-
-    // Start All Requests For Edart Zebayens From Bss
-
-    if (TypeAction === "addUserToMyZebounFromEdartZebayens") {
-      Quadata = {
-        TypeAddZeboune: "Online",
-        IdUser: DagtDoAct.user_id,
-        numberPhone: DagtDoAct.NumberPhone,
-        passwordSetting: valw,
-      };
-      // HandleSendRequestToAddUserOnMyZebouneBssOnline(Quadata);
-      HandleCloseOrOpenReadinPage(true);
-      dispatsh(edartZebouneBssToAddNewZebouneOnlineWithBss(Quadata));
-    }
-
-    // Start All Requests For Edart Zebayens From Bss
-
-    Quadata = {
-      id: DagtDoAct.id,
-      passwordSetting: valw,
-    };
-    if (TypeAction === "ActiveDeynFromEdartZebayensBss") {
-      dispatsh(edartzebayensbssactivedeyneforzeboune(Quadata));
-    } else if (TypeAction === "DscActiveDeynFromEdartZebayensBss") {
-      dispatsh(edartzebayensbssdscactivedeyneforzeboune(Quadata));
-    } else if (TypeAction === "UpdateDeynMyZebouneFromEdartZebouns") {
-      Quadata = {
-        id: DagtDoAct.id,
-        deynUpdate: val,
-        passwordSetting: valw,
-      };
-      dispatsh(edartzebayensbsstoupdatedeynezeboune(Quadata));
-    }
-    //== End All Requests For Edart Zebayens From Bss ==//
-
-    // Start All Requests For Edart Category Bss
-    Quadata = {
-      id: DagtDoAct.id,
-      category: val,
-      passwordSetting: valw,
-    };
-    if (TypeAction === "CreateMyCategoryFromEdartCategory") {
-      dispatsh(edartcategoryBssCreate(Quadata));
-    } else if (TypeAction === "UpdateMyCategoryFromEdartCategory") {
-      dispatsh(edartcategoryUpdate(Quadata));
-    }
-    // End All Requests For Edart Category Bss
   } //== End Alls Action Confirmed Now To Send Request ==//
 
   // Start To Open Aleart To Show More Data Semthing
-  function StartShowMoreDatImClick(
+  const StartShowMoreDatImClick = (
     dataPagAndTit,
     typarrfirst,
     arratFirstMorDat,
@@ -550,7 +633,7 @@ export const DialogActionContextProvider = ({ children }) => {
     dateData,
     keyG,
     typeAleartshp
-  ) {
+  ) => {
     settypeDialogAl(true);
     ArrarDatTitAndPagAlt = dataPagAndTit;
     TypFrstArry = typarrfirst;
@@ -566,6 +649,28 @@ export const DialogActionContextProvider = ({ children }) => {
     typeShopAleart = typeAleartshp;
   } //== End To Open Aleart To Show More Data Semthing ==//
 
+  const LoadingScreen = () => {
+    return (
+      <div className="loading-screen"
+        // sx={(theme) => ({ zIndex: theme.zIndex.drawer + 3 })}
+      >
+        <div className="loading-logo">
+          <div className="loading_testgo">
+            <div className="logo-shape">
+              <span>NBM</span>
+            </div>
+          </div>
+        </div>
+        <div className="loading-progress">
+          <div className="progress-bar">
+            <div className="progress"></div>
+          </div>
+        </div>
+        <p style={{ direction: 'rtl' }}>جاري تحميل المنصة...</p>
+      </div>
+    );
+  };
+
   return (
     <DialogActionContext.Provider
       value={{
@@ -576,15 +681,13 @@ export const DialogActionContextProvider = ({ children }) => {
         OpenDialogForActionFound,
         StartShowMoreDatImClick,
         AllDatdsDasb,
-        showDateUser,
-        NowProfilShanfe,
-        setNowProfilShanfe,
         MyDataGrid,
         HandleCloseOrOpenReadinPage,
         TypeAcounteShow,
         TypeAlearVipNow,
       }}
     >
+      {typfirstalertdat ? <LoadingScreen /> : ''}
       {/* Start Aleart To Shwo Result Semthing Action Now */}
       <DialogToConfirmedSemthingAction
         discription={discriptionmMessageAleart}

@@ -9,29 +9,13 @@ export default function CardShowDateTableNextPrevMor({
 }) {
   return (
     <div
-      className={loadingTabelBody ? "animationBG" : "#4a6cf7"}
+      className={loadingTabelBody ? "animationBG stylecardShowMoreDataTbles" : "stylecardShowMoreDataTbles"}
       style={{
-        minWidth: "300px",
         background: loadingTabelBody ? "" : "#4a6cf7",
-        display: "flex",
-        gap: "15px",
-        height: "55px",
-        borderRadius: "12px",
       }}
     >
-      {/* {loadingTabelBody ? "" : ShowTypeData} */}
-
       <div
-        className={loadingTabelBody ? "dispboxnone" : ""}
-        style={{
-          minWidth: "300px",
-          display: "flex",
-          gap: "25px",
-          justifyContent: "center",
-          height: "55px",
-          margin: "auto",
-          alignItems: "center",
-        }}
+        className={loadingTabelBody ? "dispboxnone stylContCardShoDataTable" : "stylContCardShoDataTable"}
       >
         {TypShow == "More" && totelPageCategory > 1 ? (
           <p style={{ color: "#fff" }}>

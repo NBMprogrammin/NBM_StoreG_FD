@@ -8,16 +8,7 @@ export default function ShowNextAndPrevDataTable({
 }) {
   return (
     <div
-      className={loadingTabelBody ? "animationBG" : ""}
-      style={{
-        minWidth: "300px",
-        display: "flex",
-        gap: "25px",
-        justifyContent: "center",
-        height: "55px",
-        margin: "auto",
-        alignItems: "center",
-      }}
+      className={loadingTabelBody ? "animationBG stylContCardShoDataTable" : "stylContCardShoDataTable"}
     >
       {TypShow == "More" && totelPageCategory > 1 ? (
         <p style={{ color: "#fff" }}>
@@ -28,7 +19,6 @@ export default function ShowNextAndPrevDataTable({
       )}
       <h2
         className="TotalPageCategory"
-        style={{ display: "flex", alignItems: "center", gap: "15px" }}
       >
         {TitelFirst}: {totelPageCategory}
       </h2>

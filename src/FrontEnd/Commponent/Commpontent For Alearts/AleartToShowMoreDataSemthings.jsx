@@ -7,31 +7,11 @@ import Slide from "@mui/material/Slide";
 
 import AvatarImgForAllType from "../AvatarImgForAllType";
 import CartH1AndPragrf from "../CartH1AndPragrf";
-let ShowCategoryContect = "";
-let TitlAndpargShowDt = "";
-let rrayShoMorDat = "";
+import { formatRelativeDate } from "../../../utils/dateUtils";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-
-const stleboxmore = {
-  display: "flex",
-  justifyContent: "flex-start",
-  textAlign: "center",
-  flexWrap: "wrap",
-  marginTop: "15px",
-  gap: "12px",
-  marginBottom: "15px",
-};
-
-const stleboxFirstdata = {
-  display: "flex",
-  gap: "12px",
-  flexWrap: "wrap",
-  marginBlock: "16px",
-  marginTop: "25px",
-};
 
 export default function AleartToShowMoreDataSemthings({
   typeDialog,
@@ -49,9 +29,10 @@ export default function AleartToShowMoreDataSemthings({
   KeyGoldAleart,
   typeShopAleart,
 }) {
-  React.useMemo(() => {
+
+  const ShowCategoryContect = React.useMemo(() => {
     if (ArrarToShowMoredata) {
-      ShowCategoryContect = ArrarToShowMoredata.map((data) => {
+      return ArrarToShowMoredata.map((data) => {
         return (
           <div className={"CardSheckCategoryMore"} key={data.id}>
             {TypFrstArry === "prodect" ? (
@@ -80,9 +61,9 @@ export default function AleartToShowMoreDataSemthings({
     }
   }, [ArrarToShowMoredata]);
 
-  React.useMemo(() => {
+  const rrayShoMorDat = React.useMemo(() => {
     if (ArrarToShowMoredataMore) {
-      rrayShoMorDat = ArrarToShowMoredataMore.map((data) => {
+      return ArrarToShowMoredataMore.map((data) => {
         return (
           <div className="CardSheckCategoryMore" key={data.id}>
             <h4>{data.titel}</h4>
@@ -93,9 +74,9 @@ export default function AleartToShowMoreDataSemthings({
     }
   }, [ArrarToShowMoredataMore]);
 
-  React.useMemo(() => {
+  const TitlAndpargShowDt = React.useMemo(() => {
     if (ArrarDatTitAndPag) {
-      TitlAndpargShowDt = ArrarDatTitAndPag.map((data) => {
+      return ArrarDatTitAndPag.map((data) => {
         return (
           <CartH1AndPragrf key={data.id} titel={data.titel} parg={data.parg} />
         );
@@ -103,7 +84,7 @@ export default function AleartToShowMoreDataSemthings({
     }
   }, [ArrarDatTitAndPag]);
 
-  function handleClose() {
+  const handleClose = () => {
     setTypeDialog(false);
   }
 
@@ -122,12 +103,7 @@ export default function AleartToShowMoreDataSemthings({
       >
         <div style={{ padding: "0px 17px" }} key={KeyGoldAleart}>
           <DialogTitle
-            style={{
-              textAlign: "center",
-              fontSize: "30px",
-              fontWeight: "bold",
-              paddingBottom: "0",
-            }}
+            className="StyTitelAleartShow"
           >
             {TitelAleartShowD}
           </DialogTitle>
@@ -136,7 +112,7 @@ export default function AleartToShowMoreDataSemthings({
             <div>
               <div>
                 <h3>تفاصبل الاحداث ليوم</h3>
-                <h3>{MorShowDatBox ? MorShowDatBox : "لم يتم تخزين بيانات"}</h3>
+                <h3>{MorShowDatBox}</h3>
               </div>
 
               <div style={{ marginBlock: "12px" }}>
@@ -147,22 +123,15 @@ export default function AleartToShowMoreDataSemthings({
           ) : (
             <div>
               <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  textAlign: "center",
-                  flexDirection: "column",
-                  gap: "12px",
-                  marginBottom: "17px",
-                  paddingTop: "12px",
-                }}
+                className="styAllsBoxsToShowMoreDataAleart"
               >
                 <h4>{PagDscImg}</h4>
                 {ImgToShow != null && ImgToShow != "" ? (
                   <AvatarImgForAllType
-                    style={"ImgNowProf"}
+                    style={{ 
+                      width: '150px',
+                      height: '150px'
+                     }}
                     MyAvatar={ImgToShow}
                   />
                 ) : (
@@ -177,8 +146,8 @@ export default function AleartToShowMoreDataSemthings({
                   <h2>{TiteMoreFirtDt}</h2>
 
                   <div
-                    style={
-                      TypFrstArry === "ratibe" ? stleboxmore : stleboxFirstdata
+                    className={
+                      TypFrstArry === "ratibe" ? 'stleboxmoreAlerat' : 'styleBoxsShowDat'
                     }
                   >
                     {TypFrstArry === "ratibe"
@@ -193,8 +162,8 @@ export default function AleartToShowMoreDataSemthings({
               <div>
                 <h2>{MorShowDatBox}</h2>
                 <div
-                  style={
-                    TypFrstArry === "ratibe" ? stleboxFirstdata : stleboxmore
+                  className={
+                    TypFrstArry === "ratibe" ? 'styleBoxsShowDat' : 'stleboxmoreAlerat'
                   }
                 >
                   {TypFrstArry === "ratibe"
@@ -206,7 +175,7 @@ export default function AleartToShowMoreDataSemthings({
               {DateTimeDet ? (
                 <div>
                   <h4>تاريخ بداية المعاملة</h4>
-                  <p style={{ margin: "12px 0 0" }}>{DateTimeDet}</p>
+                  <p style={{ margin: "12px 0 0" }}>{formatRelativeDate(DateTimeDet)}</p>
                 </div>
               ) : (
                 ""
@@ -225,14 +194,7 @@ export default function AleartToShowMoreDataSemthings({
           >
             <Button
               onClick={handleClose}
-              style={{
-                textAlign: "center",
-                marginTop: "7px",
-                fontSize: "30px",
-                width: "100%",
-                background: "#626161e6",
-                color: "#fff",
-              }}
+              className="styleBigBtnOkInAleartShow"
             >
               حسنا
             </Button>

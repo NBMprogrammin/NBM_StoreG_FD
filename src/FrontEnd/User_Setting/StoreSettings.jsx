@@ -1,31 +1,91 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "./StoreSettings.css";
-import Header from "../layoute/Hedaer";
+import Header from "../layoute/Header";
+import { Input } from "@mui/joy";
 import {
   starttoconfirmedshangeemailprofile,
   starttoshangdataprofilesettingsuserandbss,
   starttoshangemyemailprofile,
   StartToUpdateOrdCreatePasswordSettingForBss,
-} from "../../allsliceproj/Controller Data Profile Now/controolerdataprodfilenow";
+  lastedefaultdatastate
+} from "../../allsliceproj/Controller Data Profile Now/controolerdataprodfilenowSlice";
 import { useDialogActionContext } from "../Context/DialogActionContext";
 import { useSelector, useDispatch } from "react-redux";
 import TitelPage from "../Commponent/TitelPage";
+import { useNavigate } from "react-router-dom";
+import {
+  TextField,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
+
+import {
+  Visibility,
+  VisibilityOff,
+  Lock,
+  Person,
+} from "@mui/icons-material";
+import CountryInput from "../Commponent/CantryInput";
+import PasswordIcon from '@mui/icons-material/Password';
+
 let typRequest = "";
 
 // فئات المتجر
 const storeCategories = [
-  "ملابس وأزياء",
-  "إلكترونيات",
-  "منزلية",
-  "رياضية",
-  "تجميل",
-  "أطعمة ومشروبات",
-  "سيارات",
-  "كتب",
-  "ألعاب",
+  {
+    id: 1,
+    nameOne: "ملابس وأزياء",
+    TypeData: 'categorys',
+  },
+  {
+    id: 2,
+    nameOne: "إلكترونيات",
+    TypeData: 'categorys',
+  },
+  {
+    id: 3,
+    nameOne: "منزلية",
+    TypeData: 'categorys',
+  },
+  {
+    id: 4,
+    nameOne: "رياضية",
+    TypeData: 'categorys',
+  },
+  {
+    id: 5,
+    nameOne: "تجميل",
+    TypeData: 'categorys',
+  },
+  {
+    id: 6,
+    nameOne: "أطعمة ومشروبات",
+    TypeData: 'categorys',
+  },
+  {
+    id: 7,
+    nameOne: "مكزيين",
+    TypeData: 'categorys',
+  },
+    {
+    id: 8,
+    nameOne: "سيارات",
+    TypeData: 'categorys',
+  },
+    {
+    id: 9,
+    nameOne: "كتب",
+    TypeData: 'categorys',
+  },
+    {
+    id: 10,
+    nameOne: "ألعاب",
+    TypeData: 'categorys',
+  },
 ];
 
 const StoreSettings = () => {
+  const navigate = useNavigate();
   const [dataProfileBssNow, setDataProfileBssNow] = useState({
     storeName: "",
     storeDescription: "",
@@ -65,7 +125,7 @@ const StoreSettings = () => {
     passwordF: "",
     passwordC: "",
   });
-  const [verificationType, setVerificationType] = useState(null);
+  const verificationType = useRef(null);
   const [verificationCode, setVerificationCode] = useState("");
   const [cooldown, setCooldown] = useState(0);
 
@@ -98,7 +158,13 @@ const StoreSettings = () => {
   // Start Here To Get Sult For Semthing Request In Page
   React.useEffect(() => {
     if (typRequest === "starttocreateorupdpasswordsettings") {
+      dispatsh(lastedefaultdatastate());
       if (resultrquestaction === 1) {
+        setDatPasswordSettings({
+          ...datPasswordSettings,
+          passwordC: '',
+          passwordF: "",
+        });
         OpenDialogForActionSuccess(
           "تم انشاء كلمة السر الاعدادات بنجاح يمكنك الان بدا لعمل و استعماله"
         );
@@ -108,32 +174,24 @@ const StoreSettings = () => {
         );
       } else if (resultrquestaction === 3) {
         OpenDialogForActionFound(
-          "حدث خطا غير معروف اثناء لعملية سيتم تحميل صفحة و اضهار تحديث",
-          "active"
+          "حدث خطا غير معروف اثناء لعملية قم بتحميل صفحة لاظهار تحديث",
         );
-        setTimeout(() => {
-          window.location.reload();
-        }, 4000);
+        navigate("/User-Settings");
       }
     } else if (typRequest === "startshangeprofilesettingsforuser") {
+      dispatsh(lastedefaultdatastate());
       if (resultrquestaction === 1) {
         OpenDialogForActionSuccess(
-          "تم تحديث بيانات لحسابك تجاري بنجاح سيتم تحميل صفحو و اضهار تحديث",
-          "active"
+          "تم تحديث بيانات لحسابك تجاري بنجاح كما تم تحديث لبيانات و اظهارها"
         );
-        setTimeout(() => {
-          window.location.reload();
-        }, 4000);
-      } else if (resultrquestaction === 2 || resultrquestaction === 2) {
+      } else if (resultrquestaction === 2) {
         OpenDialogForActionFound(
-          "حدث خطا غير معروف اثناء لعملية سيتم تحميل صفحة و اضهار تحديث",
-          "active"
+          "حدث خطا غير معروف اثناء لعملية قم بتحميل صفحة من اجل ااظهار تحديث"
         );
-        setTimeout(() => {
-          window.location.reload();
-        }, 4000);
+        navigate("/User-Settings");
       }
     } else if (typRequest === "startshangenumberphonemyprofile") {
+      dispatsh(lastedefaultdatastate());
       if (resultrquestaction === 7) {
         OpenDialogForActionFound(
           "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
@@ -144,14 +202,12 @@ const StoreSettings = () => {
         );
       } else if (resultrquestaction === 1) {
         OpenDialogForActionSuccess(
-          "تم تحديث رقم لهاتف للحسابك تجاري بنجاح سيتم تحميل صفحة و اضهار تحديث",
-          "active"
+          "تم تحديث رقم لهاتف للحسابك تجاري بنجاح كما تم تحديث لبيانات"
         );
-        setTimeout(() => {
-          window.location.reload();
-        }, 4000);
+        setPhoneEditing(true);
       }
     } else if (typRequest === "shartshangeemailprofile") {
+      dispatsh(lastedefaultdatastate());
       if (resultrquestaction === 1) {
         setCooldown(60);
         setEmailEditing(false);
@@ -165,30 +221,24 @@ const StoreSettings = () => {
         );
       }
     } else if (typeRequestRsp === "startconfirmedshangeemailprofile") {
+      dispatsh(lastedefaultdatastate());
       if (resultrquestaction === 1) {
-        setVerificationType(null);
+        verificationType.current = null;
         setVerificationCode("");
         OpenDialogForActionSuccess(
-          "تم تغيير البريدك الاكتروني للحسابك تجاري بنجاح سيتم تحميل صفحو و اضهار تحديث",
-          "active"
+          "تم تغيير البريدك الاكتروني للحسابك تجاري بنجاح كما تم تحديث لبيانات"
         );
-        setTimeout(() => {
-          window.location.reload();
-        }, 4000);
       } else if (resultrquestaction === 2) {
         OpenDialogForActionFound("البريد الإلكتروني مستخدم بلفعل ");
       } else if (resultrquestaction === 3) {
         OpenDialogForActionFound("الرمز غير صحيح أو منتهي الصلاحية ");
       } else if (resultrquestaction === 9) {
-        setVerificationType(null);
+        verificationType.current = null;
         setVerificationCode("");
         OpenDialogForActionSuccess(
-          "تم تغيير البريدك الاكتروني للحسابك تجاري بنجاح  و تعذر ارسال تاكيد للبريد سيتم تحميل صفحو و اضهار تحديث",
-          "active"
+          "تم تغيير البريدك الاكتروني للحسابك تجاري بنجاح  و تعذر ارسال تاكيد للبريد سيتم تحميل صفحو و اضهار تحديث"
         );
-        setTimeout(() => {
-          window.location.reload();
-        }, 4000);
+        navigate("/User-Settings");
       }
     }
   }, [
@@ -212,7 +262,6 @@ const StoreSettings = () => {
 
   // Start Shange Defaoult Value In Data Profile Bss
   React.useMemo(() => {
-    typRequest = "";
     if (ProfileSnageNow) {
       setDataProfileBssNow({
         ...dataProfileBssNow,
@@ -342,13 +391,14 @@ const StoreSettings = () => {
   };
 
   // تأكيد البريد
-  const confirmEmail = () => {
+  const confirmEmail = async () => {
     if (!validtypeemail()) return;
 
     const data = {
       email: dataProfileBssNow.storeEmail,
     };
     dispatsh(starttoshangemyemailprofile(data));
+    setEmailEditing(true);
   };
 
   const validtypephonenmb = () => {
@@ -420,7 +470,7 @@ const StoreSettings = () => {
 
   // فتح نافذة التحقق
   const openVerificationModal = (type) => {
-    setVerificationType(type);
+    verificationType.current = type;
     setVerificationCode("");
     setCooldown(60);
 
@@ -436,8 +486,17 @@ const StoreSettings = () => {
     }, 1000);
   };
 
+  const HandleShageValuBstPlaye = (value) => {
+    if(value != null) {
+      setDataProfileBssNow((prev) => ({
+        ...prev,
+        storeCategory: value.nameOne,
+      }));
+    }
+  }
+
   // إعادة إرسال الرمز
-  const resendCode = () => {
+  const resendCode = async () => {
     if (cooldown > 0) return;
 
     setCooldown(60);
@@ -448,7 +507,7 @@ const StoreSettings = () => {
   };
 
   // تأكيد الرمز
-  const confirmCode = () => {
+  const confirmCode = async () => {
     if (verificationCode.length !== 6) return;
     const data = {
       email: dataProfileBssNow.storeEmail,
@@ -477,7 +536,7 @@ const StoreSettings = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const HandleToConfirmedPasswordSettings = (e) => {
+  const HandleToConfirmedPasswordSettings = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
 
@@ -500,24 +559,34 @@ const StoreSettings = () => {
       style={{ marginTop: "110px", maxWidth: "1200px", marginInline: "auto" }}
     >
       <Header typeactive={"profilesettings"} />
-      <TitelPage TitelPage="⚙️ إعدادات الحساب التجاري" />
+      <div style={{ paddingInline: "30px" }}>
+        <TitelPage TitelPage="⚙️ إعدادات الحساب التجاري" />
+      </div>
       <div className="store-settings">
         {/* المعلومات الأساسية في form واحد */}
-        <div className="settings-form">
+        <div className="settings-form" style={{ direction: 'rtl', textAlign: 'right' }}>
           <div className="settings-card">
-            <h3>📋 المعلومات الأساسية</h3>
+            <h3 style={{ textAlign: 'center' }}>📋 المعلومات الأساسية</h3>
 
-            <div className="form-row">
               <div className="form-group">
                 <label>الاسم التجاري *</label>
-                <input
+                <TextField
+                  fullWidth
                   type="text"
                   name="storeName"
-                  value={dataProfileBssNow.storeName}
-                  onChange={handleInputChange}
                   className="form-input"
+                  value={dataProfileBssNow.storeName}
+                  style={{ fontSize: "22px", direction: 'rtl' }}
+                  onChange={handleInputChange}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Person />
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{ mb: 2 }}
                   disabled={!isEditing}
-                  required
                 />
                 <h6 className="titelerrorform">
                   {dataProfileBssNowErrors.storeName}
@@ -525,26 +594,21 @@ const StoreSettings = () => {
               </div>
 
               <div className="form-group">
-                <label>مجال المتجر *</label>
-                <select
-                  name="storeCategory"
-                  value={dataProfileBssNow.storeCategory}
-                  onChange={handleInputChange}
-                  className="form-input"
-                  disabled={!isEditing}
-                  required
-                >
-                  {storeCategories.map((category) => (
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
-                  ))}
-                </select>
+                <label>مجال المتجر {`(${dataProfileBssNow.storeCategory})`} *</label>
+                <CountryInput
+                    name="storeCategory"
+                    ValueUserSeckeClick={HandleShageValuBstPlaye}
+                    dataFeth={storeCategories}
+                    style={{
+                    width: '50px',
+                    height: '50px', direction: 'rtl'
+                    }}
+                    disabled={!isEditing}
+                />
                 <h6 className="titelerrorform">
                   {dataProfileBssNowErrors.storeCategory}
                 </h6>
               </div>
-            </div>
 
             <div className="form-group">
               <label>وصف المتجر</label>
@@ -562,14 +626,27 @@ const StoreSettings = () => {
               </h6>
             </div>
 
-            <div className="form-row">
               <div className="form-group">
                 <label>تحديد المدينة</label>
-                <input
+                {/* <input
                   type="text"
                   name="storeCity"
                   value={dataProfileBssNow.storeCity}
                   onChange={handleInputChange}
+                  className="form-input"
+                  disabled={!isEditing}
+                /> */}
+                <Input
+                  value={dataProfileBssNow.storeCity}
+                  type="text"
+                  name="storeCity"
+                  sx={{
+                    fontSize: "20px",
+                    padding: "20px",
+                  }}
+                  onChange={handleInputChange}
+                  size="20px"
+                  style={{ fontSize: "20px" }}
                   className="form-input"
                   disabled={!isEditing}
                 />
@@ -580,11 +657,17 @@ const StoreSettings = () => {
 
               <div className="form-group">
                 <label>عنوان المتجر</label>
-                <input
+                <Input
+                  value={dataProfileBssNow.storeAddress}
                   type="text"
                   name="storeAddress"
-                  value={dataProfileBssNow.storeAddress}
+                  sx={{
+                    fontSize: "20px",
+                    padding: "20px",
+                  }}
                   onChange={handleInputChange}
+                  size="20px"
+                  style={{ fontSize: "20px" }}
                   className="form-input"
                   disabled={!isEditing}
                 />
@@ -592,15 +675,21 @@ const StoreSettings = () => {
                   {dataProfileBssNowErrors.storeAddress}
                 </h6>
               </div>
-            </div>
+
             <div className="form-group">
               <label>البلد</label>
-              <input
-                type="text"
+              <Input
                 value={dataProfileBssNow.storeCountry}
+                type="text"
+                name="storeAddress"
+                sx={{
+                  fontSize: "20px",
+                  padding: "20px",
+                }}
+                size="20px"
+                style={{ fontSize: "20px", background: "#f7fafc", color: "#718096" }}
                 className="form-input"
                 disabled
-                style={{ background: "#f7fafc", color: "#718096" }}
               />
               <h6 className="titelerrorform">
                 {dataProfileBssNowErrors.storeCountry}
@@ -644,7 +733,7 @@ const StoreSettings = () => {
             <h3>📞 معلومات التواصل</h3>
 
             {/* البريد الإلكتروني */}
-            <form onSubmit={startEmailEdit} className="contact-item">
+            <form onSubmit={confirmEmail} className="contact-item">
               <div className="contact-info">
                 <span className="contact-label">البريد الإلكتروني:</span>
                 {emailEditing ? (
@@ -674,7 +763,7 @@ const StoreSettings = () => {
 
               {emailEditing ? (
                 <div className="edit-actions">
-                  <button className="confirm-btn" onClick={confirmEmail}>
+                  <button type="submit" className="confirm-btn" onClick={confirmEmail}>
                     ✅ تأكيد
                   </button>
                   <button
@@ -685,7 +774,7 @@ const StoreSettings = () => {
                   </button>
                 </div>
               ) : (
-                <button className="verify-btn" type="submit">
+                <button className="verify-btn" type="button" onClick={startEmailEdit}>
                   ✏️ تعديل
                 </button>
               )}
@@ -694,7 +783,7 @@ const StoreSettings = () => {
             {/* رقم الهاتف */}
             <form onSubmit={startPhoneEdit} className="contact-item">
               <div className="contact-info">
-                <span className="contact-label">رقم الهاتف:</span>
+                <span className="contact-label">رقم الهاتف: {`(${ProfileSnageNow.codcat})`}</span>
                 {phoneEditing ? (
                   <input
                     type="tel"
@@ -782,14 +871,14 @@ const StoreSettings = () => {
               </div>
 
               <button className="btn-primary" type="submit">
-                🔄 تحديث كلمة السر
+                تحديث كلمة السر 🔄
               </button>
             </form>
           </div>
         </div>
 
         {/* نافذة التحقق */}
-        {verificationType && (
+        {verificationType.current && (
           <div className="modal-overlay">
             <div className="verification-modal">
               <div className="modal-header">
@@ -808,7 +897,7 @@ const StoreSettings = () => {
                       storeEmail: ProfileSnageNow.email,
                       storePhone: ProfileSnageNow.Numberphone,
                     });
-                    setVerificationType(null);
+                    verificationType.current = null;
                   }}
                 >
                   ✕
@@ -817,51 +906,56 @@ const StoreSettings = () => {
 
               <div className="modal-body">
                 <p className="verification-message">
-                  تم إرسال رمز التحقق إلى
+                  تم إرسال رمز التحقق 
+                  المكون من 6 ارقام الى
                   <strong> {dataProfileBssNow.storeEmail}</strong>
                 </p>
 
-                <div className="code-input-container">
-                  <input
-                    type="text"
-                    value={verificationCode}
-                    onChange={(e) => {
-                      const value = e.target.value.replace(/[^0-9]/g, "");
-                      if (value.length <= 6) {
-                        setVerificationCode(value);
-                        if (value.length === 6) {
-                          confirmCode();
-                        }
-                      }
-                    }}
-                    className="code-input"
-                    placeholder="أدخل الرمز المكون من 6 أرقام"
-                    maxLength={6}
-                    autoFocus
-                  />
-                </div>
+                <form onSubmit={confirmCode}>
+                  <div className="code-input-container">
+                    <TextField
+                      fullWidth
+                      className="code-input"
+                      type="text"
+                      style={{ fontSize: "18px", direction: 'rtl' }}
+                      value={verificationCode}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/[^0-9]/g, "");
+                        if (value.length <= 6) setVerificationCode(value);
+                      }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <PasswordIcon />
+                          </InputAdornment>
+                        ),
+                      }}
+                      placeholder="أدخل الرمز المكون من 6 أرقام"
+                      sx={{ mb: 2 }}
+                    />
+                  </div>
 
-                <div className="modal-actions">
-                  <button
-                    type="button"
-                    className="resend-btn"
-                    onClick={resendCode}
-                    disabled={cooldown > 0}
-                  >
-                    {cooldown > 0
-                      ? `إعادة الإرسال (${cooldown})`
-                      : "إعادة إرسال الرمز"}
-                  </button>
+                  <div className="modal-actions">
+                    <button
+                      type="button"
+                      className="resend-btn"
+                      onClick={resendCode}
+                      disabled={cooldown > 0}
+                    >
+                      {cooldown > 0
+                        ? `إعادة الإرسال (${cooldown})`
+                        : "إعادة إرسال الرمز"}
+                    </button>
 
-                  <button
-                    type="button"
-                    className="confirm-btn"
-                    onClick={confirmCode}
-                    disabled={verificationCode.length !== 6}
-                  >
-                    ✅ تأكيد
-                  </button>
-                </div>
+                    <button
+                      type="submit"
+                      className="confirm-btn"
+                      disabled={verificationCode.length !== 6}
+                    >
+                      ✅ تأكيد
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>

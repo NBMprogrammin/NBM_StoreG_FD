@@ -2,15 +2,27 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { GeneralUrlGetDatabase } from "../../FrontEnd/Commponent/GeneralUrlGetDatabase";
 import Cookies from "js-cookie";
-const tokenFoul = Cookies.get("user_token");
+
+let datastore = {
+  data: [],
+  isLinding: false,
+  totaldat: 0,
+  pagenow: 0,
+  pagetogo: 0,
+  last_page: 0,
+  typRequestNow: "Show",
+  resultrquestaction: "",
+  lodingtorspact: false,
+};
 
 // Start Send Request To Show Alls Data In Edart Category
 export const ShowAllsMyMessage = createAsyncThunk(
   "messageuser/show",
-  async (page) => {
+  async (dataQr, { rejectWithValue }) => {
+    const tokenFoul = Cookies.get("token");
     try {
       const response = await axios.post(
-        `${GeneralUrlGetDatabase}/user/Message?page=${page}`,
+        `${GeneralUrlGetDatabase}/user/Message?page=${dataQr.page}`,
         {},
         {
           headers: {
@@ -25,10 +37,13 @@ export const ShowAllsMyMessage = createAsyncThunk(
       const startPageNow = response.data.data.current_page;
 
       const startPageTo = response.data.data.to;
-
       const AllDataNow = response.data.data.data;
+      const skeckshowdat = dataQr.typ;
+      
+
 
       return {
+        skeckshowdat,
         datAls,
         startPageNow,
         startPageTo,
@@ -36,12 +51,7 @@ export const ShowAllsMyMessage = createAsyncThunk(
         last_Page,
       };
     } catch (error) {
-      if (error.message == "Network Error") {
-        setTimeout(() => {
-          localStorage.removeItem("token");
-          window.location.href = "/home";
-        }, 5000);
-      }
+      return rejectWithValue(error);
     }
   }
 ); // End Send Request To To Show Alls Data In Edart Category
@@ -49,7 +59,8 @@ export const ShowAllsMyMessage = createAsyncThunk(
 // Start Send Request To Updat Semthing Category In Edart Category
 export const StartToConfirmedAddMyZebouneForBss = createAsyncThunk(
   "messageuser/add-zeboun",
-  async (QuatyData) => {
+  async (QuatyData, { rejectWithValue }) => {
+    const tokenFoul = Cookies.get("token");
     try {
       const response = await axios.post(
         `${GeneralUrlGetDatabase}/user/Message-confirmed-zeboune/${QuatyData.id}`,
@@ -78,7 +89,7 @@ export const StartToConfirmedAddMyZebouneForBss = createAsyncThunk(
         resultaction,
       };
     } catch (error) {
-      console.log(error);
+      return rejectWithValue(error);
     }
   }
 ); //=== End Send Request To Updat Semthing Category In Edart Category ===//
@@ -86,7 +97,8 @@ export const StartToConfirmedAddMyZebouneForBss = createAsyncThunk(
 // Start Send Request To Updat Semthing Category In Edart Category
 export const StartToStopAddMyZebouneForBss = createAsyncThunk(
   "messageuser/stop-zeboun",
-  async (QuatyData) => {
+  async (QuatyData, { rejectWithValue }) => {
+    const tokenFoul = Cookies.get("token");
     try {
       const response = await axios.post(
         `${GeneralUrlGetDatabase}/user/Message-Close-zeboune/${QuatyData.id}`,
@@ -115,7 +127,7 @@ export const StartToStopAddMyZebouneForBss = createAsyncThunk(
         resultaction,
       };
     } catch (error) {
-      console.log(error);
+      return rejectWithValue(error);
     }
   }
 ); //=== End Send Request To Updat Semthing Category In Edart Category ===//
@@ -123,7 +135,8 @@ export const StartToStopAddMyZebouneForBss = createAsyncThunk(
 // Start Send Request To Updat Semthing Category In Edart Category
 export const StartToConfirmedMyDemandToTraveForBss = createAsyncThunk(
   "messageuser/Confirmed-trave",
-  async (QuatyData) => {
+  async (QuatyData, { rejectWithValue }) => {
+    const tokenFoul = Cookies.get("token");
     try {
       const response = await axios.post(
         `${GeneralUrlGetDatabase}/user/Message-confirmed-Tewve/${QuatyData.id}`,
@@ -152,7 +165,7 @@ export const StartToConfirmedMyDemandToTraveForBss = createAsyncThunk(
         resultaction,
       };
     } catch (error) {
-      console.log(error);
+      return rejectWithValue(error);
     }
   }
 ); //=== End Send Request To Updat Semthing Category In Edart Category ===//
@@ -160,7 +173,8 @@ export const StartToConfirmedMyDemandToTraveForBss = createAsyncThunk(
 // Start Send Request To Updat Semthing Category In Edart Category
 export const StartToDscConfirmedMyDemandToTraveForBss = createAsyncThunk(
   "messageuser/stop-trave",
-  async (QuatyData) => {
+  async (QuatyData, { rejectWithValue }) => {
+    const tokenFoul = Cookies.get("token");
     try {
       const response = await axios.post(
         `${GeneralUrlGetDatabase}/user/Message-Close-Tewve/${QuatyData.id}`,
@@ -189,7 +203,7 @@ export const StartToDscConfirmedMyDemandToTraveForBss = createAsyncThunk(
         resultaction,
       };
     } catch (error) {
-      console.log(error);
+      return rejectWithValue(error);
     }
   }
 ); //=== End Send Request To Updat Semthing Category In Edart Category ===//
@@ -197,7 +211,8 @@ export const StartToDscConfirmedMyDemandToTraveForBss = createAsyncThunk(
 // Start Send Request To Updat Semthing Category In Edart Category
 export const StartToConfirmedMyRatibeForTraveBss = createAsyncThunk(
   "messageuser/confirmed-get-ratibe",
-  async (QuatyData) => {
+  async (QuatyData, { rejectWithValue }) => {
+    const tokenFoul = Cookies.get("token");
     try {
       const response = await axios.post(
         `${GeneralUrlGetDatabase}/user/Message-ConfRatibe-Tewve/${QuatyData.id}`,
@@ -226,7 +241,7 @@ export const StartToConfirmedMyRatibeForTraveBss = createAsyncThunk(
         resultaction,
       };
     } catch (error) {
-      console.log(error);
+      return rejectWithValue(error);
     }
   }
 ); //=== End Send Request To Updat Semthing Category In Edart Category ===//
@@ -234,7 +249,8 @@ export const StartToConfirmedMyRatibeForTraveBss = createAsyncThunk(
 // Start Send Request To Updat Semthing Category In Edart Category
 export const StartToDscConfirmedMyRatibeForTraveBss = createAsyncThunk(
   "messageuser/stop-get-ratibe",
-  async (QuatyData) => {
+  async (QuatyData, { rejectWithValue }) => {
+    const tokenFoul = Cookies.get("token");
     try {
       const response = await axios.post(
         `${GeneralUrlGetDatabase}/user/Message-DscconfRatibe-Tewve/${QuatyData.id}`,
@@ -263,31 +279,17 @@ export const StartToDscConfirmedMyRatibeForTraveBss = createAsyncThunk(
         resultaction,
       };
     } catch (error) {
-      console.log(error);
+      return rejectWithValue(error);
     }
   }
 ); //=== End Send Request To Updat Semthing Category In Edart Category ===//
 
 const MessageAllsUserSlice = createSlice({
   name: "messageuser",
-  initialState: {
-    data: [],
-    isLinding: false,
-    totaldat: 0,
-    pagenow: 0,
-    pagetogo: 0,
-    last_page: 0,
-    typRequestNow: "Show",
-    resultrquestaction: "",
-    lodingtorspact: false,
-  },
+  initialState: datastore,
 
   reducers: {
-    testreducer: (state, action) => {
-      console.log("=====================*********==============");
-      console.log(state, action);
-      console.log("=====================*********==============");
-    },
+    // Later
   },
 
   extraReducers(builder) {
@@ -297,7 +299,12 @@ const MessageAllsUserSlice = createSlice({
         state.typRequestNow = "Show";
       })
       .addCase(ShowAllsMyMessage.fulfilled, (state, action) => {
-        state.data = [...state.data, ...action.payload.AllDataNow];
+        if(action.payload.skeckshowdat === 'first') {
+          state.data = [];
+          state.data = action.payload.AllDataNow;
+        } else if(action.payload.skeckshowdat === 'moredata') {
+          state.data = [...state.data, ...action.payload.AllDataNow];
+        }
         state.totaldat = action.payload.datAls;
         state.pagenow = action.payload.startPageNow;
         state.pagetogo = action.payload.startPageTo;
@@ -307,9 +314,8 @@ const MessageAllsUserSlice = createSlice({
       })
       .addCase(ShowAllsMyMessage.rejected, (state, action) => {
         state.isLinding = false;
-        localStorage.removeItem("token");
-        window.location.href = "home";
         state.typRequestNow = "Show";
+        state.resultrquestaction = 99;
       })
       .addCase(StartToConfirmedAddMyZebouneForBss.pending, (state, action) => {
         state.lodingtorspact = true;
@@ -341,10 +347,9 @@ const MessageAllsUserSlice = createSlice({
         }
       )
       .addCase(StartToConfirmedAddMyZebouneForBss.rejected, (state, action) => {
-        state.isLinding = false;
-        state.typRequestNow = "Show";
-        localStorage.removeItem("token");
-        window.location.href = "home";
+        state.lodingtorspact = false;
+        state.typRequestNow = "StartConfirmedaddMyZeboun";
+        state.resultrquestaction = 99;
       })
       .addCase(
         StartToConfirmedMyDemandToTraveForBss.pending,
@@ -382,10 +387,9 @@ const MessageAllsUserSlice = createSlice({
       .addCase(
         StartToConfirmedMyDemandToTraveForBss.rejected,
         (state, action) => {
-          state.isLinding = false;
-          state.typRequestNow = "Show";
-          localStorage.removeItem("token");
-          window.location.href = "home";
+          state.lodingtorspact = false;
+          state.typRequestNow = "StartConfirmedDemandTraveForBss";
+          state.resultrquestaction = 99;
         }
       )
       .addCase(
@@ -424,10 +428,9 @@ const MessageAllsUserSlice = createSlice({
       .addCase(
         StartToDscConfirmedMyDemandToTraveForBss.rejected,
         (state, action) => {
-          state.isLinding = false;
-          state.typRequestNow = "Show";
-          localStorage.removeItem("token");
-          window.location.href = "home";
+          state.lodingtorspact = false;
+          state.typRequestNow = "StartDscConfirmedDemandTraveForBss";
+          state.resultrquestaction = 99;
         }
       )
       .addCase(StartToStopAddMyZebouneForBss.pending, (state, action) => {
@@ -457,10 +460,9 @@ const MessageAllsUserSlice = createSlice({
         }
       })
       .addCase(StartToStopAddMyZebouneForBss.rejected, (state, action) => {
-        state.isLinding = false;
-        state.typRequestNow = "Show";
-        localStorage.removeItem("token");
-        window.location.href = "home";
+        state.lodingtorspact = false;
+        state.typRequestNow = "StartDscConfirmedaddMyZeboun";
+        state.resultrquestaction = 99;
       })
       .addCase(
         StartToDscConfirmedMyRatibeForTraveBss.pending,
@@ -498,10 +500,9 @@ const MessageAllsUserSlice = createSlice({
       .addCase(
         StartToDscConfirmedMyRatibeForTraveBss.rejected,
         (state, action) => {
-          state.isLinding = false;
-          state.typRequestNow = "Show";
-          localStorage.removeItem("token");
-          window.location.href = "home";
+          state.lodingtorspact = false;
+          state.typRequestNow = "StartToDscConfirmedGetMyRatibe";
+          state.resultrquestaction = 99;
         }
       )
       .addCase(StartToConfirmedMyRatibeForTraveBss.pending, (state, action) => {
@@ -537,14 +538,12 @@ const MessageAllsUserSlice = createSlice({
       .addCase(
         StartToConfirmedMyRatibeForTraveBss.rejected,
         (state, action) => {
-          state.isLinding = false;
-          state.typRequestNow = "Show";
-          localStorage.removeItem("token");
-          window.location.href = "home";
+          state.lodingtorspact = false;
+          state.typRequestNow = "StartToConfirmedGetMyRatibe";
+          state.resultrquestaction = 99;
         }
       );
   },
 });
 
-export const { testreducer } = MessageAllsUserSlice.actions;
 export default MessageAllsUserSlice.reducer;

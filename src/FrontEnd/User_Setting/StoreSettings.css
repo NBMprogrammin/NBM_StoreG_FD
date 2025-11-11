@@ -478,3 +478,12 @@
   }
 
 }
+
+@media (max-width: 500px) {
+  .form-group label {
+    text-align: right;
+  }
+  .settings-card {
+    padding: 30px 15px;
+  }
+}

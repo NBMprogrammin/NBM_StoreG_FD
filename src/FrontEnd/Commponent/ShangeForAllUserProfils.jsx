@@ -9,10 +9,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import AvatarImgForAllType from "./AvatarImgForAllType";
 
-let ShowDatFirstProfile = "";
-let ShowAllsMyProfileBss = "";
-let ShowAllsMyProfileTrave = "";
-
 export default function ShangeForAllUserProfils({
   open,
   setOpen,
@@ -20,7 +16,7 @@ export default function ShangeForAllUserProfils({
   DataUserClickLoginNow,
   ProfilreNow,
 }) {
-  function SimpleDialog(props) {
+  const SimpleDialog = (props) => {
     const { onClose, selectedValue, open } = props;
 
     const handleClose = () => {
@@ -32,11 +28,9 @@ export default function ShangeForAllUserProfils({
       DataUserClickLoginNow(value, TypeAction);
     };
 
-    React.useMemo(() => {
+    const ShowDatFirstProfile = React.useMemo(() => {
       if (ProfilreNow && showDateUser.Profile_Bss && showDateUser.Profile_tweve) {
-        ShowDatFirstProfile = (
-          // <List key={showDateUser.Profile.id + 99126} sx={{ pt: 0 }}>
-          // {
+        return (
           <ListItem key={showDateUser.Profile.id} disablePadding>
             <ListItemButton
               key={showDateUser.Profile.id + 9}
@@ -53,11 +47,13 @@ export default function ShangeForAllUserProfils({
               </div>
             </ListItemButton>
           </ListItem>
-          // }
-          // </List>
         );
+      }
+    }, [showDateUser]);
 
-        ShowAllsMyProfileBss = showDateUser.Profile_Bss.map((Profile) => (
+    const ShowAllsMyProfileBss = React.useMemo(() => {
+      if (ProfilreNow && showDateUser.Profile_Bss && showDateUser.Profile_tweve) {
+        return showDateUser.Profile_Bss.map((Profile) => (
           <ListItem
             key={Profile.id + 70}
             disablePadding
@@ -85,8 +81,12 @@ export default function ShangeForAllUserProfils({
             </ListItemButton>
           </ListItem>
         ));
+      }
+    }, [showDateUser]);
 
-        ShowAllsMyProfileTrave = showDateUser.Profile_tweve.map((Profile) => (
+    const ShowAllsMyProfileTrave = React.useMemo(() => {
+      if (ProfilreNow && showDateUser.Profile_Bss && showDateUser.Profile_tweve) {
+        return showDateUser.Profile_tweve.map((Profile) => (
           <ListItem
             disablePadding
             key={Profile.id +634567}

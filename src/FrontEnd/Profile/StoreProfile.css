@@ -18,6 +18,12 @@
   height: 300px; /* ارتفاع ثابت */
 }
 
+.iconShwStyledas {
+  fill: #fff !important;
+  width: 50px !important;
+  height: 50px !important;
+}
+
 .cover-image {
   width: 100%;
   height: 100%;

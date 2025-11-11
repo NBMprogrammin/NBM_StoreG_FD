@@ -1,7 +1,8 @@
 import { Button } from "@mui/joy";
 import { Link } from "react-router-dom";
 import Fab from "@mui/material/Fab";
-import NavigationIcon from "@mui/icons-material/Navigation";
+import Add from '@mui/icons-material/Add';
+
 
 export default function BtnToGoToDoActionForNextPage({
   linck,
@@ -19,7 +20,7 @@ export default function BtnToGoToDoActionForNextPage({
             aria-disabled={disabled}
             className="stylebtntodoactioninpageedar"
           >
-            <NavigationIcon sx={{ mr: 1 }} />
+            <Add sx={{ mr: 1 }} />
             {pargrafe}
           </Fab>
         </Link>
@@ -29,7 +30,7 @@ export default function BtnToGoToDoActionForNextPage({
           variant="extended"
           onClick={() => OnLciToDoActrion(TpeAction)}
         >
-          <NavigationIcon sx={{ mr: 1 }} />
+          <Add sx={{ mr: 1 }} />
           {pargrafe}
         </Fab>
       )}

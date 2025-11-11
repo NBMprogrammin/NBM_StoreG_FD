@@ -1,23 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "./Login.css";
 import { Link } from "react-router-dom";
-import { startloginformyaccountenow } from "../../allsliceproj/Controller Data Profile Now/controolerdataprodfilenow";
+import { startloginformyaccountenow } from "../../allsliceproj/Controller Data Profile Now/controolerdataprodfilenowSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useDialogActionContext } from "../Context/DialogActionContext";
 import Cookies from "js-cookie";
 import { useNavigation } from "../hooks/useNavigation";
 import { useNavigate } from "react-router-dom";
+import {
+  TextField,
+  InputAdornment,
+  IconButton,
+  Typography
+} from "@mui/material";
+import {
+  Visibility,
+  VisibilityOff,
+  Lock,
+  Person
+} from "@mui/icons-material";
 
 let TypActionDoNow = "";
 
-const Login = ({ onSwitchToSignup, onLogin }) => {
-  const [loginData, setLoginData] = useState({
+
+const Login = () => {
+  
+  const loginData = useRef({
     username: "",
     password: "",
   });
-  const [rememberMe, setRememberMe] = useState(false);
-  const [errors, setErrors] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  
+  const rememberMe = useRef(false);
+
+  const handleRememberChange = (e) => {
+    rememberMe.current = e.target.checked;
+  };
+
+  const errors = useRef({});
+
+  const isLoading = useRef(false);
+  const [showPassword, setShowPassword] = useState(false);
   const dispatsh = useDispatch();
   const { OpenDialogForActionFound } = useDialogActionContext();
 
@@ -28,10 +50,6 @@ const Login = ({ onSwitchToSignup, onLogin }) => {
 
   const lodingtorspact = useSelector((state) => {
     return state.datauser.lodingtorspact;
-  });
-
-  const TokenUser = useSelector((state) => {
-    return state.datauser.Token;
   });
 
   const typeRequestRsp = useSelector((state) => {
@@ -49,85 +67,153 @@ const Login = ({ onSwitchToSignup, onLogin }) => {
   React.useEffect(() => {
     const checkAuthentication = () => {
       const tokenFoul = Cookies.get("token");
-      TypActionDoNow = "";
       if (tokenFoul) {
         // إعادة التوجيه بدون إعادة تحميل
         navigate("/dashboard");
         return;
       }
+      TypActionDoNow = '';
     };
     checkAuthentication();
-  }, [navigate === "/home"]);
+  }, [navigate === "/login"]);
 
   // Start Here To Get Sult For Semthing Request In Page
   React.useEffect(() => {
-    if (typeRequestRsp === "startactiontologinmyaccountenow") {
-      if (TypActionDoNow === 1) {
-        TypActionDoNow = "";
-        navigate("/dashboard");
-      } else if (TypActionDoNow === 2) {
-        setIsLoading(false);
-        TypActionDoNow = "";
-        OpenDialogForActionFound(
-          `الكلمة السر او لبريد لاكتروني او رقم هاتف غير صحيحة حارل مرة اخرى`
-        );
-      } else if (TypActionDoNow === 99) {
-        TypActionDoNow = "";
-        setIsLoading(false);
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق"
-        );
-      }
+    switch (typeRequestRsp) {
+      case "startactiontologinmyaccountenow":
+        switch (TypActionDoNow) {
+          case 1:
+            TypActionDoNow = "";
+            navigate("/dashboard");
+          return;
+          case 2:
+            isLoading.current = false;
+            TypActionDoNow = "";
+            OpenDialogForActionFound(
+              `الكلمة السر او لبريد لاكتروني او رقم هاتف غير صحيحة حارل مرة اخرى`
+            );
+          return;
+          case 99:
+            TypActionDoNow = "";
+            isLoading.current = false;
+            OpenDialogForActionFound(
+                "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+            );
+          return;
+        }
+      return;
     }
   }, [
     resultrquestaction,
     typeRequestRsp === "startactiontologinmyaccountenow",
   ]); //== End Here To Get Sult For Semthing Request In Page ==//
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setLoginData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    if (errors[name]) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: "",
-      }));
-    }
-  };
-
+  // Start Her Validate Data After Do Semthing Action
   const validateForm = () => {
     const newErrors = {};
-
-    if (!loginData.username) {
+    if (!loginData.current.username) {
       newErrors.username = "البريد الإلكتروني أو رقم الهاتف مطلوب";
     }
 
-    if (!loginData.password) {
+    if (!loginData.current.password) {
       newErrors.password = "كلمة المرور مطلوبة";
-    } else if (loginData.password.length < 5) {
+    } else if (loginData.current.password.length < 5) {
       newErrors.password = "كلمة المرور يجب أن تكون 5 أحرف على الأقل";
     }
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+    errors.current = newErrors;
+    
+    // 🔒 إعادة تصيير يدوي لعرض الأخطاء
+    document.querySelectorAll('.error').forEach(el => el.remove());
+    
+    if (Object.keys(newErrors).length > 0) {
+      Object.entries(newErrors).forEach(([field, message]) => {
+        if (message) {
+          const input = document.querySelector(`[name="${field}"]`);
+          if (input) {
+            input.classList.add('input-error');
+            const errorDiv = document.getElementById(`error${field}`);
+            errorDiv.textContent = message;
+            // input.parentNode.insertBefore(errorDiv, input.nextSibling);
+          }
+        }
+      });
+    }
 
+    return Object.keys(newErrors).length === 0;
+  }; //== End Her Validate Data After Do Semthing Action ==//
+
+  // Start Her Validate Value Inpute Is Corecte Or Nate To Do Action
+  const VidAutErrorDoNot = (input) => {
+    const newErrors = {};
+    if (!loginData.current.username) {
+      newErrors.username = '';
+    }
+
+    if (!loginData.current.password) {
+      newErrors.password = "";
+    } else if (loginData.current.password.length < 5) {
+      newErrors.password = "";
+    }
+
+    errors.current = newErrors;
+    
+    // 🔒 إعادة تصيير يدوي لعرض الأخطاء
+    document.querySelectorAll('.error').forEach(el => el.remove());
+    
+    if (Object.keys(newErrors).length > 0) {
+      Object.entries(newErrors).forEach(([field, message]) => {
+        if (message) {
+          if (input) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error';
+            errorDiv.textContent = message;
+            errorDiv.style.color = 'red';
+            input.parentNode.insertBefore(errorDiv, input.nextSibling);
+            input.classList.remove('input-error');
+          }
+        }
+      });
+    }
+
+    return Object.keys(newErrors).length === 0;
+  }; //== End Her Validate Data After Do Semthing Action ==//
+
+  // Start Action To Shange Vlaue Inpute For Name
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    loginData.current = {
+      ...loginData.current,
+      [name]: value
+    };
+
+
+    // 🔒 إزالة الخطأ بدون إعادة تصيير
+    if (errors.current[name]) {
+      const input = document.querySelector(`[name="${name}"]`);
+      VidAutErrorDoNot(input);
+      // const input = document.querySelector(`[name="${name}"]`);
+      if (input) {
+        input.classList.remove('input-error');
+        const errorDiv = document.getElementById(`error${name}`);
+        errorDiv.textContent = ' ';
+      }
+    }
+  }; //== End Action To Shange Vlaue Inpute For Name ==//
+
+  // Start Start To Send Request For Login My Accounte
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
-    setIsLoading(true);
+    isLoading.current = true;
     const data = {
-      email: loginData.username,
-      password: loginData.password,
+      email: loginData.current.username,
+      password: loginData.current.password,
     };
     dispatsh(startloginformyaccountenow(data));
-  };
+  }; //== End Start To Send Request For Login My Accounte ==//
 
   return (
     <div className="login-container">
@@ -162,63 +248,82 @@ const Login = ({ onSwitchToSignup, onLogin }) => {
         </div>
 
         <form className="login-form-main" onSubmit={handleSubmit}>
-          {errors.general && (
-            <div className="error-message-general">{errors.general}</div>
-          )}
 
-          <div className="input-group-main">
+          <div className='stlinpandlableisnace' >
             <label>البريد الإلكتروني أو رقم الهاتف</label>
-            <input
-              type="text"
+            <TextField
+              fullWidth
               name="username"
+              className={"fontsize25"}
               value={loginData.username}
+              style={{ fontSize: "25px", direction: 'rtl' }}
               onChange={handleInputChange}
-              className={errors.username ? "input-error" : ""}
-              placeholder="example@email.com أو 05XXXXXXXX"
+              placeholder="example@email.com أو XXXXXXXX"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Person />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ mb: 2 }}
             />
-            {errors.username && (
-              <span className="error-text-main">{errors.username}</span>
-            )}
+            <Typography variant="caption" id='errorusername' textAlign={'center'} color="error"></Typography>
           </div>
 
-          <div className="input-group-main">
+          <div className='stlinpandlableisnace' >
             <label>كلمة المرور</label>
-            <input
-              type="password"
+            <TextField
+              fullWidth
               name="password"
+              className={"fontsize25"}
+              type={showPassword ? "text" : "password"}
+              style={{ fontSize: "25px", direction: 'rtl' }}
               value={loginData.password}
               onChange={handleInputChange}
-              className={errors.password ? "input-error" : ""}
-              placeholder="أدخل كلمة المرور"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Lock />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ mb: 2 }}
             />
-            {errors.password && (
-              <span className="error-text-main">{errors.password}</span>
-            )}
+            <Typography variant="caption" id='errorpassword' textAlign={'center'} color="error"></Typography>
           </div>
 
           <div className="form-options-main">
             <label className="checkbox-main">
               <input
                 type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
+                defaultChecked={rememberMe.current}
+                onChange={handleRememberChange}
               />
               <span className="checkmark-main"></span>
               تذكرني
             </label>
 
-            <Link to="/user-ForgotPassword" style={{ textDecoration: "none" }}>
-              <button type="button" className="forgot-link">
+            <Link to="/user-ForgotPassword" style={{ textDecoration: "none" }} className="forgot-link">
                 نسيت كلمة المرور؟
-              </button>
             </Link>
           </div>
 
-          <button type="submit" className="login-btn-main" disabled={isLoading}>
-            {isLoading ? (
+          <button type="submit" className="login-btn-main" disabled={isLoading.current}>
+            {isLoading.current ? (
               <>
                 <div className="btn-spinner"></div>
-                جاري تسجيل الدخول...
+                جاري تسجيل الدخول
               </>
             ) : (
               "تسجيل الدخول"
@@ -229,7 +334,7 @@ const Login = ({ onSwitchToSignup, onLogin }) => {
         <div className="signup-link">
           <p>ليس لديك حساب؟</p>
           <Link to="/register" style={{ textDecoration: "none" }}>
-            <button onClick={onSwitchToSignup} className="signup-btn-link">
+            <button className="signup-btn-link">
               إنشاء حساب جديد
             </button>
           </Link>

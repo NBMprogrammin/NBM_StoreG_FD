@@ -1,18 +1,18 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useRef, useMemo } from "react";
 import "./Dashboard.css";
 import { useDialogActionContext } from "../Context/DialogActionContext";
 import AvatarImgForAllType from "../Commponent/AvatarImgForAllType";
 import DropdownMoreActions from "../Commponent/Commponet Table Alls Page/DropdownMoreActions";
-import { edartpayprodectshowallsdatapaymentprod } from "../../allsliceproj/Edart Pay Prodects/edartPayProdectdsSlice";
+import { edartpayprodectshowallsdatapaymentprod } from "../../allsliceproj/Sales_Management_Bss/Sales_Management_Bss_Slice";
 import { useSelector } from "react-redux";
 import CartLoader from "../Commponent/Commponet Table Alls Page/CartLoader";
 import { useDispatch } from "react-redux";
 
-let AllsTrAndTdForMyTable = "";
-
-let JSXShowAllsDataBss = "";
-let JsxtopCustomers = "";
-let JsxdatalastBaymentsProdects = "";
+// Start Import Icons
+import { FaBoxes } from "react-icons/fa";
+import CategoryIcon from "@mui/icons-material/Category";
+import PeopleIcon from "@mui/icons-material/People";
+import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
 
 let datShowUser = "";
 let datUserClickAct = "";
@@ -45,19 +45,19 @@ const DashboardBss = () => {
   });
 
   const resultrquestaction = useSelector((state) => {
-    return state.edartpayprodects.resultrquestaction;
+    return state.Sales_Management_Bss.resultrquestaction;
   });
 
   const typRequestNow = useSelector((state) => {
-    return state.edartpayprodects.typRequestNow;
+    return state.Sales_Management_Bss.typRequestNow;
   });
 
   const ShowAllsProdData = useSelector((state) => {
-    return state.edartpayprodects.dataShowPayProd;
+    return state.Sales_Management_Bss.dataShowPayProd;
   });
 
   const lodingtorspact = useSelector((state) => {
-    return state.edartpayprodects.lodingtorspact;
+    return state.Sales_Management_Bss.lodingtorspact;
   });
 
   // Start Her To Get Storage Type Profile Login Now
@@ -68,8 +68,8 @@ const DashboardBss = () => {
   }, [ProfileSnageNow]); //== End Her To Get Storage Type Profile Login Now ==//
 
   // He To Sow Reloding In Table
-  React.useMemo(() => {
-    AllsTrAndTdForMyTable = (
+  const AllsTrAndTdForMyTable = React.useMemo(() => {
+    return (
       <tr>
         <td></td>
         <td></td>
@@ -88,96 +88,138 @@ const DashboardBss = () => {
 
   // Start Sheck Type Request To Show Result For User
   React.useMemo(() => {
-    if (typRequest === "edartpayprodectconfirmedpaymentprod") {
+    switch (typRequest) {
+      case "edartpayprodectconfirmedpaymentprod":
       HandleCloseOrOpenReadinPage(false);
-      typRequest = "";
-      if (resultrquestaction === 1) {
-        OpenDialogForActionSuccess(
+      typRequest = '';
+      switch (resultrquestaction) {
+          case 1:
+          OpenDialogForActionSuccess(
           `لقد نمت موافق  و تاكيد  على استلام الاموال من زبون ${datUserClickAct.namezeboune} و اتمام لمبيع بنجاح و اظهار تحديث`
-        );
-      } else if (resultrquestaction === 13) {
-        OpenDialogForActionFound(
-          "بدو باتنك سبق لك و ان رفضت دفع طلبية سيتم تحميل صفحة و اضهار نتيجة نهائية "
-        );
-      } else if (resultrquestaction === 9) {
-        OpenDialogForActionFound(
-          "بدو بانك لا تمتلك صلاحية تاكيد الاستلام الاموال لطرق دفع الاكترونية  و هي تنتمي للادارة الدفع الاكتروني"
-        );
-      } else if (resultrquestaction === 6) {
-        OpenDialogForActionFound(
-          "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
-        );
-      } else if (resultrquestaction === 4) {
-        OpenDialogForActionFound(
-          `يبدو بان ناجر اوقف خاصية دين عن زبون ${datUserClickAct.namezeboune} و لقد تم استرداد طلبية و ارجاع لكمية لمبيع من للمخزون فكل لمنتج موجود فطلبية`
-        );
-      } else if (resultrquestaction === 16) {
-        OpenDialogForActionFound(
-          "يبدو بانك لا تمتلك صلاحية ادارة لمبيعات يمكنك طلبها من تاجر لتوفيرها لك"
-        );
-      } else if (resultrquestaction === 22) {
-        OpenDialogForActionFound(
-          "تم رصد مشكلة في احد لمنتجات لمبيع حيث لم يتم لعثور عليها و لاحتمال لاكبر يقول بان تاجر حذف لمنتج يمكنك محاول لاحقا"
-        );
-      } else {
-        typRequest = "";
+          );
+          typRequest = "Show";
+          ModelShowDate = "";
+          sangePageDat = 1;  
+          return;
+          case 4:
+          OpenDialogForActionFound(
+              `يبدو بان ناجر اوقف خاصية دين عن زبون ${datUserClickAct.namezeboune} و لقد تم استرداد طلبية و ارجاع لكمية لمبيع من للمخزون فكل لمنتج موجود فطلبية`
+          );
+          return;
+          case 6:
+          OpenDialogForActionFound(
+              "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
+          );
+          return;
+          case 9:
+          OpenDialogForActionFound(
+              "بدو بانك لا تمتلك صلاحية تاكيد الاستلام الاموال لطرق دفع الاكترونية  و هي تنتمي للادارة الدفع الاكتروني"
+          );
+          return;
+          case 13:
+          OpenDialogForActionFound(
+              "بدو باتنك سبق لك و ان رفضت دفع طلبية سيتم تحميل صفحة و اضهار نتيجة نهائية "
+          );
+          return;
+          case 16:
+          OpenDialogForActionFound(
+              "يبدو بانك لا تمتلك صلاحية ادارة لمبيعات يمكنك طلبها من تاجر لتوفيرها لك"
+          );
+          return;
+          case 22:
+          OpenDialogForActionFound(
+              "تم رصد مشكلة في احد لمنتجات لمبيع حيث لم يتم لعثور عليها و لاحتمال لاكبر يقول بان تاجر حذف لمنتج يمكنك محاول لاحقا"
+          );
+          return;
+          case 99:
+          OpenDialogForActionFound(
+              "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+          );
+          return;
       }
-    } else if (typRequest === "edartpayprodectdscconfirmedpaymentprod") {
+      return;
+      case 'edartpayprodectdscconfirmedpaymentprod':
       HandleCloseOrOpenReadinPage(false);
-      typRequest = "";
-      if (resultrquestaction === 1) {
-        OpenDialogForActionSuccess(
-          `لقد نم رفض تاكيد استلام الاموال من زبون ${datUserClickAct.namezeboune}  و استرداد كل لمنتجات لموجود في طلبية و بلكمية للمخزون كل منج و تم اظهار تحديث`
-        );
-      } else if (resultrquestaction === 2) {
-        OpenDialogForActionSuccess(
-          "حدث خطا اثناء اتمام طلبية لتي تمثل تاكيد استلام الاموال سيتم تحميل صفحة و معاود مرة اخرى"
-        );
-      } else if (resultrquestaction === 14) {
-        OpenDialogForActionFound(
-          "بدو باتنك سبق لك و ان وافقت على دفع للطلبية سيتم تحميل صفحة و اضهار نتيجة نهائية "
-        );
-      } else if (resultrquestaction === 13) {
-        OpenDialogForActionFound(
-          "بدو باتنك سبق لك و ان رفضت دفع طلبية سيتم تحميل صفحة و اضهار نتيجة نهائية "
-        );
-      } else if (resultrquestaction === 9) {
-        OpenDialogForActionFound(
-          "بدو بانك لا تمتلك صلاحية تاكيد الاستلام الاموال لطرق دفع الاكترونية  و هي تنتمي للادارة الدفع الاكتروني"
-        );
-      } else if (resultrquestaction === 6) {
-        OpenDialogForActionFound(
-          "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
-        );
-      } else if (resultrquestaction === 4) {
-        OpenDialogForActionFound(
-          `يبدو بان ناجر اوقف خاصية دين عن زبون ${datUserClickAct.namezeboune} و لقد تم استرداد طلبية و ارجاع لكمية لمبيع من للمخزون فكل لمنتج موجود فطلبية`
-        );
-      } else if (resultrquestaction === 16) {
-        OpenDialogForActionFound(
-          "يبدو بانك لا تمتلك صلاحية ادارة لمبيعات يمكنك طلبها من تاجر لتوفيرها لك"
-        );
-      } else if (resultrquestaction === 22) {
-        OpenDialogForActionFound(
-          "تم رصد مشكلة في احد لمنتجات لمبيع حيث لم يتم لعثور عليها و لاحتمال لاكبر يقول بان تاجر حذف لمنتج يمكنك محاول لاحقا"
-        );
+      typRequest = '';
+      switch (resultrquestaction) {
+          case 1:
+          OpenDialogForActionSuccess(
+              `لقد نم رفض تاكيد استلام الاموال من زبون ${datUserClickAct.namezeboune}  و استرداد كل لمنتجات لموجود في طلبية و بلكمية للمخزون كل منج و تم اظهار تحديث`
+          );
+          typRequest = "Show";
+          ModelShowDate = "";
+          sangePageDat = 1;
+          return;
+          case 2:
+          OpenDialogForActionSuccess(
+              "حدث خطا اثناء اتمام طلبية لتي تمثل تاكيد استلام الاموال سيتم تحميل صفحة و معاود مرة اخرى"
+          );
+          return;
+          case 4:
+          OpenDialogForActionFound(
+              `يبدو بان ناجر اوقف خاصية دين عن زبون ${datUserClickAct.namezeboune} و لقد تم استرداد طلبية و ارجاع لكمية لمبيع من للمخزون فكل لمنتج موجود فطلبية`
+          );
+          return;
+          case 6:
+          OpenDialogForActionFound(
+              "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
+          );
+          return;
+          case 9:
+          OpenDialogForActionFound(
+              "بدو بانك لا تمتلك صلاحية تاكيد الاستلام الاموال لطرق دفع الاكترونية  و هي تنتمي للادارة الدفع الاكتروني"
+          );
+          return;
+          case 13:
+          OpenDialogForActionFound(
+              "بدو باتنك سبق لك و ان رفضت دفع طلبية سيتم تحميل صفحة و اضهار نتيجة نهائية "
+          );
+          return;
+          case 14:
+          OpenDialogForActionFound(
+              "بدو باتنك سبق لك و ان وافقت على دفع للطلبية سيتم تحميل صفحة و اضهار نتيجة نهائية "
+          );
+          return;
+          case 16:
+          OpenDialogForActionFound(
+              "يبدو بانك لا تمتلك صلاحية ادارة لمبيعات يمكنك طلبها من تاجر لتوفيرها لك"
+          );
+          return;
+          case 22:
+          OpenDialogForActionFound(
+              "تم رصد مشكلة في احد لمنتجات لمبيع حيث لم يتم لعثور عليها و لاحتمال لاكبر يقول بان تاجر حذف لمنتج يمكنك محاول لاحقا"
+          );
+          return;
+          case 99:
+          OpenDialogForActionFound(
+              "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+          );
+          return;
       }
-    } else if (typRequest === "ShowAllsDataPayProdectForId") {
+      return;
+      case 'ShowAllsDataPayProdectForId':
       HandleCloseOrOpenReadinPage(false);
-      typRequest = "";
+      if (resultrquestaction === 99) {
+          OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+          );
+          return;
+      }
+      typRequest = '';
       StartShowMoreDatImClick(
-        ShowAllsProdData.datone,
-        "prodect",
-        ShowAllsProdData.datthere,
-        ShowAllsProdData.datou,
-        `تفاصيل المبيعة لل  ${ShowAllsProdData.namezeboune}`,
-        "صورة تحويل  الاموال  ",
-        ShowAllsProdData.imgconfirmedpay,
-        `تفاصيل المنتجات المختار في المبيعة ${ShowAllsProdData.namezeboune}`,
-        `المزيد من المعلومات المبيعة لل ${ShowAllsProdData.namezeboune}`,
-        ShowAllsProdData.created_at,
-        ShowAllsProdData.id
+          ShowAllsProdData.datone,
+          "prodect",
+          ShowAllsProdData.datthere,
+          ShowAllsProdData.datou,
+          `تفاصيل المبيعة لل  ${ShowAllsProdData.namezeboune}`,
+          "صورة تحويل  الاموال  ",
+          ShowAllsProdData.imgconfirmedpay,
+          `تفاصيل المنتجات المختار في المبيعة ${ShowAllsProdData.namezeboune}`,
+          `المزيد من المعلومات المبيعة لل ${ShowAllsProdData.namezeboune}`,
+          ShowAllsProdData.created_at,
+          ShowAllsProdData.id
       );
+      return;
     }
   }, [resultrquestaction]); //== End Sheck Type Request To Show Result For User ==//
 
@@ -192,8 +234,9 @@ const DashboardBss = () => {
   // Start Open Aleart For Semthing Action
   function HandAddTypeThisActions(AllDataNow, TypeAction) {
     datUserClickAct = AllDataNow;
-    if (TypeAction === "ConfirmedPaymentProd") {
-      TypeAlearVipNow(
+    switch (TypeAction) {
+      case "ConfirmedPaymentProd":
+        return TypeAlearVipNow(
         AllDataNow,
         TypeAction + "FromEdartPayprod",
         "",
@@ -209,8 +252,8 @@ const DashboardBss = () => {
           : "من اجل تاكيد الاستلام الاموال رجاء ادخال كلمة السر الاعدادات مع لعلم بعدم قدرتك في تغيير القرار بعد تاكيده تاكد من اختيار القرار صحيح",
         AllDataNow.id
       );
-    } else if (TypeAction === "StopPaymentProd") {
-      TypeAlearVipNow(
+      case "StopPaymentProd":
+        return TypeAlearVipNow(
         AllDataNow,
         TypeAction + "FromEdartPayprod",
         "",
@@ -226,18 +269,17 @@ const DashboardBss = () => {
           : "من اجل تاكيد الاستلام الاموال رجاء ادخال كلمة السر الاعدادات مع لعلم بعدم قدرتك في تغيير القرار بعد تاكيده تاكد من اختيار القرار صحيح",
         AllDataNow.id
       );
-    } else if (TypeAction === "ShowDatePaymentProd") {
-      dispatsh(edartpayprodectshowallsdatapaymentprod(AllDataNow.id));
+      case "ShowDatePaymentProd":
+      return dispatsh(edartpayprodectshowallsdatapaymentprod(AllDataNow.id));
     }
   } //=== End Open Aleart For Semthing Action ===//
 
   // محاكاة تحميل البيانات
-  useMemo(() => {
+  const JsxtopCustomers = useMemo(() => {
     if (AllsDataUserNow && AllsDataUserNow.MayZeboune) {
-      JsxtopCustomers = AllsDataUserNow.MayZeboune.map((customer) => (
+      return AllsDataUserNow.MayZeboune.map((customer) => (
         <div key={customer.id} className="customer-card">
           <AvatarImgForAllType
-            style={"styleimgprofilcust"}
             MyAvatar={customer.image}
           />
           <div className="customer-info">
@@ -268,10 +310,66 @@ const DashboardBss = () => {
     }
   }, [AllsDataUserNow.MayZeboune]);
 
-  useMemo(() => {
-    ProdFinsh = AllsDataUserNow.MayProd.filter((prod) => {
-      return prod.nameThere == 0;
-    });
+  // أضف هذه الـ refs في بداية المكون
+  const numbersAnimated = React.useRef(false);
+  const sectionRef = React.useRef(null);
+  
+      // دالة الحركة الرقمية
+  const animateNumber = (element, start, end, duration) => {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      const value = Math.floor(progress * (end - start) + start);
+      element.textContent = value.toLocaleString();
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+    window.requestAnimationFrame(step);
+  };
+  
+    // بعد جلب البيانات من API، أضف هذا useEffect منفصل للحركة
+  useEffect(() => {
+    if (!AllsDataUserNow || numbersAnimated.current) return;
+  
+    // انتظر حتى يصبح DOM جاهزاً
+    const timer = setTimeout(() => {
+      const statNumbers = document.querySelectorAll('.stat-number');
+      statNumbers.forEach((element) => {
+        const target = parseInt(element.getAttribute('data-count'));
+        if (!isNaN(target) && target > 0) {
+          animateNumber(element, 0, target, 2000);
+        }
+      });
+      numbersAnimated.current = true;
+    }, 500);
+  
+    return () => clearTimeout(timer);
+  }, [AllsDataUserNow]);
+  
+  // useEffect للحركة
+  React.useEffect(() => {
+    if (!sectionRef.current) return;
+      
+      observer.observe(sectionRef.current);
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+  
+    observer.observe(sectionRef.current);
+  
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
+const JSXShowAllsDataBss = useMemo(() => {
+  ProdFinsh = AllsDataUserNow.MayProd.filter((prod) => {
+    return prod.nameThere == 0;
+  });
 
     prodHasFish = AllsDataUserNow.MayProd.filter((prod) => {
       return prod.nameThere < 15;
@@ -281,7 +379,7 @@ const DashboardBss = () => {
       return Zeboune.nameThere > 15;
     });
 
-    ToTalDeyn = AllsDataUserNow.MayZeboune.reduce(
+    const ToTalDeyn = AllsDataUserNow.MayZeboune.reduce(
       (sum, item) => sum + item.nameThere,
       0
     );
@@ -292,38 +390,38 @@ const DashboardBss = () => {
     if (AllsDataUserNow.MyPaymentProdectPay) {
       const dataShowMoreBss = [
         {
-          id: 1,
+          id: 8,
           titel: "التصنيفات",
-          data: totalCategorys.toLocaleString(),
-          icon: "📊",
+          data: totalCategorys,
+          icon: <CategoryIcon className="iconShwStyledas" />,
           tycolor: "",
         },
         {
-          id: 2,
+          id: 9,
           titel: "عدد المنتجات",
-          data: totalProdects.toLocaleString(),
-          icon: "📦",
+          data: totalProdects,
+          icon: <FaBoxes className="iconShwStyledas" />,
           tycolor: "",
         },
         {
           id: 3,
           titel: "منتجات نفدت",
-          data: ProdFinsh.length.toLocaleString(),
+          data: ProdFinsh.length,
           icon: "🚫",
           tycolor: "danger",
         },
         {
           id: 4,
           titel: "منتجات قاربت على النفاد",
-          data: prodHasFish.length.toLocaleString(),
+          data: prodHasFish.length,
           icon: "⚠️",
           tycolor: "warning",
         },
         {
           id: 5,
           titel: "عدد زباين",
-          data: totalCustomersGnL.toLocaleString(),
-          icon: "👥",
+          data: totalCustomersGnL,
+          icon: <PeopleIcon className="iconShwStyledas" />,
           tycolor: "",
         },
 
@@ -331,44 +429,43 @@ const DashboardBss = () => {
           id: 6,
           titel: "طلبيات فلانتظار",
           data: AllsDataUserNow.allOrderDontConfrmed,
-          icon: "📊",
+          icon: <FaBoxes className="iconShwStyledas" />,
           tycolor: "warning",
         },
         {
           id: 7,
           titel: "زباين مدانون",
           data: TotalDeynForAlsZeboune.length.toLocaleString(),
-          icon: "👥",
+          icon: <PeopleIcon className="iconShwStyledas" />,
           tycolor: "danger",
         },
         {
-          id: 8,
+          id: 1,
           titel: "إجمالي الديون هذا الشهر",
-          data: `${ToTalDeyn.toLocaleString()} ${
-            AllsDataUserNow.MyCurrentPaymentPay.currentCantry
-          }`,
+          data: ToTalDeyn,
           color: "#f59e0b",
-          icon: "📊",
+          icon: <AssuredWorkloadIcon className="iconShwStyledas" />,
           tycolor: "danger",
         },
         {
-          id: 9,
+          id: 2,
           titel: "اجمالي الارباح هذا الشهر",
-          data: `${AllsDataUserNow.TotaleProfiteMonth.toLocaleString()} ${
-            AllsDataUserNow.MyCurrentPaymentPay.currentCantry
-          }`,
-          icon: "💰",
+          data: AllsDataUserNow.TotaleProfiteMonth,
+          icon: <AssuredWorkloadIcon className="iconShwStyledas" />,
           tycolor: "danger",
         },
       ];
 
-      JSXShowAllsDataBss = dataShowMoreBss.map((card, index) => {
+      return dataShowMoreBss.map((card, index) => {
         return (
-          <div key={index} className="stat-card warning">
+          <div key={index} className="stat-card warning animate-slide-in" style={{ animationDelay: `${index * 0.4}s` }} >
             <div className="stat-icon">{card.icon}</div>
             <div className="stat-content">
               <h3>{card.titel}</h3>
-              <span className="stat-number">{card.data}</span>
+              <div style={{ display: 'flex', gap: '7px', alignItems: 'center', justifyContent: 'center' }}>
+                <span className="stat-number" data-count={card.data}>0</span>
+                {card.titel === 'إجمالي الديون هذا الشهر' || card.titel === 'اجمالي الارباح هذا الشهر' ? AllsDataUserNow.MyCurrentPaymentPay.currentCantry : ''}
+              </div>
             </div>
           </div>
         );
@@ -376,9 +473,9 @@ const DashboardBss = () => {
     }
   }, [AllsDataUserNow]);
 
-  useMemo(() => {
+  const JsxdatalastBaymentsProdects = useMemo(() => {
     if (AllsDataUserNow.MyPaymentProdectPay) {
-      JsxdatalastBaymentsProdects = AllsDataUserNow.MyPaymentProdectPay.map(
+      return AllsDataUserNow.MyPaymentProdectPay.map(
         (order) => (
           <tr key={order.id}>
             <td>#{order.id}</td>

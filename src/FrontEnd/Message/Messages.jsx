@@ -24,7 +24,7 @@ import {
   Notifications,
   Warning,
 } from "@mui/icons-material";
-import Header from "../layoute/Hedaer";
+import Header from "../layoute/Header";
 import { useSelector, useDispatch } from "react-redux";
 import AvatarImgForAllType from "../Commponent/AvatarImgForAllType";
 import { ShowAllsMyMessage } from "../../allsliceproj/Message Alls User/MessageAllsUserSlice";
@@ -32,7 +32,6 @@ import { useDialogActionContext } from "../Context/DialogActionContext";
 import TitelPage from "../Commponent/TitelPage";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-const token = Cookies.get("token");
 
 // تنسيقات مخصصة
 const MessageCard = styled(Card)(({ theme }) => ({
@@ -76,7 +75,7 @@ const Messages = () => {
     OpenDialogForActionFound,
     HandleCloseOrOpenReadinPage,
     OpenDialogForActionSuccess,
-  } = useDialogActionContext(); //AllMyDataMessage,
+  } = useDialogActionContext();
 
   const navigate = useNavigate();
 
@@ -158,7 +157,15 @@ const Messages = () => {
 
   // Start Sheck Type Request To Show Result For User
   React.useMemo(() => {
-    if (typRequest === "StartConfirmedaddMyZeboun") {
+    if(typRequest === "Show") {
+      if (resultrquestaction === 99) {
+        typRequest = "Show";
+        OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+        );
+        navigate("/dashboard");
+      }
+    } else if (typRequest === "StartConfirmedaddMyZeboun") {
       typRequest = typActionrespNoew;
       if (resultrquestaction === 1) {
         OpenDialogForActionSuccess(
@@ -184,6 +191,10 @@ const Messages = () => {
         setTimeout(() => {
           window.location.reload();
         }, 3500);
+      } else if (resultrquestaction === 99) {
+        OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+        );
       }
     } else if (typRequest === "StartDscConfirmedaddMyZeboun") {
       HandleCloseOrOpenReadinPage(false);
@@ -212,6 +223,10 @@ const Messages = () => {
         setTimeout(() => {
           window.location.reload();
         }, 3500);
+      } else if (resultrquestaction === 99) {
+        OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+        );
       }
     } else if (typRequest === "StartToConfirmedGetMyRatibe") {
       HandleCloseOrOpenReadinPage(false);
@@ -231,6 +246,10 @@ const Messages = () => {
       } else if (resultrquestaction === 9) {
         OpenDialogForActionFound(
           `يبدو بانك سبف و رفضت استلام الراتب من تاجر ${datuserClick.NameUserSendMessage} لذا لا يتاح تغيير القرار يمكنك طلب من تاجر ارسالها مرة اخرى كما تم تحديث لبيانات`
+        );
+      } else if (resultrquestaction === 99) {
+        OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
         );
       }
     } else if (typRequest === "StartToDscConfirmedGetMyRatibe") {
@@ -252,6 +271,10 @@ const Messages = () => {
         OpenDialogForActionFound(
           `يبدو بانك سبف و رفضت استلام الراتب من تاجر ${datuserClick.NameUserSendMessage} لذا لا يتاح تغيير القرار يمكنك طلب من تاجر ارسالها مرة اخرى كما تم تحديث لبيانات`
         );
+      } else if (resultrquestaction === 99) {
+        OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+        );
       }
     } else if (typRequest === "StartConfirmedDemandTraveForBss") {
       HandleCloseOrOpenReadinPage(false);
@@ -272,6 +295,10 @@ const Messages = () => {
         OpenDialogForActionFound(
           `سبق و ان رفضت على توضيف بغعل و لا يتاح تغيير القرار فرسالة الواحد كما تم تحديث لبيانات ${datuserClick.NameUserSendMessage} بنجاح `
         );
+      } else if (resultrquestaction === 99) {
+        OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+        );
       }
     } else if (typRequest === "StartDscConfirmedDemandTraveForBss") {
       HandleCloseOrOpenReadinPage(false);
@@ -288,6 +315,10 @@ const Messages = () => {
         OpenDialogForActionFound(
           `سبق و ان رفضت على طلبية توضيف بغعل و لا يتاح تغيير القرار فرسالة الواحد كما تم تحديث لبيانات ${datuserClick.NameUserSendMessage} بنجاح `
         );
+      } else if (resultrquestaction === 99) {
+        OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+        );
       }
     }
   }, [resultrquestaction]); //== End Sheck Type Request To Show Result For User ==//
@@ -295,126 +326,119 @@ const Messages = () => {
   // Start To Confirmed Smenthing Action FoR Mt Message Demand
   const handleSendRequestTureOk = async (Message) => {
     datuserClick = Message;
-    if (Message.sheckMessage === "zeboune") {
-      const datMessg = {
-        id: Message.id,
-        currentpagenone: currentpagenow,
-      };
-      TypeAlearVipNow(
-        datMessg,
-        "ConfirmedMessagForAddMyZeboune",
-        "",
-        "",
-        "",
-        "",
-        `تاكيد موافق على طلبية تكوين علاقة زبائنية ${Message.NameUserSendMessage}`,
-        "قبول",
-        "",
-        "user",
-        "هل انت متاكد من رغبتك فتاكيد القرار و قبول علاقة زبائنية مع تاجر المذكور نضرا لعدم قدرتك على تغيير القرار",
-        Message.id
-      );
-    } else if (Message.sheckMessage === "tewve") {
-      console.log(Message.sheckMessage);
-      console.log(Message);
-      TypeAlearVipNow(
-        Message,
-        "ConfirmedMessagForAddMyTeweve",
-        "",
-        "",
-        "",
-        "",
-        `تاكيد موافق على طلبية توضيف من تاجر ${Message.NameUserSendMessage}`,
-        "قبول",
-        "",
-        "user",
-        "هل انت متاكد من رغبتك فتاكيد القرار و قبول توضيف نضرا لعدم قدرتك على تغيير القرار",
-        Message.id
-      );
-    } else if (Message.sheckMessage == "Ratibe") {
-      console.log(Message.sheckMessage);
-      console.log(Message);
-      TypeAlearVipNow(
-        Message,
-        "ConfirmedGetMyRatibeTeweve",
-        "",
-        "",
-        "",
-        "",
-        `تاكيد استلام الراتبك من تاجر ${Message.NameUserSendMessage}`,
-        "تاكيد",
-        "",
-        "user",
-        "هل انت متاكد من استلام الراتبك بعد موافقتك سيبدا احتساب شهر جديد من العمل ",
-        Message.id
-      );
+    switch (Message.sheckMessage) {
+      case "zeboune":
+        return TypeAlearVipNow(
+          {
+            id: Message.id,
+            currentpagenone: currentpagenow,
+          },
+          "ConfirmedMessagForAddMyZeboune",
+          "",
+          "",
+          "",
+          "",
+          `تاكيد موافق على طلبية تكوين علاقة زبائنية ${Message.NameUserSendMessage}`,
+          "قبول",
+          "",
+          "user",
+          "هل انت متاكد من رغبتك فتاكيد القرار و قبول علاقة زبائنية مع تاجر المذكور نضرا لعدم قدرتك على تغيير القرار",
+          Message.id
+        );
+      case "tewve":
+        return TypeAlearVipNow(
+          Message,
+          "ConfirmedMessagForAddMyTeweve",
+          "",
+          "",
+          "",
+          "",
+          `تاكيد موافق على طلبية توضيف من تاجر ${Message.NameUserSendMessage}`,
+          "قبول",
+          "",
+          "user",
+          "هل انت متاكد من رغبتك فتاكيد القرار و قبول توضيف نضرا لعدم قدرتك على تغيير القرار",
+          Message.id
+        );
+      case "Ratibe":
+        return TypeAlearVipNow(
+          Message,
+          "ConfirmedGetMyRatibeTeweve",
+          "",
+          "",
+          "",
+          "",
+          `تاكيد استلام الراتبك من تاجر ${Message.NameUserSendMessage}`,
+          "تاكيد",
+          "",
+          "user",
+          "هل انت متاكد من استلام الراتبك بعد موافقتك سيبدا احتساب شهر جديد من العمل ",
+          Message.id
+        );
     }
   }; // End To Confirmed Smenthing Action For My Message Demand
 
   const handleSendRequestCoseThisMessage = async (Message) => {
     datuserClick = Message;
-    if (Message.sheckMessage === "zeboune") {
-      const datMessg = {
-        id: Message.id,
-        currentpagenone: currentpagenow,
-      };
-      TypeAlearVipNow(
-        datMessg,
-        "DscConfirmedMessagForAddMyZeboune",
-        "",
-        "",
-        "",
-        "",
-        `تاكيد رفض على طلبية تكوين علاقة زبائنية ${Message.NameUserSendMessage}`,
-        "تاكيد",
-        "",
-        "user",
-        "هل انت متاكد من رغبتك في رفرض القرار و عدم تكوين علاقة زبائنية مع تاجر المذكور ",
-        Message.id
-      );
-    } else if (Message.sheckMessage === "tewve") {
-      console.log(Message.sheckMessage);
-      console.log(Message);
-      TypeAlearVipNow(
-        Message,
-        "DscConfirmedMessagForAddTewve",
-        "",
-        "",
-        "",
-        "",
-        `تاكيد رفض على طلبية توضيف من تاجر ${Message.NameUserSendMessage}`,
-        "تاكيد",
-        "",
-        "user",
-        "هل انت متاكد من رغبتك في رفض القرار و عدم قبول توضيف",
-        Message.id
-      );
-    } else if (Message.sheckMessage === "Ratibe") {
-      const datMessg = {
-        id: Message.id,
-        currentpagenone: currentpagenow,
-      };
-      TypeAlearVipNow(
-        datMessg,
-        "DscConfirmedGetMyRatibeTeweveUser",
-        "",
-        "",
-        "",
-        "",
-        `تاكيد رفض استلام الراتبك من تاجر ${Message.NameUserSendMessage}`,
-        "تاكيد",
-        "",
-        "user",
-        "هل انت متاكد من عدم استلام الراتبك بعد رفضك سيتم استمرار قي شهر الحالي من دوم تغيير ",
-        Message.id
-      );
+    switch (Message.sheckMessage) {
+      case "zeboune":
+        return TypeAlearVipNow(
+          {
+            id: Message.id,
+            currentpagenone: currentpagenow,
+          },
+          "DscConfirmedMessagForAddMyZeboune",
+          "",
+          "",
+          "",
+          "",
+          `تاكيد رفض على طلبية تكوين علاقة زبائنية ${Message.NameUserSendMessage}`,
+          "تاكيد",
+          "",
+          "user",
+          "هل انت متاكد من رغبتك في رفرض القرار و عدم تكوين علاقة زبائنية مع تاجر المذكور ",
+          Message.id
+        );
+      case "tewve":
+        return TypeAlearVipNow(
+          Message,
+          "DscConfirmedMessagForAddTewve",
+          "",
+          "",
+          "",
+          "",
+          `تاكيد رفض على طلبية توضيف من تاجر ${Message.NameUserSendMessage}`,
+          "تاكيد",
+          "",
+          "user",
+          "هل انت متاكد من رغبتك في رفض القرار و عدم قبول توضيف",
+          Message.id
+        );
+      case "Ratibe":
+        return TypeAlearVipNow(
+          {
+            id: Message.id,
+            currentpagenone: currentpagenow,
+          },
+          "DscConfirmedGetMyRatibeTeweveUser",
+          "",
+          "",
+          "",
+          "",
+          `تاكيد رفض استلام الراتبك من تاجر ${Message.NameUserSendMessage}`,
+          "تاكيد",
+          "",
+          "user",
+          "هل انت متاكد من عدم استلام الراتبك بعد رفضك سيتم استمرار قي شهر الحالي من دوم تغيير ",
+          Message.id
+        );
     }
   };
 
   // تحميل الرسائل
   const loadMessages = useCallback(async (page = 1) => {
-    // setLoading(true);
-    dispatsh(ShowAllsMyMessage(page));
+    dispatsh(ShowAllsMyMessage({page: page, typ: 'moredata'}));
+    typeShowDataNow = "More";
   }, []);
 
   // تحميل المزيد من الرسائل عند الوصول للأسفل
@@ -439,10 +463,12 @@ const Messages = () => {
 
   // تحميل الرسائل الأولى
   React.useEffect(() => {
-    dispatsh(ShowAllsMyMessage(1));
+    dispatsh(ShowAllsMyMessage({page: 1, typ: 'first'}));
     typeShowDataNow = "Show";
     typRequest = "Show";
+    
   }, []);
+  
 
   const getCategoryIcon = (category) => {
     switch (category) {
@@ -485,289 +511,284 @@ const Messages = () => {
     setSnackbar({ ...snackbar, open: false });
   };
 
-  if (token) {
-    return (
-      <>
-        <Header typeactive={"Message"} />
-        <Container maxWidth="md" sx={{ py: 4, mt: "110px" }}>
-          {/* رأس الصفحة */}
-          <TitelPage TitelPage="البريد الرسائل و الاشعارات العامة" />
+  return (
+    <>
+      <Header typeactive={"Message"} />
+      <Container maxWidth="md" sx={{ py: 4, mt: "110px" }}>
+        {/* رأس الصفحة */}
+        <TitelPage TitelPage="البريد الرسائل و الاشعارات العامة" />
 
-          {/* حالة التحميل الأولى */}
-          {loading && (
-            <Box sx={{ display: "flex", justifyContent: "center", py: 8 }}>
-              <CircularProgress size={60} />
-            </Box>
-          )}
+        {/* حالة التحميل الأولى */}
+        {loading && (
+          <Box sx={{ display: "flex", justifyContent: "center", py: 8 }}>
+            <CircularProgress size={60} />
+          </Box>
+        )}
 
-          {/* حالة عدم وجود رسائل */}
-          {!loading && returndata.length === 0 && (
-            <Box sx={{ textAlign: "center", py: 8 }}>
-              <Warning sx={{ fontSize: 60, color: "grey.400", mb: 2 }} />
-              <Typography variant="h6" color="text.secondary">
-                لا توجد رسائل لعرضها
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                صندوق الرسائل فارغ حالياً
-              </Typography>
-            </Box>
-          )}
+        {/* حالة عدم وجود رسائل */}
+        {!loading && returndata.length === 0 && (
+          <Box sx={{ textAlign: "center", py: 8 }}>
+            <Warning sx={{ fontSize: 60, color: "grey.400", mb: 2 }} />
+            <Typography variant="h6" color="text.secondary">
+              لا توجد رسائل لعرضها
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+              صندوق الرسائل فارغ حالياً
+            </Typography>
+          </Box>
+        )}
 
-          {/* قائمة الرسائل */}
-          {!loading && returndata.length > 0 && (
-            <Stack spacing={2}>
-              {returndata.map((message) => (
-                <MessageCard key={message.id}>
-                  <CardContent sx={{ p: 3 }}>
-                    {/* رأس الرسالة */}
-                    <Box
-                      sx={{ display: "flex", alignItems: "flex-start", mb: 2 }}
-                    >
-                      {/* صورة المرسل */}
-                      <Badge
-                        overlap="circular"
-                        anchorOrigin={{
-                          vertical: "bottom",
-                          horizontal: "right",
-                        }}
-                        badgeContent={
-                          <Avatar
-                            sx={{ width: 24, height: 24, bgcolor: "white" }}
-                          >
-                            {getCategoryIcon(message.sheckMessage)}
-                          </Avatar>
-                        }
-                      >
-                        <AvatarImgForAllType
-                          style={{
-                            width: "70px",
-                            height: "70px",
-                            fontSize: "1.8rem",
-                            bgcolor: "none",
-                          }}
-                          MyAvatar={message.image}
-                        />
-                      </Badge>
-
-                      {/* معلومات المرسل والرسالة */}
-                      <Box sx={{ flex: 1, ml: 2 }}>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "flex-start",
-                          }}
+        {/* قائمة الرسائل */}
+        {!loading && returndata.length > 0 && (
+          <Stack spacing={2}>
+            {returndata.map((message) => (
+              <MessageCard key={message.id}>
+                <CardContent key={message.id +2321} sx={{ p: 3 }}>
+                  {/* رأس الرسالة */}
+                  <Box
+                    sx={{ display: "flex", alignItems: "flex-start", mb: 2 }}
+                  >
+                    {/* صورة المرسل */}
+                    <Badge
+                      overlap="circular"
+                      anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "right",
+                      }}
+                      badgeContent={
+                        <Avatar
+                          sx={{ width: 24, height: 24, bgcolor: "white" }}
                         >
-                          <Box className="stylmessgtitelandnamesend">
-                            <Box
-                              sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                mb: 1,
-                              }}
-                            >
-                              <Typography variant="h6" component="h2">
-                                {message.titel}
-                              </Typography>
-                            </Box>
-                            <Typography variant="h6">
-                              من: {message.NameUserSendMessage}
-                            </Typography>
-                          </Box>
+                          {getCategoryIcon(message.sheckMessage)}
+                        </Avatar>
+                      }
+                    >
+                      <AvatarImgForAllType
+                        style={{
+                          width: "70px",
+                          height: "70px",
+                          fontSize: "1.8rem",
+                          bgcolor: "none",
+                        }}
+                        MyAvatar={message.image}
+                      />
+                    </Badge>
 
-                          <Box sx={{ textAlign: "left" }}>
-                            <Chip
-                              label={getCategoryTitel(message.sheckMessage)}
-                              size="small"
-                              color={getCategoryColor(message.sheckMessage)}
-                              variant="outlined"
-                              sx={{ mr: 1 }}
-                            />
-                            <Typography
-                              variant="caption"
-                              display="block"
-                              color="text.secondary"
-                              sx={{ mt: 0.5 }}
-                            >
-                              {message.created_at}
-                            </Typography>
-                          </Box>
-                        </Box>
-
-                        <div className="messagedscandcardtypstyle">
-                          {/* محتوى الرسالة */}
-                          <Typography
-                            variant="body1"
-                            color="text.primary"
-                            sx={{ mt: 2, mb: 2, lineHeight: 1.6 }}
-                          >
-                            {message.message}
-                          </Typography>
-                        </div>
-
-                        <Divider sx={{ my: 2 }} />
-
-                        {/* أزرار الإجراءات للرسائل التفاعلية */}
-                        {(message.sheckMessage === "zeboune" &&
-                          message.TypeMessage === "Waite" &&
-                          message.CloceMessage !== 1) ||
-                        (message.sheckMessage === "tewve" &&
-                          message.TypeMessage === "Waite" &&
-                          message.CloceMessage !== 1) ||
-                        (message.sheckMessage === "Ratibe" &&
-                          message.TypeMessage === "Waite" &&
-                          message.CloceMessage !== 1) ? (
+                    {/* معلومات المرسل والرسالة */}
+                    <Box sx={{ flex: 1, ml: 2 }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "flex-start",
+                        }}
+                      >
+                        <Box className="stylmessgtitelandnamesend">
                           <Box
                             sx={{
                               display: "flex",
-                              justifyContent: "flex-end",
-                              mt: 2,
+                              alignItems: "center",
+                              mb: 1,
                             }}
                           >
-                            <ActionButton
-                              variant="contained"
-                              size="medium"
-                              startIcon={<CheckCircle />}
-                              actiontype="accept"
-                              disabled={
-                                message.TypeMessage !== "Waite" ||
-                                message.CloceMessage === 1
-                              }
-                              onClick={() => handleSendRequestTureOk(message)}
-                            >
-                              قبول الطلب
-                            </ActionButton>
-                            <ActionButton
-                              variant="contained"
-                              size="medium"
-                              startIcon={<Cancel />}
-                              actiontype="reject"
-                              onClick={() =>
-                                handleSendRequestCoseThisMessage(message)
-                              }
-                              aria-disabled={
-                                message.TypeMessage !== "Waite" ||
-                                message.CloceMessage == 1
-                              }
-                            >
-                              رفض الطلب
-                            </ActionButton>
+                            <Typography variant="h6" component="h2">
+                              {message.titel}
+                            </Typography>
                           </Box>
-                        ) : (
-                          ""
-                        )}
+                          <Typography variant="h6">
+                            من: {message.NameUserSendMessage}
+                          </Typography>
+                        </Box>
 
-                        {/* حالة الرسائل التي تم الرد عليها */}
-                        {(message.sheckMessage === "zeboune" &&
-                          message.TypeMessage !== "Waite") ||
-                        (message.sheckMessage === "tewve" &&
-                          message.TypeMessage !== "Waite") ||
-                        (message.sheckMessage === "Ratibe" &&
-                          message.TypeMessage !== "Waite") ? (
+                        <Box sx={{ textAlign: "left" }}>
+                          <Chip
+                            label={getCategoryTitel(message.sheckMessage)}
+                            size="small"
+                            color={getCategoryColor(message.sheckMessage)}
+                            variant="outlined"
+                            sx={{ mr: 1 }}
+                          />
+                          <Typography
+                            variant="caption"
+                            display="block"
+                            color="text.secondary"
+                            sx={{ mt: 0.5 }}
+                          >
+                            {message.created_at}
+                          </Typography>
+                        </Box>
+                      </Box>
+
+                      <div className="messagedscandcardtypstyle">
+                        {/* محتوى الرسالة */}
+                        <Typography
+                          variant="body1"
+                          color="text.primary"
+                          sx={{ mt: 2, mb: 2, lineHeight: 1.6 }}
+                        >
+                          {message.message}
+                        </Typography>
+                      </div>
+
+                      <Divider sx={{ my: 2 }} />
+
+                      {/* أزرار الإجراءات للرسائل التفاعلية */}
+                      {(message.sheckMessage === "zeboune" &&
+                        message.TypeMessage === "Waite" &&
+                        message.CloceMessage !== 1) ||
+                      (message.sheckMessage === "tewve" &&
+                        message.TypeMessage === "Waite" &&
+                        message.CloceMessage !== 1) ||
+                      (message.sheckMessage === "Ratibe" &&
+                        message.TypeMessage === "Waite" &&
+                        message.CloceMessage !== 1) &&
+                        message.user_id === ProfileSnageNow.user_id ? (
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            mt: 2,
+                          }}
+                        >
+                          <ActionButton
+                            variant="contained"
+                            size="medium"
+                            startIcon={<CheckCircle />}
+                            actiontype="accept"
+                            disabled={
+                              message.TypeMessage !== "Waite" ||
+                              message.CloceMessage === 1
+                            }
+                            onClick={() => handleSendRequestTureOk(message)}
+                          >
+                            قبول الطلب
+                          </ActionButton>
+                          <ActionButton
+                            variant="contained"
+                            size="medium"
+                            startIcon={<Cancel />}
+                            actiontype="reject"
+                            onClick={() =>
+                              handleSendRequestCoseThisMessage(message)
+                            }
+                            aria-disabled={
+                              message.TypeMessage !== "Waite" ||
+                              message.CloceMessage == 1
+                            }
+                          >
+                            رفض الطلب
+                          </ActionButton>
+                        </Box>
+                      ) : (
+                        ""
+                      )}
+
+                      {/* حالة الرسائل التي تم الرد عليها */}
+                      {(message.sheckMessage === "zeboune" &&
+                        message.TypeMessage !== "Waite") ||
+                      (message.sheckMessage === "tewve" &&
+                        message.TypeMessage !== "Waite") ||
+                      (message.sheckMessage === "Ratibe" &&
+                        message.TypeMessage !== "Waite") ? (
+                        <Box sx={{ textAlign: "center", py: 1 }}>
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              fontWeight: "bold",
+                              color:
+                                message.TypeMessage === "Confirmed"
+                                  ? "success.main"
+                                  : "error.main",
+                            }}
+                          >
+                            {message.TypeMessage === "Confirmed"
+                              ? "✓ لقد قبلت هذا الطلب"
+                              : "" ||
+                                message.TypeMessage === "Close" ||
+                                message.CloceMessage == 1
+                              ? "✗ لقد رفضت هذا الطلب"
+                              : "" ||
+                                message.TypeMessage === "Stop" ||
+                                message.CloceMessage == 2
+                              ? "✗ تم العاء الطلب"
+                              : ""}
+                          </Typography>
+                        </Box>
+                      ) : (
+                        ""
+                      )}
+
+                      {/* الرسائل الإشعارية */}
+                      {message.sheckMessage !== "zeboune" &&
+                        message.sheckMessage !== "tewve" &&
+                        message.sheckMessage !== "Ratibe" && (
                           <Box sx={{ textAlign: "center", py: 1 }}>
                             <Typography
                               variant="body2"
-                              sx={{
-                                fontWeight: "bold",
-                                color:
-                                  message.TypeMessage === "Confirmed"
-                                    ? "success.main"
-                                    : "error.main",
-                              }}
+                              color="text.secondary"
+                              fontStyle="italic"
                             >
-                              {message.TypeMessage === "Confirmed"
-                                ? "✓ لقد قبلت هذا الطلب"
-                                : "" ||
-                                  message.TypeMessage === "Close" ||
-                                  message.CloceMessage == 1
-                                ? "✗ لقد رفضت هذا الطلب"
-                                : "" ||
-                                  message.TypeMessage === "Stop" ||
-                                  message.CloceMessage == 2
-                                ? "✗ تم العاء الطلب"
-                                : ""}
+                              📋 هذه رسالة إعلامية لا تتطلب أي إجراء منك
                             </Typography>
                           </Box>
-                        ) : (
-                          ""
                         )}
-
-                        {/* الرسائل الإشعارية */}
-                        {message.sheckMessage !== "zeboune" &&
-                          message.sheckMessage !== "tewve" &&
-                          message.sheckMessage !== "Ratibe" && (
-                            <Box sx={{ textAlign: "center", py: 1 }}>
-                              <Typography
-                                variant="body2"
-                                color="text.secondary"
-                                fontStyle="italic"
-                              >
-                                📋 هذه رسالة إعلامية لا تتطلب أي إجراء منك
-                              </Typography>
-                            </Box>
-                          )}
-                      </Box>
                     </Box>
-                  </CardContent>
-                </MessageCard>
-              ))}
+                  </Box>
+                </CardContent>
+              </MessageCard>
+            ))}
 
-              {/* تحميل المزيد */}
-              {loadingmoredata ? (
-                <Box sx={{ display: "flex", justifyContent: "center", py: 3 }}>
-                  <CircularProgress size={40} />
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ ml: 2, alignSelf: "center" }}
-                  >
-                    جاري تحميل المزيد من الرسائل...
-                  </Typography>
-                </Box>
-              ) : (
-                ""
-              )}
+            {/* تحميل المزيد */}
+            {loadingmoredata ? (
+              <Box sx={{ display: "flex", justifyContent: "center", py: 3 }}>
+                <CircularProgress size={40} />
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ ml: 2, alignSelf: "center" }}
+                >
+                  جاري تحميل المزيد من الرسائل...
+                </Typography>
+              </Box>
+            ) : (
+              ""
+            )}
 
-              {/* نهاية القائمة */}
-              {last_page == currentpagenow ? (
-                <Box sx={{ textAlign: "center", py: 3 }}>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    fontStyle="italic"
-                  >
-                    🏁 لقد وصلت إلى نهاية الرسائل
-                  </Typography>
-                </Box>
-              ) : (
-                ""
-              )}
-            </Stack>
-          )}
+            {/* نهاية القائمة */}
+            {last_page == currentpagenow ? (
+              <Box sx={{ textAlign: "center", py: 3 }}>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  fontStyle="italic"
+                >
+                  🏁 لقد وصلت إلى نهاية الرسائل
+                </Typography>
+              </Box>
+            ) : (
+              ""
+            )}
+          </Stack>
+        )}
 
-          {/* Snackbar للإشعارات */}
-          <Snackbar
-            open={snackbar.open}
-            autoHideDuration={4000}
+        {/* Snackbar للإشعارات */}
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={4000}
+          onClose={closeSnackbar}
+          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        >
+          <Alert
             onClose={closeSnackbar}
-            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+            severity="success"
+            sx={{ width: "100%" }}
           >
-            <Alert
-              onClose={closeSnackbar}
-              severity="success"
-              sx={{ width: "100%" }}
-            >
-              {snackbar.message}
-            </Alert>
-          </Snackbar>
-        </Container>
-      </>
-    );
-  } else {
-    HandleCloseOrOpenReadinPage(true);
-    Cookies.remove("user_token");
-    window.location.href = "home";
-  }
+            {snackbar.message}
+          </Alert>
+        </Snackbar>
+      </Container>
+    </>
+  );
 };
 
 export default Messages;

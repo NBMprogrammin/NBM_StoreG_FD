@@ -1,39 +1,126 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./StoreSettings.css";
-import Header from "../layoute/Hedaer";
+import Header from "../layoute/Header";
 import {
   starttoconfirmedshangeemailprofile,
   starttoshangdataprofilesettingsuserandbss,
   starttoshangemyemailprofile,
   StartToUpdateOrdCreatePasswordSettingForBss,
-} from "../../allsliceproj/Controller Data Profile Now/controolerdataprodfilenow";
+  lastedefaultdatastate
+} from "../../allsliceproj/Controller Data Profile Now/controolerdataprodfilenowSlice";
 import { useDialogActionContext } from "../Context/DialogActionContext";
 import { useSelector, useDispatch } from "react-redux";
 import TitelPage from "../Commponent/TitelPage";
+import { Input } from "@mui/joy";
+
+import {
+  TextField,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
+
+import {
+  Visibility,
+  VisibilityOff,
+  Lock,
+  Person,
+} from "@mui/icons-material";
+import CountryInput from "../Commponent/CantryInput";
+import ApartmentIcon from '@mui/icons-material/Apartment';
+import PasswordIcon from '@mui/icons-material/Password';
+
 let typRequest = "";
 
-// فئات المتجر
+// Bast Glabe In The Word Now
 const storeCategories = [
-  "برشلونة",
-  "ريال مدريد",
-  "تلاتيكو مدريد",
-  "مان سيتي",
-  "مان يونايتد",
-  "لفربول",
-  "ارسنال",
-  "تشلسي",
-  "باريس",
-  "مارسيليا",
+  {
+    id: 1,
+    TypeData: 'categorys',
+    nameOne: "برشلونة",
+  },
+  {
+    id: 2,
+    TypeData: 'categorys',
+    nameOne: "ريال مدريد",
+  },
+  {
+    id: 3,
+    TypeData: 'categorys',
+    nameOne: "تلاتيكو مدريد"
+  },
+  {
+    id: 4,
+    TypeData: 'categorys',
+    nameOne: "مان سيتي"
+  },
+  {
+    id: 5,
+    TypeData: 'categorys',
+    nameOne: "مان يونايتد",
+  },
+  {
+    id: 6,
+    TypeData: 'categorys',
+    nameOne: "لفربول",
+  },
+  {
+    id: 7,
+    TypeData: 'categorys',
+    nameOne: "ارسنال",
+  },
+  {
+    id: 8,
+    TypeData: 'categorys',
+    nameOne: "تشلسي",
+  },
+  {
+    id: 9,
+    TypeData: 'categorys',
+    nameOne: "باريس",
+  },
+  {
+    id: 10,
+    TypeData: 'categorys',
+    nameOne: "مارسيليا",
+  }
 ];
 
 const allgamingsToPlaye = [
-  "efootal",
-  "pubg mobile",
-  "free fire",
-  "EFC Mobile",
-  "golf Dot",
-  "Dls",
-  "Boxing",
+  {
+    id: 1,
+    nameOne: "efootal",
+    TypeData: 'categorys',
+  },
+  {
+    id: 2,
+    nameOne: "pubg mobile",
+    TypeData: 'categorys',
+  },
+  {
+    id: 3,
+    nameOne: "free fire",
+    TypeData: 'categorys',
+  },
+  {
+    id: 4,
+    nameOne: "EFC Mobile",
+    TypeData: 'categorys',
+  },
+  {
+    id: 5,
+    nameOne: "golf Dot",
+    TypeData: 'categorys',
+  },
+  {
+    id: 6,
+    nameOne: "Dls",
+    TypeData: 'categorys',
+  },
+  {
+    id: 7,
+    nameOne: "Boxing",
+    TypeData: 'categorys',
+  },
 ];
 
 const UserSettings = () => {
@@ -65,6 +152,9 @@ const UserSettings = () => {
     email: "",
     phone: "",
   });
+  
+  const [showPasswordco, setShowPasswordco] = useState(false);
+  const [showPasswordct, setShowPasswordct] = useState(false);
 
   // حالة التعديل
   const [isEditing, setIsEditing] = useState(false);
@@ -80,7 +170,7 @@ const UserSettings = () => {
     passwordC: "",
   });
 
-  const [verificationType, setVerificationType] = useState(null);
+  const verificationType = useRef(null);
   const [verificationCode, setVerificationCode] = useState("");
   const [cooldown, setCooldown] = useState(0);
 
@@ -89,7 +179,6 @@ const UserSettings = () => {
     OpenDialogForActionFound,
     HandleCloseOrOpenReadinPage,
     OpenDialogForActionSuccess,
-    NowProfilShanfe,
     TypeAlearVipNow,
   } = useDialogActionContext();
 
@@ -97,6 +186,10 @@ const UserSettings = () => {
   const resultrquestaction = useSelector((state) => {
     return state.datauser.resultrquestaction;
   });
+
+  const NowProfilShanfe = useSelector((state) => {
+      return state.datauser.ProfileSnageNow;
+    });
 
   const lodingtorspact = useSelector((state) => {
     return state.datauser.lodingtorspact;
@@ -107,110 +200,7 @@ const UserSettings = () => {
   });
   //== End Get Alls Data To Do Semthong In The Page Form Slice Controller ==//
 
-  // Start Here To Get Sult For Semthing Request In Page
-  React.useEffect(() => {
-    if (typRequest === "starttocreateorupdpasswordsettings") {
-      if (resultrquestaction === 1) {
-        OpenDialogForActionSuccess(
-          "تم تحديث كلمة السر السر لحسابك شخصي بنجاح يمكنك استعمالها الان"
-        );
-      } else if (resultrquestaction === 3 || resultrquestaction === 2) {
-        OpenDialogForActionFound(
-          "حدث خطا غير معروف اثناء لعملية سيتم تحميل صفحة و اضهار تحديث",
-          "active"
-        );
-        setTimeout(() => {
-          window.location.reload();
-        }, 4000);
-      }
-    } else if (typRequest === "startshangeprofilesettingsforuser") {
-      if (resultrquestaction === 1) {
-        OpenDialogForActionSuccess(
-          "تم تحديث بيانات لحسابك شخصي بنجاح سيتم تحميل صفحو و اضهار تحديث",
-          "active"
-        );
-        setTimeout(() => {
-          window.location.reload();
-        }, 4000);
-      } else if (resultrquestaction === 2 || resultrquestaction === 5) {
-        OpenDialogForActionFound(
-          "حدث خطا غير معروف اثناء لعملية سيتم تحميل صفحة و اضهار تحديث",
-          "active"
-        );
-        setTimeout(() => {
-          window.location.reload();
-        }, 4000);
-      }
-    } else if (typRequest === "startshangenumberphonemyprofile") {
-      if (resultrquestaction === 3) {
-        OpenDialogForActionFound(
-          `تم رصد رقم لهاتف ${dataProfileBssNow.storePhone} حاليا قيد لاستخدام من طرف لمستخدم اخر يمكنك تغيير لبيانات و لمحاولة`
-        );
-      } else if (resultrquestaction === 1) {
-        OpenDialogForActionSuccess(
-          "تم تحديث رقم لهاتف للحسابك شخصي بنجاح سيتم تحميل صفحة و اضهار تحديث",
-          "active"
-        );
-        setTimeout(() => {
-          window.location.reload();
-        }, 4000);
-      } else if (resultrquestaction === 2) {
-        OpenDialogForActionFound(
-          "حدث خطا اثناء محاولتك سيتم تحميل صفحة و اعادت لمحاولة لاحقا"
-        );
-      }
-    } else if (typRequest === "shartshangeemailprofile") {
-      if (resultrquestaction === 1) {
-        setCooldown(60);
-        setEmailEditing(false);
-        openVerificationModal("email");
-        OpenDialogForActionSuccess("تم إرسال رمز التأكيد إلى بريدك الإلكتروني");
-      } else if (resultrquestaction === 2) {
-        OpenDialogForActionFound(
-          "االبريد الإلكتروني مستخدم بلفعل حاول بانوان اخر"
-        );
-      } else if (resultrquestaction === 5) {
-        OpenDialogForActionFound(
-          "حدث خطا فشل ارسال كود او هناك مشكلة فلشبة حاول مرة اخرى"
-        );
-      }
-    } else if (typeRequestRsp === "startconfirmedshangeemailprofile") {
-      if (resultrquestaction === 1) {
-        setVerificationType(null);
-        setVerificationCode("");
-        OpenDialogForActionSuccess(
-          "تم تغيير البريدك الاكتروني للحسابك شخصي بنجاح سيتم تحميل صفحة و اضهار تحديث",
-          "active"
-        );
-        setTimeout(() => {
-          window.location.reload();
-        }, 4000);
-      } else if (resultrquestaction === 2) {
-        OpenDialogForActionFound("البريد الإلكتروني مستخدم بلفعل ");
-      } else if (resultrquestaction === 3) {
-        OpenDialogForActionFound("الرمز غير صحيح أو منتهي الصلاحية ");
-      } else if (resultrquestaction === 9) {
-        setVerificationType(null);
-        setVerificationCode("");
-        OpenDialogForActionSuccess(
-          "تم تغيير البريدك الاكتروني للحسابك تجاري بنجاح  و تعذر ارسال تاكيد للبريد سيتم تحميل صفحو و اضهار تحديث",
-          "active"
-        );
-        setTimeout(() => {
-          window.location.reload();
-        }, 4000);
-      }
-    }
-  }, [
-    resultrquestaction,
-    typeRequestRsp === "starttocreateorupdpasswordsettings",
-    typeRequestRsp === "shartshangeemailprofile",
-    typeRequestRsp === "startshangenumberphonemyprofile",
-    typeRequestRsp === "startshangeprofilesettingsforuser",
-    typeRequestRsp === "startconfirmedshangeemailprofile",
-  ]); //== End Here To Get Sult For Semthing Request In Page ==//
-
-  // Start Her To Sheck loding Response
+    // Start Her To Sheck loding Response
   React.useEffect(() => {
     if (lodingtorspact === true) {
       HandleCloseOrOpenReadinPage(true);
@@ -222,7 +212,6 @@ const UserSettings = () => {
 
   // Start Shange Defaoult Value In Data Profile Bss
   React.useMemo(() => {
-    typRequest = "";
     if (NowProfilShanfe) {
       setDataProfileBssNow({
         ...dataProfileBssNow,
@@ -237,15 +226,140 @@ const UserSettings = () => {
         mygame: NowProfilShanfe.mygame,
       });
     }
-  }, [NowProfilShanfe]); //== End Shange Defaoult Value In Data Profile Bss ==//
+  }, [NowProfilShanfe]);//== End Shange Defaoult Value In Data Profile Bss ==//
+
+  // Start Here To Get Sult For Semthing Request In Page
+  React.useEffect(() => {
+    if (typRequest === "starttocreateorupdpasswordsettings") {
+      if (resultrquestaction === 1) {
+        setDatPasswordSettings({
+          ...datPasswordSettings,
+          passwordF: "",
+          passwordC: "",
+        });
+        dispatsh(lastedefaultdatastate());
+        OpenDialogForActionSuccess(
+          "تم تحديث كلمة السر السر لحسابك شخصي بنجاح يمكنك استعمالها الان"
+        );
+      } else if (resultrquestaction === 3 || resultrquestaction === 2) {
+        OpenDialogForActionFound(
+          "حدث خطا غير معروف اثناء لعملية قم بتحميل صفحة الاظهار تحديث",
+        );
+        dispatsh(lastedefaultdatastate());
+      } else if (resultrquestaction === 99) {
+        OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+        );
+        dispatsh(lastedefaultdatastate());
+      }
+    } else if (typRequest === "startshangeprofilesettingsforuser") {
+      
+      if (resultrquestaction === 1) {
+        OpenDialogForActionSuccess(
+          "تم تحديث بيانات لحسابك شخصي بنجاح كما تم تحديث لبيانات",
+        );
+        dispatsh(lastedefaultdatastate());
+      } else if (resultrquestaction === 2 || resultrquestaction === 5) {
+        OpenDialogForActionFound(
+          "حدث خطا غير معروف اثناء لعملية قم بتحميل صفحة الاظهار تحديث",
+        );
+        dispatsh(lastedefaultdatastate());
+      } else if (resultrquestaction === 99) {
+        OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+        );
+        dispatsh(lastedefaultdatastate());
+      }
+    } else if (typRequest === "startshangenumberphonemyprofile") {
+      if (resultrquestaction === 3) {
+        OpenDialogForActionFound(
+          `تم رصد رقم لهاتف ${dataProfileBssNow.storePhone} حاليا قيد لاستخدام من طرف لمستخدم اخر يمكنك تغيير لبيانات و لمحاولة`
+        );
+        dispatsh(lastedefaultdatastate());
+      } else if (resultrquestaction === 1) {
+        setPhoneEditing(false);
+        OpenDialogForActionSuccess(
+          "تم تحديث رقم لهاتف للحسابك شخصي بنجاح كما تم تحديث لبيانات",
+        );
+      } else if (resultrquestaction === 2) {
+        OpenDialogForActionFound(
+          "حدث خطا اثناء محاولتك قم بتحميل صفحة لاظهار تحديث"
+        );
+        dispatsh(lastedefaultdatastate());
+      } else if (resultrquestaction === 99) {
+        OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+        );
+        dispatsh(lastedefaultdatastate());
+      }
+    } else if (typRequest === "shartshangeemailprofile") {
+      if (resultrquestaction === 1) {
+        setCooldown(60);
+        setEmailEditing(false);
+        openVerificationModal("email");
+        dispatsh(lastedefaultdatastate());
+        OpenDialogForActionSuccess("تم إرسال رمز التأكيد إلى بريدك الإلكتروني");
+      } else if (resultrquestaction === 2) {
+        OpenDialogForActionFound(
+          "االبريد الإلكتروني مستخدم بلفعل حاول بانوان اخر"
+        );
+        dispatsh(lastedefaultdatastate());
+      } else if (resultrquestaction === 5) {
+        OpenDialogForActionFound(
+          "حدث خطا فشل ارسال كود او هناك مشكلة فلشبة حاول مرة اخرى"
+        );
+        dispatsh(lastedefaultdatastate());
+      } else if (resultrquestaction === 99) {
+        OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+        );
+        dispatsh(lastedefaultdatastate());
+      }
+    } else if (typRequest === "startconfirmedshangeemailprofile") {
+      if (resultrquestaction === 1) {
+        verificationType.current = null;
+        setVerificationCode("");
+        OpenDialogForActionSuccess(
+          "تم تغيير البريدك الاكتروني للحسابك شخصي بنجاح كما تم تحديث لبيانات",
+        );
+        dispatsh(lastedefaultdatastate());
+      } else if (resultrquestaction === 2) {
+        OpenDialogForActionFound("البريد الإلكتروني مستخدم بلفعل ");
+        dispatsh(lastedefaultdatastate());
+      } else if (resultrquestaction === 3) {
+        OpenDialogForActionFound("الرمز غير صحيح أو منتهي الصلاحية ");
+        dispatsh(lastedefaultdatastate());
+      } else if (resultrquestaction === 9) {
+        OpenDialogForActionFound(
+          "فشلت لعملية رجاء حاول مرة اخرى فلوقت لاحق"
+        );
+        dispatsh(lastedefaultdatastate());
+      } else if (resultrquestaction === 99) {
+        OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق"
+        );
+        dispatsh(lastedefaultdatastate());
+      }
+    }
+  }, [
+    resultrquestaction,
+    typeRequestRsp === "starttocreateorupdpasswordsettings",
+    typeRequestRsp === "shartshangeemailprofile",
+    typeRequestRsp === "startshangenumberphonemyprofile",
+    typeRequestRsp === "startshangeprofilesettingsforuser",
+    typeRequestRsp === "startconfirmedshangeemailprofile",
+  ]); //== End Here To Get Sult For Semthing Request In Page ==//
 
   // معالجة تغيير البيانات
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setDataProfileBssNow((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    
+    if(value != null) {
+      setDataProfileBssNow((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   // Start Her To Validate Alls Values For Correct Data To Do Action
@@ -322,8 +436,35 @@ const UserSettings = () => {
     return Object.keys(newErrors).length === 0;
   }; //== End Her To Validate Alls Values For Correct Data To Do Action ==//
 
+  const HandleDefaoultDataProfileUser = (e) => {
+    setDataProfileBssNowErrors({
+      ...dataProfileBssNowErrors,
+      storeName: "",
+      storeCountry: "",
+      storeCity: "",
+      storeEmail: "",
+      storePhone: "",
+      typgender: "",
+      mycalb: "",
+      mygame: "",
+      data_of_birth: "",
+    });
+    setDataProfileBssNow({
+      ...dataProfileBssNow,
+      storeName: NowProfilShanfe.name,
+      storeCity: NowProfilShanfe.city,
+      storeCountry: NowProfilShanfe.cantry,
+      typgender: NowProfilShanfe.Gender,
+      storeEmail: NowProfilShanfe.email,
+      storePhone: NowProfilShanfe.NumberPhone,
+      data_of_birth: NowProfilShanfe.data_of_birth,
+      mycalb: NowProfilShanfe.mycalb,
+      mygame: NowProfilShanfe.mygame,
+    });
+    setIsEditing(false);
+  }
   // Start Her To Send Request To Update Data Profile
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
     if (!validateFormseetingsprofbss()) return;
     setIsEditing(false);
@@ -366,7 +507,7 @@ const UserSettings = () => {
   };
 
   // تأكيد البريد
-  const confirmEmail = () => {
+  const confirmEmail = async () => {
     if (!validtypeemail()) return;
 
     const data = {
@@ -444,7 +585,7 @@ const UserSettings = () => {
 
   // فتح نافذة التحقق
   const openVerificationModal = (type) => {
-    setVerificationType(type);
+    verificationType.current = type;
     setVerificationCode("");
     setCooldown(60);
 
@@ -461,7 +602,7 @@ const UserSettings = () => {
   };
 
   // إعادة إرسال الرمز
-  const resendCode = () => {
+  const resendCode = async () => {
     if (cooldown > 0) return;
 
     setCooldown(60);
@@ -472,7 +613,8 @@ const UserSettings = () => {
   };
 
   // تأكيد الرمز
-  const confirmCode = () => {
+  const confirmCode = async (e) => {
+    e.preventDefault();
     if (verificationCode.length !== 6) return;
     const data = {
       email: dataProfileBssNow.storeEmail,
@@ -509,7 +651,7 @@ const UserSettings = () => {
     }
   }, [cooldown]);
 
-  const HandleToConfirmedPasswordSettings = (e) => {
+  const HandleToConfirmedPasswordSettings = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
 
@@ -527,6 +669,24 @@ const UserSettings = () => {
     }
   };
 
+  const HandleShageValuBstClab = (value) => {
+    if(value != null) {
+      setDataProfileBssNow((prev) => ({
+        ...prev,
+        mycalb: value.nameOne,
+      }));
+    }
+  }
+
+  const HandleShageValuBstPlaye = (value) => {
+    if(value != null) {
+      setDataProfileBssNow((prev) => ({
+        ...prev,
+        mygame: value.nameOne,
+      }));
+    }
+  }
+
   return (
     <div
       style={{ marginTop: "110px", maxWidth: "1200px", marginInline: "auto" }}
@@ -537,21 +697,28 @@ const UserSettings = () => {
       </div>
       <div className="store-settings">
         {/* المعلومات الأساسية في form واحد */}
-        <div className="settings-form">
+        <div className="settings-form" style={{ direction: 'rtl', textAlign: 'right' }}>
           <div className="settings-card">
-            <h3>📋 المعلومات الأساسية</h3>
+            <h3 style={{ textAlign: 'center' }}>📋 المعلومات الأساسية</h3>
 
-            <div className="form-row">
-              <div className="form-group">
-                <label>الاسم التجاري *</label>
-                <input
+              <div className="form-group" >
+                <label>الاسم الشخصي *</label>
+                <TextField
+                  fullWidth
                   type="text"
                   name="storeName"
                   value={dataProfileBssNow.storeName}
+                  style={{ fontSize: "22px", direction: 'rtl' }}
                   onChange={handleInputChange}
-                  className="form-input"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Person />
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{ mb: 2 }}
                   disabled={!isEditing}
-                  required
                 />
                 <h6 className="titelerrorform">
                   {dataProfileBssNowErrors.storeName}
@@ -560,57 +727,60 @@ const UserSettings = () => {
 
               <div className="form-group">
                 <label>تحديد المدينة</label>
-                <input
+                <TextField
+                  fullWidth
                   type="text"
                   name="storeCity"
                   value={dataProfileBssNow.storeCity}
+                  style={{ fontSize: "22px", direction: 'rtl' }}
                   onChange={handleInputChange}
-                  className="form-input"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <ApartmentIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{ mb: 2 }}
                   disabled={!isEditing}
                 />
                 <h6 className="titelerrorform">
                   {dataProfileBssNowErrors.storeCity}
                 </h6>
               </div>
-            </div>
 
             <div className="form-group">
-              <label>نادي لمفضل *</label>
-              <select
+              <label>نادي لمفضل  {`(${dataProfileBssNow.mycalb})`} *</label>
+              <CountryInput
                 name="mycalb"
-                value={dataProfileBssNow.mycalb}
-                onChange={handleInputChange}
-                className="form-input"
-                disabled={!isEditing}
-                required
-              >
-                {storeCategories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
+                TypeShowData={"Sereash"}
+                ValueUserSeckeClick={HandleShageValuBstClab}
+                dataFeth={storeCategories}
+                typShowImg={'icone'}
+                style={{
+                  width: '50px',
+                  height: '50px',
+                  direction: 'rtl'
+                }}
+                  disabled={!isEditing}
+              />
               <h6 className="titelerrorform">
                 {dataProfileBssNowErrors.mycalb}
               </h6>
             </div>
 
             <div className="form-group">
-              <label>لعبة لمفضلة *</label>
-              <select
-                name="mygame"
-                value={dataProfileBssNow.mygame}
-                onChange={handleInputChange}
-                className="form-input"
-                disabled={!isEditing}
-                required
-              >
-                {allgamingsToPlaye.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
+              <label>لعبة لمفضلة {`(${dataProfileBssNow.mygame})`}  *</label>
+              <CountryInput
+                  name="mygame"
+                  ValueUserSeckeClick={HandleShageValuBstPlaye}
+                  dataFeth={allgamingsToPlaye}
+                  style={{
+                  width: '50px',
+                  height: '50px', direction: 'rtl'
+                  }}
+                  disabled={!isEditing}
+              />
               <h6 className="titelerrorform">
                 {dataProfileBssNowErrors.mygame}
               </h6>
@@ -618,23 +788,35 @@ const UserSettings = () => {
 
             <div className="form-group">
               <label>البلد</label>
-              <input
-                type="text"
+              <Input
                 value={dataProfileBssNow.storeCountry}
+                type="text"
+                name="storeAddress"
+                sx={{
+                  fontSize: "20px",
+                  padding: "20px",
+                }}
+                size="20px"
+                style={{ fontSize: "20px", background: "#f7fafc", color: "#718096" }}
                 className="form-input"
                 disabled
-                style={{ background: "#f7fafc", color: "#718096" }}
               />
             </div>
 
             <div className="form-group">
               <label>نوع لجنس</label>
-              <input
-                type="text"
+              <Input
                 value={dataProfileBssNow.typgender == 1 ? "ذكر" : "انثاء"}
+                type="text"
+                name="typgender"
+                sx={{
+                  fontSize: "20px",
+                  padding: "20px",
+                }}
+                size="20px"
+                style={{ fontSize: "20px", background: "#f7fafc", color: "#718096" }}
                 className="form-input"
                 disabled
-                style={{ background: "#f7fafc", color: "#718096" }}
               />
               <h6 className="titelerrorform">
                 {dataProfileBssNowErrors.typgender}
@@ -643,19 +825,25 @@ const UserSettings = () => {
 
             <div className="form-group">
               <label>تاريخ الميلاد</label>
-              <input
-                type="text"
+              <Input
                 value={dataProfileBssNow.data_of_birth}
+                type="text"
+                name="typgender"
+                sx={{
+                  fontSize: "20px",
+                  padding: "20px",
+                }}
+                size="20px"
+                style={{ fontSize: "20px", background: "#f7fafc", color: "#718096" }}
                 className="form-input"
                 disabled
-                style={{ background: "#f7fafc", color: "#718096" }}
               />
               <h6 className="titelerrorform">
                 {dataProfileBssNowErrors.data_of_birth}
               </h6>
             </div>
 
-            <div className="form-actions">
+            <div className="form-actions" style={{ direction: 'rtl', justifyContent: 'flex-start' }}>
               {isEditing ? (
                 <>
                   <button
@@ -668,21 +856,7 @@ const UserSettings = () => {
                   <button
                     type="button"
                     className="btn-secondary"
-                    onClick={() => {
-                      setDataProfileBssNowErrors({
-                        ...dataProfileBssNowErrors,
-                        storeName: "",
-                        storeCountry: "",
-                        storeCity: "",
-                        storeEmail: "",
-                        storePhone: "",
-                        typgender: "",
-                        mycalb: "",
-                        mygame: "",
-                        data_of_birth: "",
-                      });
-                      setIsEditing(false);
-                    }}
+                    onClick={HandleDefaoultDataProfileUser}
                   >
                     ❌ إلغاء
                   </button>
@@ -756,7 +930,7 @@ const UserSettings = () => {
             {/* رقم الهاتف */}
             <form onSubmit={startPhoneEdit} className="contact-item">
               <div className="contact-info">
-                <span className="contact-label">رقم الهاتف:</span>
+                <span className="contact-label">رقم الهاتف: {`(${NowProfilShanfe.codcat})`}</span>
                 {phoneEditing ? (
                   <input
                     type="tel"
@@ -804,12 +978,15 @@ const UserSettings = () => {
           <div className="settings-card">
             <h3>🔒 الأمان</h3>
 
-            <form onSubmit={HandleToConfirmedPasswordSettings}>
+            <form onSubmit={HandleToConfirmedPasswordSettings} style={{ direction: 'rtl', textAlign: 'right' }}>
               <div className="form-group">
                 <label>كلمة السر </label>
-                <input
-                  type="password"
+                <TextField
+                  fullWidth
+                  name="password"
                   className="form-input"
+                  type={showPasswordco ? "text" : "password"}
+                  style={{ fontSize: "25px", direction: 'rtl' }}
                   value={datPasswordSettings.passwordF}
                   onChange={(val) => {
                     setDatPasswordSettings({
@@ -817,7 +994,24 @@ const UserSettings = () => {
                       passwordF: val.target.value,
                     });
                   }}
-                  placeholder="أدخل كلمة السر الجديدة"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Lock />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => setShowPasswordco(!showPasswordco)}
+                          edge="end"
+                        >
+                          {showPasswordco ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{ mb: 2 }}
                 />
                 <h6 className="titelerrorform">
                   {datPasswordSettingsErrer.passwordF}
@@ -826,9 +1020,12 @@ const UserSettings = () => {
 
               <div className="form-group">
                 <label>تأكيد كلمة السر</label>
-                <input
-                  type="password"
+                <TextField
+                  fullWidth
+                  name="passwordc"
                   className="form-input"
+                  type={showPasswordct ? "text" : "password"}
+                  style={{ fontSize: "25px", direction: 'rtl' }}
                   value={datPasswordSettings.passwordC}
                   onChange={(val) => {
                     setDatPasswordSettings({
@@ -836,7 +1033,24 @@ const UserSettings = () => {
                       passwordC: val.target.value,
                     });
                   }}
-                  placeholder="أعد إدخال كلمة السر"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Lock />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => setShowPasswordct(!showPasswordct)}
+                          edge="end"
+                        >
+                          {showPasswordct ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{ mb: 2 }}
                 />
                 <h6 className="titelerrorform">
                   {datPasswordSettingsErrer.passwordC}
@@ -844,14 +1058,14 @@ const UserSettings = () => {
               </div>
 
               <button className="btn-primary" type="submit">
-                🔄 تحديث كلمة السر
+                 تحديث كلمة السر 🔄
               </button>
             </form>
           </div>
         </div>
 
         {/* نافذة التحقق */}
-        {verificationType && (
+        {verificationType.current && (
           <div className="modal-overlay">
             <div className="verification-modal">
               <div className="modal-header">
@@ -871,7 +1085,7 @@ const UserSettings = () => {
                       mycalb: NowProfilShanfe.mycalb,
                       mygame: NowProfilShanfe.mygame,
                     });
-                    setVerificationType(null);
+                    verificationType.current = null;
                   }}
                 >
                   ✕
@@ -880,51 +1094,56 @@ const UserSettings = () => {
 
               <div className="modal-body">
                 <p className="verification-message">
-                  تم إرسال رمز التحقق إلى
+                  تم إرسال رمز التحقق 
+                  المكون من 6 ارقام الى
                   <strong> {dataProfileBssNow.storeEmail}</strong>
                 </p>
 
-                <div className="code-input-container">
-                  <input
-                    type="text"
-                    value={verificationCode}
-                    onChange={(e) => {
-                      const value = e.target.value.replace(/[^0-9]/g, "");
-                      if (value.length <= 6) {
-                        setVerificationCode(value);
-                        if (value.length === 6) {
-                          confirmCode();
-                        }
-                      }
-                    }}
-                    className="code-input"
-                    placeholder="أدخل الرمز المكون من 6 أرقام"
-                    maxLength={6}
-                    autoFocus
-                  />
-                </div>
+                <form onSubmit={confirmCode}>
+                  <div className="code-input-container">
+                    <TextField
+                      fullWidth
+                      className="code-input"
+                      type="text"
+                      style={{ fontSize: "18px", direction: 'rtl' }}
+                      value={verificationCode}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/[^0-9]/g, "");
+                        if (value.length <= 6) setVerificationCode(value);
+                      }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <PasswordIcon />
+                          </InputAdornment>
+                        ),
+                      }}
+                      placeholder="أدخل الرمز المكون من 6 أرقام"
+                      sx={{ mb: 2 }}
+                    />
+                  </div>
 
-                <div className="modal-actions">
-                  <button
-                    type="button"
-                    className="resend-btn"
-                    onClick={resendCode}
-                    disabled={cooldown > 0}
-                  >
-                    {cooldown > 0
-                      ? `إعادة الإرسال (${cooldown})`
-                      : "إعادة إرسال الرمز"}
-                  </button>
+                  <div className="modal-actions">
+                    <button
+                      type="button"
+                      className="resend-btn"
+                      onClick={resendCode}
+                      disabled={cooldown > 0}
+                    >
+                      {cooldown > 0
+                        ? `إعادة الإرسال (${cooldown})`
+                        : "إعادة إرسال الرمز"}
+                    </button>
 
-                  <button
-                    type="button"
-                    className="confirm-btn"
-                    onClick={confirmCode}
-                    disabled={verificationCode.length !== 6}
-                  >
-                    ✅ تأكيد
-                  </button>
-                </div>
+                    <button
+                      type="submit"
+                      className="confirm-btn"
+                      disabled={verificationCode.length !== 6}
+                    >
+                      ✅ تأكيد
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>

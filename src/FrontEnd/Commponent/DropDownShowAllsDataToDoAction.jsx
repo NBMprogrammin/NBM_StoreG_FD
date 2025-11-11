@@ -7,17 +7,15 @@ import MoreVert from "@mui/icons-material/MoreVert";
 import { useEffect, useMemo } from "react";
 import MenuItemShow from "../alert and Delog/TableCont/MenuItemShow";
 
-let datShowAllMenu = "";
-
 export default function DropDownShowAllsDataToDoAction({
   HandleToDoActionsNow,
   DatShowDropDowActions,
   dispat,
   datClick,
 }) {
-  useEffect(() => {
+  const datShowAllMenu = useEffect(() => {
     if (DatShowDropDowActions != undefined) {
-      datShowAllMenu = DatShowDropDowActions.map((dat) => {
+      return DatShowDropDowActions.map((dat) => {
         return (
           <div key={dat.id}>
             <MenuItemShow
@@ -32,8 +30,8 @@ export default function DropDownShowAllsDataToDoAction({
       });
     }
   }, [DatShowDropDowActions]);
+  
   return (
-    <>
       <Dropdown>
         <MenuButton
           slots={{ root: IconButton }}
@@ -44,6 +42,5 @@ export default function DropDownShowAllsDataToDoAction({
 
         <Menu placement="bottom-end">{datShowAllMenu}</Menu>
       </Dropdown>
-    </>
   );
 }

@@ -4,6 +4,10 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import AvatarImgForAllType from "./AvatarImgForAllType";
 import "../../App.css";
+import CreditScoreIcon from "@mui/icons-material/CreditScore";
+import { FaBoxes } from "react-icons/fa";
+import VerifiedIcon from "@mui/icons-material/Verified";
+
 let boxConfirm = (
   <div
     className="BoxHaletUserNow"
@@ -30,17 +34,95 @@ let boxDsConfirmd = (
     }}
   ></div>
 );
+
+const TypDipsBoxShow = (status) => {
+  switch (status) {
+    case "Sereash":
+      return false;
+    case "DscActive":
+      return true;
+    default:
+      return false;
+  }
+}
+
+const TypImgIconShow = (status) => {
+  switch (status) {
+    case "payment":
+      return <CreditScoreIcon />;
+    case "Prodects":
+      return <FaBoxes />;
+    default:
+      return false;
+  }
+}
+
+const TypeShowImgInInputeSelect = (status, dat) => {
+  switch (status) {
+    case "categorys":
+      return null;
+    default:
+      return (<AvatarImgForAllType
+        style={dat.style} 
+        typShowImg={dat.MyAvatar ? dat.MyAvatar : 'icone'} 
+        MyAvatar={dat.MyAvatar ? dat.MyAvatar : TypImgIconShow(dat.TypeAction)} 
+      />);
+  }
+}
+
+const TypeShowTitelUser = (status) => {
+  switch (status) {
+    case "payment":
+      return <CreditScoreIcon />;
+    case "PayProd":
+      return <FaBoxes />;
+    default:
+      return false;
+  }
+}
+
 export default function CountryInput({
   TypeShowData,
   ValueUserSeckeClick,
   currentPayment,
   dataFeth,
   TypeAction,
-  profileNow,
   datPaymentToCont,
+  typShowImg,
+  style,
+  Goldlabel,
+  name,
+  valueNow,
+  valSlctNow,
+  disabled
 }) {
+
+  const TypeShowDiveeAction = (status, StaTou) => {
+    switch (status) {
+      case "categorys":
+        return null;
+      case "BssUserClick":
+        return <VerifiedIcon style={{ color: "#4a6cf7" }} />;
+        case 'SereashUser':
+        switch (StaTou) {
+          case "Active":
+            return <VerifiedIcon style={{ color: "#4a6cf7" }} />;
+          case "DscActive":
+            return boxDsConfirmd;
+        }
+        return;
+          default:
+        switch (StaTou) {
+          case "Active":
+            return boxConfirm;
+          case "DscActive":
+            return boxDsConfirmd;
+        }
+        return;
+    }
+  }
+
   return (
-    <>
       <Autocomplete
         id="country-select-demo"
         width="100%"
@@ -57,27 +139,17 @@ export default function CountryInput({
               sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
               {...optionProps}
               style={{ fontSize: "20px" }}
-              disabled={true}
+              disabled={disabled}
               aria-disabled={
-                TypeShowData === "Sereash"
-                  ? ""
-                  : "" ||
-                    option.TypeData === "PaymentMethods" ||
-                    option.TypeData === "Prodects"
-                  ? option.TypeActionNow == "DscActive" || option.nameThere == 0
-                  : option.TypeActionNow == "DscActive" &&
-                    TypeShowData === "PayProdForZeboune" &&
-                    datPaymentToCont === "Selefe"
-                  ? option.TypeActionNow == "DscActive"
-                  : ""
+                TypDipsBoxShow(TypeShowData === 'Sereash' ? TypeShowData :  option.TypeActionNow || TypeShowData)
               }
             >
               <>
-                {option.TypeData === "categorys" ? (
-                  <></>
-                ) : (
-                  <AvatarImgForAllType MyAvatar={option.image} />
-                )}
+                {TypeShowImgInInputeSelect(option.TypeData, {
+                  style: style,
+                  TypeAction: TypeShowData,
+                  MyAvatar: option.image,
+                })}
                 <div style={{ marginLeft: "12px" }}>
                   <div
                     style={{
@@ -87,14 +159,9 @@ export default function CountryInput({
                     }}
                   >
                     {option.nameOne}
-                    {option.TypeData === "categorys" ? (
-                      <></>
-                    ) : "" || option.TypeActionNow == "Active" ? (
-                      boxConfirm
-                    ) : (
-                      boxDsConfirmd
-                    )}
-                    {profileNow ? profileNow : ""}
+                    {
+                      TypeShowDiveeAction(TypeAction, option.TypeActionNow)
+                    }
                   </div>
 
                   <div
@@ -135,16 +202,19 @@ export default function CountryInput({
           <TextField
             style={{ fontSize: "20px" }}
             {...params}
+            label={Goldlabel}
+            name={name}
             inputProps={{
               ...params.inputProps,
               autoComplete: "new-password", // disable autocomplete and autofill
             }}
           />
         )}
+        value={valueNow}
         onChange={(avent, newValue) => {
           ValueUserSeckeClick(newValue, TypeAction);
         }}
+        disabled={disabled}
       />
-    </>
   );
 }

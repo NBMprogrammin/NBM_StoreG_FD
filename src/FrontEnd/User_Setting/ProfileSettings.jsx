@@ -7,7 +7,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 const token = Cookies.get("token");
 
-export default function ProfileSettings() {
+const ProfileSettings = () => {
   const navigate = useNavigate();
   const ProfileSnageNow = useSelector((state) => {
     return state.datauser.ProfileSnageNow;
@@ -25,12 +25,12 @@ export default function ProfileSettings() {
     checkAuthentication();
   }, [navigate === "User-Settings", ProfileSnageNow]);
 
-  if (ProfileSnageNow && ProfileSnageNow.Profilenow) {
+  if (ProfileSnageNow && ProfileSnageNow.TypProf) {
     return (
       <>
-        {ProfileSnageNow.Profilenow.TypProf === "user" ? (
+        {ProfileSnageNow.TypProf === "user" ? (
           <UserSettings />
-        ) : "" || ProfileSnageNow.Profilenow.TypProf === "bss" ? (
+        ) : "" || ProfileSnageNow.TypProf === "bss" ? (
           <StoreSettings />
         ) : (
           ""
@@ -40,3 +40,5 @@ export default function ProfileSettings() {
     // }
   }
 }
+
+export default ProfileSettings;

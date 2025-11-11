@@ -1,20 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./UserProfile.css";
-import Header from "../layoute/Hedaer";
+import Header from "../layoute/Header";
 import Button from "@mui/joy/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material";
 import { useDialogActionContext } from "../Context/DialogActionContext";
 import AvatarImgForAllType from "../Commponent/AvatarImgForAllType";
 import { useSelector, useDispatch } from "react-redux";
-import { starttoshangebigimageinprofilebss } from "../../allsliceproj/Controller Data Profile Now/controolerdataprodfilenow";
+import { starttoshangebigimageinprofilebss,
+          lastedefaultdatastate
+ } from "../../allsliceproj/Controller Data Profile Now/controolerdataprodfilenowSlice";
 import TitelPage from "../Commponent/TitelPage";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import GroupIcon from "@mui/icons-material/Group";
 import GroupRemoveIcon from "@mui/icons-material/GroupRemove";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
 import Cookies from "js-cookie";
-const tokenFoul = Cookies.get("user_token");
 
 let NameFirstTrave = "";
 
@@ -67,22 +68,26 @@ const UserProfile = () => {
   });
   //== End Get Alls Data To Do Semthong In The Page Form Slice Controller ==//
 
-  const [valueImgeProfilUpdate, setvalueImgeProfilUpdate] = React.useState("");
+  // const [valueImgeProfilUpdate, setvalueImgeProfilUpdate] = React.useState("");
+  const valueImgeProfilUpdate = React.useRef('');
+  // أضف هذه الـ refs في بداية المكون
+  const numbersAnimated = React.useRef(false);
+  const sectionRef = React.useRef(null);
 
   // Start Here To Get Sult For Semthing Request In Page
   React.useEffect(() => {
     if (typeRequestRsp === "startshangebigimgprofile") {
       if (resultrquestaction === 1) {
+        HandleCloseOrOpenReadinPage(false);
         OpenDialogForActionSuccess(
-          "تم تحديث صورة الحسابك شخصي بنجاح سيتم تحديث صفحة",
-          "active"
+          "تم تحديث صورة الحسابك شخصي بنجاح كما تم تحديث البيانات"
         );
-        setvalueImgeProfilUpdate("");
-        setImgProfShangebss(imgprofshangebss);
-        setTimeout(() => {
-          window.location.reload();
-        }, 4000);
+        setImgProfShangebss(ProfileSnageNow.image);
+        valueImgeProfilUpdate.current = '';
+        dispatsh(lastedefaultdatastate());
       } else if (resultrquestaction === 2) {
+        HandleCloseOrOpenReadinPage(false);
+        dispatsh(lastedefaultdatastate());
         OpenDialogForActionFound(
           "حدث خطا غير معروف رجاء حاول فلوقت لاحق او قم بتحميل صفحة"
         );
@@ -108,71 +113,133 @@ const UserProfile = () => {
 
   // البطاقات الإحصائية الرئيسية
 
-  React.useMemo(() => {
-    if (AllsDataUserNow && AllsDataUserNow.DatBssICalyan) {
-      const TotalMyDeyanForBss = AllsDataUserNow.DatBssICalyan.reduce(
-        (sum, item) => sum + item.totaleMyDeyn,
-        0
-      );
+  // دالة الحركة الرقمية
+  const animateNumber = (element, start, end, duration) => {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      const value = Math.floor(progress * (end - start) + start);
+      element.textContent = value.toLocaleString();
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+    window.requestAnimationFrame(step);
+  };
 
-      if (AllsDataUserNow.Profile_tweve.length > 0) {
-        NameFirstTrave = "mewev";
-      } else if (AllsDataUserNow.Profile_Bss.length > 0) {
-        NameFirstTrave = "bss";
-      } else {
-        NameFirstTrave = "Not";
+  // بعد جلب البيانات من API، أضف هذا useEffect منفصل للحركة
+  useEffect(() => {
+    if (!AllsDataUserNow || numbersAnimated.current) return;
+
+    // انتظر حتى يصبح DOM جاهزاً
+    const timer = setTimeout(() => {
+      const statNumbers = document.querySelectorAll('.main-stat-value');
+      statNumbers.forEach((element) => {
+        const target = parseInt(element.getAttribute('data-count'));
+        if (!isNaN(target) && target > 0) {
+          animateNumber(element, 0, target, 2000);
+        }
+      });
+      numbersAnimated.current = true;
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [AllsDataUserNow]);
+
+  // useEffect للحركة
+  React.useEffect(() => {
+    if (!sectionRef.current) return;
+      
+      observer.observe(sectionRef.current);
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
       }
 
-      const allbbshasdeyforMy = AllsDataUserNow.DatBssICalyan.filter((prod) => {
-        return prod.totaleMyDeyn > 0;
-      });
+    observer.observe(sectionRef.current);
 
-      const mainStatsCards = [
-        {
-          id: 1,
-          icon: <GroupIcon style={{ width: "2em", height: "2em" }} />,
-          title: "تاجر أتعامل معهم",
-          value: AllsDataUserNow.DatBssICalyan.length.toLocaleString(),
-          color: "#4a6cf7",
-        },
-        {
-          id: 2,
-          icon: <GroupRemoveIcon style={{ width: "2em", height: "2em" }} />,
-          title: "تاجر يدينون لي",
-          value: allbbshasdeyforMy.length.toLocaleString(),
-          color: "#10b981",
-        },
-        {
-          id: 3,
-          icon: <AssuredWorkloadIcon style={{ width: "2em", height: "2em" }} />,
-          title: "اجمالي ديوني",
-          value: `${TotalMyDeyanForBss.toLocaleString()}`,
-          color: "#f59e0b",
-        },
-      ];
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
 
-      jsxshowmoredata = mainStatsCards.map((card, index) => {
-        return (
-          <div
-            key={index}
-            className="main-stat-card"
-            style={{ borderTop: `4px solid ${card.color}` }}
-          >
-            <div className="main-stat-icon" style={{ color: card.color }}>
-              {card.icon}
-            </div>
-            <div className="main-stat-content">
-              <h3>{card.title}</h3>
-              <span className="main-stat-value">{card.value}</span>
+  // useMemo للبيانات فقط
+  const jsxshowmoredata = React.useMemo(() => {
+    if (!AllsDataUserNow || !AllsDataUserNow.DatBssICalyan) return null;
+
+    const TotalMyDeyanForBss = AllsDataUserNow.DatBssICalyan.reduce(
+      (sum, item) => sum + item.totaleMyDeyn,
+      0
+    );
+
+    // هذا المتغير يحتاج إلى تعريف - إذا كان global أضف let أو const
+    let NameFirstTrave;
+    if (AllsDataUserNow.Profile_tweve.length > 0) {
+      NameFirstTrave = "mewev";
+    } else if (AllsDataUserNow.Profile_Bss.length > 0) {
+      NameFirstTrave = "bss";
+    } else {
+      NameFirstTrave = "Not";
+    }
+
+    const allbbshasdeyforMy = AllsDataUserNow.DatBssICalyan.filter((prod) => {
+      return prod.totaleMyDeyn > 0;
+    });
+
+    const mainStatsCards = [
+      {
+        id: 1,
+        icon: <GroupIcon className="iconShwStyle" />,
+        title: "تاجر أتعامل معهم",
+        value: AllsDataUserNow.DatBssICalyan.length,
+        color: "#4a6cf7",
+      },
+      {
+        id: 2,
+        icon: <GroupRemoveIcon className="iconShwStyle" />,
+        title: "تاجر يدينون لي",
+        value: allbbshasdeyforMy.length,
+        color: "#10b981",
+      },
+      {
+        id: 3,
+        icon: <AssuredWorkloadIcon className="iconShwStyle" />,
+        title: "اجمالي ديوني",
+        value: TotalMyDeyanForBss,
+        color: "#f59e0b",
+      },
+    ];
+
+    return mainStatsCards.map((card, index) => {
+      return (
+        <div
+          key={card.id}
+          className="main-stat-card animate-slide-in"
+          style={{ 
+            borderTop: `4px solid ${card.color}`, 
+            animationDelay: `${index * 0.4}s` 
+          }}
+        >
+          <div className="main-stat-icon" style={{ color: card.color }}>
+            {card.icon}
+          </div>
+          <div className="main-stat-content">
+            <h3>{card.title}</h3>
+            <div 
+              className="main-stat-value" 
+              data-count={card.value}
+            >
             </div>
           </div>
-        );
-      });
-    }
+        </div>
+      );
+    });
   }, [AllsDataUserNow]);
 
   // دالة للتحقق من امتداد الملف
-  function isValidFileExtension(filename) {
+  const isValidFileExtension = (filename) => {
     const extension = filename
       .toLowerCase()
       .substring(filename.lastIndexOf("."));
@@ -182,10 +249,10 @@ const UserProfile = () => {
   // Start Send Request To Update ImageProfile User
   const HandleUpdateImageProfileBss = async () => {
     const sheckdatimg =
-      valueImgeProfilUpdate != "" || valueImgeProfilUpdate != undefined;
+      valueImgeProfilUpdate.current != "" || valueImgeProfilUpdate.current != undefined;
     if (sheckdatimg) {
       // تحقق إضافي قبل الرفع
-      if (!isValidFileExtension(valueImgeProfilUpdate.name)) {
+      if (!isValidFileExtension(valueImgeProfilUpdate.current.name)) {
         OpenDialogForActionFound(
           "❌ يجب ان تكون صورة من احد انواع تالية jpeg او webp او png او jpg"
         );
@@ -193,7 +260,7 @@ const UserProfile = () => {
       }
 
       const datImg = {
-        MyAvatarImgProfile: valueImgeProfilUpdate,
+        MyAvatarImgProfile: valueImgeProfilUpdate.current,
       };
 
       HandleCloseOrOpenReadinPage(true);
@@ -225,14 +292,15 @@ const UserProfile = () => {
       }
 
       const reader = new FileReader();
-      setvalueImgeProfilUpdate(file);
+      // setvalueImgeProfilUpdate(file);
+      valueImgeProfilUpdate.current = file;
       reader.onload = (e) => setImgProfShangebss(e.target.result);
       reader.readAsDataURL(file);
     }
   };
 
   const stopShangbigimgbss = () => {
-    setvalueImgeProfilUpdate("");
+    valueImgeProfilUpdate.current = '';
     setImgProfShangebss(ProfileSnageNow.image);
   };
 
@@ -245,185 +313,187 @@ const UserProfile = () => {
     }
   }, [imgprofshangebss]); //== End Her Her To Shacke Shanging For Value Img Profile Bss == //
 
-  if (tokenFoul) {
-    if (ProfileSnageNow.TypProf === "user") {
-      return (
-        <>
-          <Header typeactive={"profile"} />
-          <div className="store-profile">
-            {/* معلومات المتجر الرئيسية */}
-            <div style={{ direction: "rtl" }} className="profile-header">
-              <div className="store-logo">
-                <div className="logo-container">
-                  <AvatarImgForAllType
-                    className={"logo-container logo-emoji"}
-                    typShowImg={valueImgeProfilUpdate ? "ShowAlls" : ""}
-                    MyAvatar={imgprofshangebss}
+  if (ProfileSnageNow.TypProf === "user") {
+    return (
+      <>
+        <Header typeactive={"profile"} />
+        <div className="store-profile">
+          {/* معلومات الحساب شخصي */}
+          <div style={{ direction: "rtl" }} className="profile-header">
+            <div className="store-logo">
+              <div className="logo-container">
+                <AvatarImgForAllType
+                  className={"logo-emoji"}
+                  typShowImg={valueImgeProfilUpdate.current ? "src" : ""}
+                  MyAvatar={imgprofshangebss}
+                  style={{
+                    width: '95%',
+                    height: '95%'
+                  }}
+                />
+
+                <button
+                  className={
+                    valueImgeProfilUpdate.current ? "edit-logo-btn" : "dispanone"
+                  }
+                  onClick={() => HandleUpdateImageProfileBss()}
+                >
+                  <CloudUploadIcon />
+                </button>
+
+                <button
+                  className={
+                    valueImgeProfilUpdate.current
+                      ? "edit-logo-btn active"
+                      : "dispanone"
+                  }
+                  onClick={() => stopShangbigimgbss()}
+                >
+                  ❌
+                </button>
+
+                <Button
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  background="#9f9e9ebb"
+                  dir="rtl"
+                  style={{
+                    fontSize: "20px",
+                    gap: "12px",
+                    alignItems: "center",
+                    display: valueImgeProfilUpdate.current ? "none" : "flex",
+                  }}
+                  className={
+                    valueImgeProfilUpdate.current ? "dispanone" : "edit-logo-btn"
+                  }
+                >
+                  <div className="styleimgflexandfldcolal">✏️</div>
+                  <VisuallyHiddenInput
+                    type="file"
+                    onChange={(event) =>
+                      handleImageChange(event, "imgprofbss")
+                    }
+                    multiple
                   />
-
-                  <button
-                    className={
-                      valueImgeProfilUpdate ? "edit-logo-btn" : "dispanone"
-                    }
-                    onClick={() => HandleUpdateImageProfileBss()}
-                  >
-                    <CloudUploadIcon />
-                  </button>
-
-                  <button
-                    className={
-                      valueImgeProfilUpdate
-                        ? "edit-logo-btn active"
-                        : "dispanone"
-                    }
-                    onClick={() => stopShangbigimgbss()}
-                  >
-                    ❌
-                  </button>
-
-                  <Button
-                    component="label"
-                    role={undefined}
-                    variant="contained"
-                    tabIndex={-1}
-                    background="#9f9e9ebb"
-                    dir="rtl"
-                    style={{
-                      fontSize: "20px",
-                      gap: "12px",
-                      alignItems: "center",
-                      display: valueImgeProfilUpdate ? "none" : "flex",
-                    }}
-                    className={
-                      valueImgeProfilUpdate ? "dispanone" : "edit-logo-btn"
-                    }
-                  >
-                    <div className="styleimgflexandfldcolal">✏️</div>
-                    <VisuallyHiddenInput
-                      type="file"
-                      onChange={(event) =>
-                        handleImageChange(event, "imgprofbss")
-                      }
-                      multiple
-                    />
-                  </Button>
-                </div>
-              </div>
-
-              <div className="store-info">
-                <div className="store-name-section">
-                  <VerifiedIcon style={{ color: "#4a6cf7" }} />
-                  <h1 className="store-name">{ProfileSnageNow.name} </h1>
-                  <VerifiedIcon className="stylevirfedsmpl" />{" "}
-                </div>
-
-                <p style={{ textAlign: "right" }} className="store-description">
-                  حالت لغمل:{" "}
-                  {NameFirstTrave === "bss"
-                    ? "تاجر"
-                    : "" || NameFirstTrave === "mewev"
-                    ? "تاجر"
-                    : "قبد لعمل حالبا"}
-                </p>
-
-                <div className="store-meta">
-                  <span className="meta-item">
-                    📦 لبعة لمفضل:{" "}
-                    {ProfileSnageNow.mycalb
-                      ? ProfileSnageNow.mycalb
-                      : "لم يتم تعبات لبيانات"}
-                  </span>
-                  <span className="meta-item">
-                    📅 تادي لمفضل:{" "}
-                    {ProfileSnageNow.mycalb
-                      ? ProfileSnageNow.mygame
-                      : "لم يتم تعبات لبيانات"}
-                  </span>
-                </div>
+                </Button>
               </div>
             </div>
 
-            {/* البطاقات الإحصائية الرئيسية */}
-            <div className="main-stats-section">
-              <TitelPage TitelPage="نظرة عامة على المعاملات" />
-              <div className="main-stats-grid">{jsxshowmoredata}</div>
+            <div className="store-info">
+              <div className="store-name-section">
+                <VerifiedIcon style={{ color: "#4a6cf7" }} />
+                <h1 className="store-name">{ProfileSnageNow.name} </h1>
+                <VerifiedIcon className="stylevirfedsmpl" />{" "}
+              </div>
+
+              <p style={{ textAlign: "right" }} className="store-description">
+                حالت لغمل:{" "}
+                {NameFirstTrave === "bss"
+                  ? "تاجر"
+                  : "" || NameFirstTrave === "mewev"
+                  ? "تاجر"
+                  : "قبد لعمل حالبا"}
+              </p>
+
+              <div className="store-meta">
+                <span className="meta-item">
+                  📦 لبعة لمفضل:{" "}
+                  {ProfileSnageNow.mycalb
+                    ? ProfileSnageNow.mycalb
+                    : "لم يتم تعبات لبيانات"}
+                </span>
+                <span className="meta-item">
+                  📅 تادي لمفضل:{" "}
+                  {ProfileSnageNow.mycalb
+                    ? ProfileSnageNow.mygame
+                    : "لم يتم تعبات لبيانات"}
+                </span>
+              </div>
             </div>
+          </div>
 
-            {/* معلومات المتجر الكاملة بدلاً من الإجراءات السريعة */}
-            <div className="store-details-section">
-              <div className="store-details-card">
-                <h3>معلومات حسابي الكاملة</h3>
-                <div className="details-grid">
-                  <div className="detail-item">
-                    <span className="detail-label">📧 البريد الإلكتروني:</span>
-                    <span className="detail-value">
-                      {ProfileSnageNow.email}
-                    </span>
-                  </div>
+          {/* البطاقات الإحصائية الرئيسية */}
+          <div className="main-stats-section">
+            <TitelPage TitelPage="نظرة عامة على المعاملات" />
+            <div className="main-stats-grid">{jsxshowmoredata}</div>
+          </div>
 
-                  <div className="detail-item">
-                    <span className="detail-label">📞 رقم الهاتف:</span>
-                    <span className="detail-value">
-                      {ProfileSnageNow.NumberPhone}
-                    </span>
-                  </div>
+          {/* معلومات المتجر الكاملة بدلاً من الإجراءات السريعة */}
+          <div className="store-details-section">
+            <div className="store-details-card">
+              <h3>معلومات حسابي الكاملة</h3>
+              <div className="details-grid">
+                <div className="detail-item">
+                  <span className="detail-label">📧 البريد الإلكتروني:</span>
+                  <span className="detail-value">
+                    {ProfileSnageNow.email}
+                  </span>
+                </div>
 
-                  <div className="detail-item">
-                    <span className="detail-label">📍 المدين:</span>
-                    <span className="detail-value">
-                      {ProfileSnageNow.city
-                        ? ProfileSnageNow.city
-                        : "لم يتم تسجيل لبيانات"}
-                    </span>
-                  </div>
+                <div className="detail-item">
+                  <span className="detail-label">📞 رقم الهاتف: {`(${ProfileSnageNow.codcat})`}</span>
+                  <span className="detail-value">
+                    {ProfileSnageNow.NumberPhone}
+                  </span>
+                </div>
 
-                  <div className="detail-item">
-                    <span className="detail-label">📦 حال لوضيفية:</span>
-                    <span className="detail-value">
-                      {NameFirstTrave === "bss"
-                        ? "تاجر"
-                        : "" || NameFirstTrave === "mewev"
-                        ? "تاجر"
-                        : "قبد لعمل حالبا"}
-                    </span>
-                  </div>
+                <div className="detail-item">
+                  <span className="detail-label">📍 المدين:</span>
+                  <span className="detail-value">
+                    {ProfileSnageNow.city
+                      ? ProfileSnageNow.city
+                      : "لم يتم تسجيل لبيانات"}
+                  </span>
+                </div>
 
-                  <div className="detail-item">
-                    <span className="detail-label">📅 تاريخ انشاء لحساب:</span>
-                    <span className="detail-value">
-                      {ProfileSnageNow.created_at}
-                    </span>
-                  </div>
+                <div className="detail-item">
+                  <span className="detail-label">📦 حال لوضيفية:</span>
+                  <span className="detail-value">
+                    {NameFirstTrave === "bss"
+                      ? "تاجر"
+                      : "" || NameFirstTrave === "mewev"
+                      ? "تاجر"
+                      : "قبد لعمل حالبا"}
+                  </span>
+                </div>
 
-                  <div className="detail-item">
-                    <span className="detail-label">👥 لبلد:</span>
-                    <span className="detail-value">
-                      {ProfileSnageNow.cantry
-                        ? ProfileSnageNow.cantry
-                        : "لم يتم تسجيل لبيانات"}
-                    </span>
-                  </div>
+                <div className="detail-item">
+                  <span className="detail-label">📅 تاريخ انشاء لحساب:</span>
+                  <span className="detail-value">
+                    {ProfileSnageNow.created_at}
+                  </span>
+                </div>
 
-                  <div className="detail-item">
-                    <span className="detail-label">👥 نوع لجنس:</span>
-                    <span className="detail-value">
-                      {ProfileSnageNow.Gender == 1 ? "ذكر" : "انثاء"}
-                    </span>
-                  </div>
+                <div className="detail-item">
+                  <span className="detail-label">👥 لبلد:</span>
+                  <span className="detail-value">
+                    {ProfileSnageNow.cantry
+                      ? ProfileSnageNow.cantry
+                      : "لم يتم تسجيل لبيانات"}
+                  </span>
+                </div>
 
-                  <div className="detail-item">
-                    <span className="detail-label">✅ تاريخ لميلاد:</span>
-                    <span className="detail-value status-value">
-                      {ProfileSnageNow.data_of_birth}
-                    </span>
-                  </div>
+                <div className="detail-item">
+                  <span className="detail-label">👥 نوع لجنس:</span>
+                  <span className="detail-value">
+                    {ProfileSnageNow.Gender == 1 ? "ذكر" : "انثاء"}
+                  </span>
+                </div>
+
+                <div className="detail-item">
+                  <span className="detail-label">✅ تاريخ لميلاد:</span>
+                  <span className="detail-value status-value">
+                    {ProfileSnageNow.data_of_birth}
+                  </span>
                 </div>
               </div>
             </div>
           </div>
-        </>
-      );
-    }
+        </div>
+      </>
+    );
   }
 };
 
