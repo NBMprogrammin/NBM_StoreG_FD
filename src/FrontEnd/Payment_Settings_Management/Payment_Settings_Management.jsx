@@ -169,110 +169,126 @@ const Payment_Settings_Management = () => {
 
   // Start Sheck Type Request To Show Result For User
   React.useMemo(() => {
-    if(typRequest === "Show") {
-      if (resultrquestaction === 99) {
-        typRequest = "Show";
-        ModelShowDate = "";
-        sangePageDat = 1;
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
-        );
-      }
-    } else if (typRequest === "edartpaymentsmethodsbsstoactivepayment") {
-      typRequest = "Show";
-      HandleCloseOrOpenReadinPage(false);
-      if (resultrquestaction === 1) {
-        OpenDialogForActionSuccess(
-          `لقد تم تفعيل لخيار الدفع ${datUserClickAct.namepayment} بنجاح كما تم تحديث لبيانات `
-        );
-        sangePageDat = 1;
-      } else if (resultrquestaction === 9) {
-        OpenDialogForActionFound(
-          `لقد سبق لك تفعيل لخيار الدفع ${datUserClickAct.namepayment} مسبقا كما تم تحديث لبيانات `
-        );
-      } else if (resultrquestaction === 3) {
-        OpenDialogForActionFound(
-          `يبدو بان هناك خطا اثناء محاولت تفعيل الدفع حاول مرة اخرى كما تم تحديث لبيانات`
-        );
-      } else if (resultrquestaction === 7) {
-        OpenDialogForActionFound(
-          "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
-        );
-      } else if (resultrquestaction === 8) {
-        OpenDialogForActionFound(
-          "يبدو بانك لا تملك كلمة السر الاغدادات يمكنك انشائعا فلمركز الاعدادات"
-        );
-      } else if (resultrquestaction === 99) {
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
-        );
-      }
-    } else if (typRequest === "edartpaymentmathodsToDscactivePayment") {
-      typRequest = "Show";
-      HandleCloseOrOpenReadinPage(false);
-      if (resultrquestaction === 1) {
-        OpenDialogForActionSuccess(
-          `لقد تم ايقاف لخيار الدفع ${datUserClickAct.namepayment} بنجاح كما تم تحديث لبيانات `
-        );
-        sangePageDat = 1;
-      } else if (resultrquestaction === 9) {
-        OpenDialogForActionFound(
-          `لقد سبق لك ايقاف لخيار الدفع ${datUserClickAct.namepayment} مسبقا كما تم تحديث لبيانات `
-        );
-      } else if (resultrquestaction === 3) {
-        OpenDialogForActionFound(
-          `يبدو بان هناك خطا اثناء محاولت ايقاف الدفع حاول مرة اخرى كما تم تحديث لبيانات`
-        );
-      } else if (resultrquestaction === 7) {
-        OpenDialogForActionFound(
-          "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
-        );
-      } else if (resultrquestaction === 8) {
-        OpenDialogForActionFound(
-          "يبدو بانك لا تملك كلمة السر الاغدادات يمكنك انشائعا فلمركز الاعدادات"
-        );
-      } else if (resultrquestaction === 99) {
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
-        );
-      }
-    } else if (typRequest === "edartpaymentsmethodsbsstoupdatepaymentmethod") {
-      typRequest = "Show";
-      HandleCloseOrOpenReadinPage(false);
-      if (resultrquestaction === 1) {
-        OpenDialogForActionSuccess(
-          `لقد تم تحديث لخيار الدفع ${datUserClickAct.namepayment} بنجاح كما تم تحديث لبيانات `
-        );
-        sangePageDat = 1;
-      } else if (resultrquestaction === 7) {
-        OpenDialogForActionFound(
-          "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
-        );
-      } else if (resultrquestaction === 11) {
-        OpenDialogForActionFound(
-          "يبدو بان هناك نفس المعلومات دفع لمطلوب و لا يتاح تكرارها كما تم تحديث لبيانات"
-        );
-      } else if (resultrquestaction === 8) {
-        OpenDialogForActionFound(
-          "يبدو بانك لا تملك كلمة السر الاغدادات يمكنك انشائعا فلمركز الاعدادات"
-        );
-      } else if (resultrquestaction === 12) {
-        OpenDialogForActionFound(
-          "يبدو بانك تحاول تحديث خيارات الدغع نقدي او سلف و لتي لا يتاح تعديلها ولا لاحاج لها لكن تم تحديث لبيانات"
-        );
-      } else if (resultrquestaction === 3) {
-        OpenDialogForActionFound(
-          "لا يتاح تعديل على خيارات مثل الدفع نقدي او سلف من طرف تاجر و لا حاج لذالك كما تم تحديث لبيانات"
-        );
-      } else if (resultrquestaction === 3) {
-        OpenDialogForActionFound(
-          `يبدو بان هناك خطا اثناء محاولت تحديق لخيار الدفع حاول مرة اخرى كما تم تحديث لبيانات`
-        );
-      } else if (resultrquestaction === 99) {
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
-        );
-      }
+    switch (typRequest) {
+      case "Show":
+        if (resultrquestaction === 99) {
+          typRequest = "Show";
+          ModelShowDate = "";
+          sangePageDat = 1;
+          OpenDialogForActionFound(
+            "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+          );
+        }
+      return;
+      case "edartpaymentsmethodsbsstoactivepayment":
+        switch (resultrquestaction) {
+          case 1:
+            OpenDialogForActionSuccess(
+              `لقد تم تفعيل لخيار الدفع ${datUserClickAct.namepayment} بنجاح كما تم تحديث لبيانات `
+            );
+            sangePageDat = 1;
+          return;
+          case 3:
+            OpenDialogForActionFound(
+              `يبدو بان هناك خطا اثناء محاولت تفعيل الدفع حاول مرة اخرى كما تم تحديث لبيانات`
+            );
+          return;
+          case 7:
+            OpenDialogForActionFound(
+              "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
+            );
+          return;
+          case 8:
+            OpenDialogForActionFound(
+              "يبدو بانك لا تملك كلمة السر الاغدادات يمكنك انشائعا فلمركز الاعدادات"
+            );
+          return;
+          case 9:
+            OpenDialogForActionFound(
+              `لقد سبق لك تفعيل لخيار الدفع ${datUserClickAct.namepayment} مسبقا كما تم تحديث لبيانات `
+            );
+          return;
+          case 99:
+          OpenDialogForActionFound(
+              "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+          );
+          return;
+        }
+      return;
+      case "edartpaymentmathodsToDscactivePayment":
+        switch (resultrquestaction) {
+          case 1:
+            OpenDialogForActionSuccess(
+              `لقد تم ايقاف لخيار الدفع ${datUserClickAct.namepayment} بنجاح كما تم تحديث لبيانات `
+            );
+            sangePageDat = 1;
+          return;
+          case 3:
+            OpenDialogForActionFound(
+              `يبدو بان هناك خطا اثناء محاولت ايقاف الدفع حاول مرة اخرى كما تم تحديث لبيانات`
+            );
+          return;
+          case 7:
+            OpenDialogForActionFound(
+              "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
+            );
+          return;
+          case 8:
+            OpenDialogForActionFound(
+              "يبدو بانك لا تملك كلمة السر الاغدادات يمكنك انشائعا فلمركز الاعدادات"
+            );
+          return;
+          case 9:
+            OpenDialogForActionFound(
+              `لقد سبق لك ايقاف لخيار الدفع ${datUserClickAct.namepayment} مسبقا كما تم تحديث لبيانات `
+            );
+          return;
+          case 99:
+          OpenDialogForActionFound(
+              "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+          );
+          return;
+        }
+      return;
+      case "edartpaymentsmethodsbsstoupdatepaymentmethod":
+        switch (resultrquestaction) {
+          case 1:
+            OpenDialogForActionSuccess(
+              `لقد تم تحديث لخيار الدفع ${datUserClickAct.namepayment} بنجاح كما تم تحديث لبيانات `
+            );
+          return;
+          case 3:
+            OpenDialogForActionFound(
+              "لا يتاح تعديل على خيارات مثل الدفع نقدي او سلف من طرف تاجر و لا حاج لذالك كما تم تحديث لبيانات"
+            );
+          return;
+          case 7:
+            OpenDialogForActionFound(
+              "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
+            );
+          return;
+          case 8:
+            OpenDialogForActionFound(
+              "يبدو بانك لا تملك كلمة السر الاغدادات يمكنك انشائعا فلمركز الاعدادات"
+            );
+          return;
+          case 11:
+            OpenDialogForActionFound(
+              "يبدو بان هناك نفس المعلومات دفع لمطلوب و لا يتاح تكرارها كما تم تحديث لبيانات"
+            );
+          return;
+          case 12:
+            OpenDialogForActionFound(
+              "يبدو بانك تحاول تحديث خيارات الدغع نقدي او سلف و لتي لا يتاح تعديلها ولا لاحاج لها لكن تم تحديث لبيانات"
+            );
+          return;
+          case 99:
+          OpenDialogForActionFound(
+              "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+          );
+          return;
+        }
+      return;
     }
   }, [resultrquestaction]); //== End Sheck Type Request To Show Result For User ==//
 
@@ -290,7 +306,7 @@ const Payment_Settings_Management = () => {
   }, [leadingtable]); //== End Her To Sheck loding Response ==//
 
   // Start To Send Request Semthibg Action Now To Return Show Prev Data
-  const HandleSowPrevMyCategory = () => {
+  const HandleSowPrevMyCategory = async () => {
     if (typRequest === "Show") {
       if (sangePageDat > 1) {
         sangePageDat = sangePageDat - 1;
@@ -301,7 +317,7 @@ const Payment_Settings_Management = () => {
   } //== End To Send Request Semthibg Action Now To Return Show Prev Data ==//
 
   // Start To Send Request Semthibg Action Now To Show More Data
-  const HandleSowNextMyCategory = () => {
+  const HandleSowNextMyCategory = async () => {
     if (typRequest === "Show") {
       if (sangePageDat < last_page) {
         sangePageDat = sangePageDat + 1;
@@ -314,51 +330,52 @@ const Payment_Settings_Management = () => {
   // Start Open Aleart For Semthing Ac tion
   const HandAddTypeThisActions = (dat, TypeAction) => {
     datUserClickAct = dat;
-    if (TypeAction === "ActivePayment") {
-      TypeAlearVipNow(
-        dat,
-        TypeAction + "FromEdartPaymentMethodsBss",
-        "",
-        "",
-        "كلمة السر الاعدادات",
-        "password",
-        `تاكيد تفعيل الخيار الدفع المختار ${dat.namepayment}`,
-        "تاكيد",
-        "",
-        "bss",
-        "من اجل اكمال تفعيل لخيار الدفع المختار رجا ادخال الكلمة السر الاعدادات",
-        dat.id
-      );
-    } else if (TypeAction === "StopPayment") {
-      TypeAlearVipNow(
-        dat,
-        TypeAction + "FromEdartPaymentMethodsBss",
-        "",
-        "",
-        "كلمة السر الاعدادات",
-        "password",
-        `تاكيد تعطيل الخيار الدفع المختار ${dat.namepayment}`,
-        "تاكيد",
-        "",
-        "bss",
-        "من اجل اكمال احراء تعطيل لخيار الدفع المختار رجا ادخال الكلمة السر الاعدادات",
-        dat.id
-      );
-    } else if (TypeAction === "UpdatePayment") {
-      TypeAlearVipNow(
-        dat,
-        TypeAction + "FromEdartPayprod",
-        `رقم الدفغ الجديد ${dat.TypeNumberPay}`,
-        "number",
-        `كلمة السر الاعدادات`,
-        "password",
-        `تحديث طريقة الدفع ${dat.namepayment}`,
-        "تحديث",
-        "",
-        "importtouinputepayment",
-        "",
-        dat.id
-      );
+    switch (TypeAction) {
+      case "ActivePayment":
+        return TypeAlearVipNow(
+          dat,
+          TypeAction + "FromEdartPaymentMethodsBss",
+          "",
+          "",
+          "كلمة السر الاعدادات",
+          "password",
+          `تاكيد تفعيل الخيار الدفع المختار ${dat.namepayment}`,
+          "تاكيد",
+          "",
+          "bss",
+          "من اجل اكمال تفعيل لخيار الدفع المختار رجا ادخال الكلمة السر الاعدادات",
+          dat.id
+        );
+      case "StopPayment":
+        return TypeAlearVipNow(
+          dat,
+          TypeAction + "FromEdartPaymentMethodsBss",
+          "",
+          "",
+          "كلمة السر الاعدادات",
+          "password",
+          `تاكيد تعطيل الخيار الدفع المختار ${dat.namepayment}`,
+          "تاكيد",
+          "",
+          "bss",
+          "من اجل اكمال احراء تعطيل لخيار الدفع المختار رجا ادخال الكلمة السر الاعدادات",
+          dat.id
+        );
+      case "UpdatePayment":
+        return TypeAlearVipNow(
+          dat,
+          TypeAction + "FromEdartPayprod",
+          `رقم الدفغ الجديد ${dat.TypeNumberPay}`,
+          "number",
+          `كلمة السر الاعدادات`,
+          "password",
+          `تحديث طريقة الدفع ${dat.namepayment}`,
+          "تحديث",
+          "",
+          "importtouinputepayment",
+          "",
+          dat.id
+        );
     }
   } //=== End Open Aleart For Semthing Ac tion ===//
 

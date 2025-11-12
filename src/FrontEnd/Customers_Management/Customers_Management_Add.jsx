@@ -76,76 +76,90 @@ export default function Customers_Management_Add() {
 
   // Start Show Alls Response From Request Bss Do Now
   React.useMemo(() => {
-    if (typeRequestRsp === "edartzebayenstoaddzebouneyedewiyanwithbss") {
-      HandleCloseOrOpenReadinPage(false);
-      if (resultrquestaction === 1) {
-        OpenDialogForActionSuccess(
-          "تم انشاء زبون يدويا بنجاح كما تم توجيهك الى صفحت ادارة زباين",
-        );
-        navigate('/Customers-Management');
-      } else if (resultrquestaction === 2) {
+    switch (typRequest) {
+      case "edartzebayenstoaddzebouneyedewiyanwithbss":
+        HandleCloseOrOpenReadinPage(false);
+        switch (resultrquestaction) {
+        case 1:
+          OpenDialogForActionSuccess(
+            "تم انشاء زبون يدويا بنجاح كما تم توجيهك الى صفحت ادارة زباين",
+          );
+          navigate('/Customers-Management');
+        return;
+        case 2:
+          OpenDialogForActionFound(
+            "لقد سحلت هذه الرقم للزبون من قبل و لا يسمح بتكرار نفس الارقام للزباين"
+          );
+        return;
+        case 7:
+          OpenDialogForActionFound(
+            "حدث خطا اثناء محاولتك انشاء زبون يدويا خطا غير معروف رجاء حاول في وقت لاحق"
+          );
+        return;
+        case 99:
         OpenDialogForActionFound(
-          "لقد سحلت هذه الرقم للزبون من قبل و لا يسمح بتكرار نفس الارقام للزباين"
-        );
-      } else if (resultrquestaction === 7) {
-        OpenDialogForActionFound(
-          "حدث خطا اثناء محاولتك انشاء زبون يدويا خطا غير معروف رجاء حاول في وقت لاحق"
-        );
-      } else if (resultrquestaction === 99) {
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
-        );
-      }
-    } else if (
-      typeRequestRsp === "edartzebayenstosereachdatausetodosemthingaction"
-    ) {
-      HandleCloseOrOpenReadinPage(false);
-      if (resultrquestaction === 99) {
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+            "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
         );
         return;
       }
-      if (dataShowProd == 0) {
-        msessageErr = (
-          <div>
-            <h1 style={{ color: "#fff" }}>
-              No Date For This Name Now
-              <span style={{ color: "#f00" }}> {valToSereach}</span>
-            </h1>
-          </div>
+      return;
+      case "edartzebayenstosereachdatausetodosemthingaction":
+        HandleCloseOrOpenReadinPage(false);
+        if (resultrquestaction === 99) {
+          OpenDialogForActionFound(
+            "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+          );
+          return;
+        }
+        if (dataShowProd == 0) {
+          msessageErr = (
+            <div>
+              <h1 style={{ color: "#fff" }}>
+                No Date For This Name Now
+                <span style={{ color: "#f00" }}> {valToSereach}</span>
+              </h1>
+            </div>
+          );
+        } else {
+          msessageErr = <></>;
+        }
+      return;
+      case "edartzebayenstoaddzebouneonlinewithbss":
+        HandleCloseOrOpenReadinPage(false);
+        switch (resultrquestaction) {
+        case 1:
+          OpenDialogForActionSuccess(
+            `لقد تم ارسال طلبك بنجاح يمكنك انتظار رد من المستخدم ${datUserClick.name} و لذي سيصله فلبريد الرسائل العام`,
+          );
+          navigate('/Customers-Management');
+        return;
+        case 3:
+          OpenDialogForActionFound(
+            `يبدو بانك سبق و اضفت لمستخدم ${datUserClick.name} من قبل للقئمة زباىنك بلفعل`
+          );
+        return;
+        case 7:
+          OpenDialogForActionFound(
+            "رجاء انتظار رد من لمستخدم على طلبيتك لماضية حيث لم يرد عليها بعد لا بلقبول و لا غيره"
+          );
+        return;
+        case 8:
+          OpenDialogForActionFound(
+            "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
+          );
+        return;
+        case 9:
+          OpenDialogForActionFound(
+            `يبدو بانك لا تملك كلمة السر الاعدادات تحتاج لتفغيلعا و توجد فلاعدادات الحساب`
+          );
+        return;
+        case 99:
+        OpenDialogForActionFound(
+            "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
         );
-      } else {
-        msessageErr = <></>;
+        return;
       }
-    } else if (typeRequestRsp === "edartzebayenstoaddzebouneonlinewithbss") {
-      HandleCloseOrOpenReadinPage(false);
-      if (resultrquestaction === 1) {
-        OpenDialogForActionSuccess(
-          `لقد تم ارسال طلبك بنجاح يمكنك انتظار رد من المستخدم ${datUserClick.name} و لذي سيصله فلبريد الرسائل العام`,
-        );
-        navigate('/Customers-Management');
-      } else if (resultrquestaction === 8) {
-        OpenDialogForActionFound(
-          "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
-        );
-      } else if (resultrquestaction === 9) {
-        OpenDialogForActionFound(
-          `يبدو بانك لا تملك كلمة السر الاعدادات تحتاج لتفغيلعا و توجد فلاعدادات الحساب`
-        );
-      } else if (resultrquestaction === 3) {
-        OpenDialogForActionFound(
-          `يبدو بانك سبق و اضفت لمستخدم ${datUserClick.name} من قبل للقئمة زباىنك بلفعل`
-        );
-      } else if (resultrquestaction === 7) {
-        OpenDialogForActionFound(
-          "رجاء انتظار رد من لمستخدم على طلبيتك لماضية حيث لم يرد عليها بعد لا بلقبول و لا غيره"
-        );
-      } else if (resultrquestaction === 99) {
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
-        );
-      }
+      return;
     }
   }, [
     resultrquestaction,
@@ -155,12 +169,13 @@ export default function Customers_Management_Add() {
 
   // Start Handle Alls Value Semthing Action From Inpute
   const HandleToAllsActionSemtime = (val, typeAction) => {
-    if (typeAction === "GetVlueNameZeboune") {
-      UserName = val;
-    } else if (typeAction === "GetVlueNumberZeboune") {
-      NumberUser = val;
-    } else if (typeAction === "GetVlueFileImgZeboune") {
-      ImageUserCreate = val;
+    switch (typeAction) {
+      case "GetVlueNameZeboune":
+      return UserName = val;
+      case "GetVlueNumberZeboune":
+        return NumberUser = val;
+      case "GetVlueFileImgZeboune":
+        return ImageUserCreate = val;
     }
   }; //== End Handle Alls Value Semthing Action From Inpute ==//
 
@@ -261,7 +276,7 @@ export default function Customers_Management_Add() {
 
   // Start Foreatch For Alls Inpute In The Form Page
   const AllsInputToDoSemthingAction = React.useMemo(() => {
-    const dataShowTable = [
+    return [
       {
         id: 1,
         titepInpt: "الاسم زبون",
@@ -280,9 +295,7 @@ export default function Customers_Management_Add() {
         TypeInput: "file",
         TypAction: "GetVlueFileImgZeboune",
       },
-    ];
-
-    return dataShowTable.map((ShowDat) => {
+    ].map((ShowDat) => {
       return (
         <div
           style={{
@@ -303,7 +316,7 @@ export default function Customers_Management_Add() {
   }, []); // End Foreatch For Alls Inpute In The Form Page ==//
 
   // Start To Stop Action Type Sereach In Page
-  function handleStartStopSereachUserName() {
+  const handleStartStopSereachUserName = () => {
     setModeleSereach("");
   } //== Start To Stop Action Type Sereach In Page ==//
 

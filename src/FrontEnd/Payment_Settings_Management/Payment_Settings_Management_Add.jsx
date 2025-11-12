@@ -168,7 +168,7 @@ const Payment_Settings_Management_Add = () => {
   } //=== End Cop Date Prodect To Update Prodect In Quantitel Shange ===//
 
   // Start To Send Confirmed Data For Create Payment method
-  const HandleClickToSendDateProdect = (e) => {
+  const HandleClickToSendDateProdect = async (e) => {
     e.preventDefault();
     const MxmuinNmb = 4;
     if (selectedProdects.length == 0) {

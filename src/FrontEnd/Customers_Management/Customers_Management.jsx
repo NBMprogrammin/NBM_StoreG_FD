@@ -180,130 +180,151 @@ export default function Customers_Management() {
 
   // Start Sheck Type Request To Show Result For User
   React.useMemo(() => {
-    if(typRequest === "Show") {
-      if (resultrquestaction === 99) {
-        typRequest = "Show";
-        ModelShowDate = "";
-        sangePageDat = 1;
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+    switch (typRequest) {
+      case "Show":
+        if (resultrquestaction === 99) {
+          typRequest = "Show";
+          ModelShowDate = "";
+          sangePageDat = 1;
+          OpenDialogForActionFound(
+            "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+          );
+        }
+      return;
+      case "edartzebaynesbsstoactivedeyneforzeboune":
+        switch (resultrquestaction) {
+          case 1:
+            OpenDialogForActionSuccess(
+              `لقد تم تفعيل لخيار دين للزبون ${datUserClickAct.username} بنجاح كما تم تحديث لبيانات`
+            );
+            sangePageDat = 1;
+            typRequest = "Show";
+            ModelShowDate = "";
+          return;
+          case 5:
+            OpenDialogForActionFound(
+              `يبدو بانك لا تملك كلمة السر الاعدادات تحتاج لتفغيلعا و توجد فلاعدادات الحساب`
+            );
+          return;
+          case 7:
+            OpenDialogForActionFound(
+              "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
+            );
+          return;
+          case 8:
+            OpenDialogForActionFound(
+              `يبدو بانك سبف لك و فعلت لخيار دين للزبون ${datUserClickAct.username} بلغعل`
+            );
+          return;
+          case 12:
+            OpenDialogForActionFound(
+              "رجاء انتظار اكمال العلاقة بينكم من اجل تعديل لحيارات حيث لم يرد المستخدم على طلبك بعد"
+            );
+          return;
+          case 99:
+          OpenDialogForActionFound(
+              "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+          );
+          return;
+        }
+      return;
+      case "edartzebounestodecativedeyneforzeboune":
+        switch (resultrquestaction) {
+          case 1:
+            OpenDialogForActionSuccess(
+              `لقد تم تعطيل لخيار دين للزبون ${datUserClickAct.username} بنجاح كما تم تحديث لبيانات`
+            );
+            sangePageDat = 1;
+            typRequest = "Show";
+            ModelShowDate = "";
+          return;
+          case 5:
+            OpenDialogForActionFound(
+              `يبدو بانك لا تملك كلمة السر الاعدادات تحتاج لتفغيلعا و توجد فلاعدادات الحساب`
+            );
+          return;
+          case 7:
+            OpenDialogForActionFound(
+              "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
+            );
+          return;
+          case 8:
+            OpenDialogForActionFound(
+              `يبدو بانك سبف لك و عطلت لخيار دين للزبون ${datUserClickAct.username} بلغعل`
+            );
+          return;
+          case 12:
+            OpenDialogForActionFound(
+              "رجاء انتظار اكمال العلاقة بينكم من اجل تعديل لحيارات حيث لم يرد المستخدم على طلبك بعد"
+            );
+          return;
+          case 99:
+          OpenDialogForActionFound(
+              "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+          );
+          return;
+        }
+      return;
+      case "edartzebaynetoupdatedeynezeboune":
+        switch (resultrquestaction) {
+          case 1:
+            OpenDialogForActionSuccess(
+              `لقد تم تعديل دين للزبون ${datUserClickAct.username} بنجاح كما تم تحديث لبيانات`
+            );
+            sangePageDat = 1;
+            typRequest = "Show";
+            ModelShowDate = "";
+          return;
+          case 5:
+            OpenDialogForActionFound(
+              `يبدو بانك لا تملك كلمة السر الاعدادات تحتاج لتفغيلعا و توجد فلاعدادات الحساب`
+            );
+          return;
+          case 7:
+            OpenDialogForActionFound(
+              "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
+            );
+          return;
+          case 9:
+            // انتظار لقرار من اجل ايقاف تعديل عللى اليدن زبون في حالت لم يتاح له خيار دين؟؟؟؟؟
+            OpenDialogForActionFound(
+              `يبدو بان لمستخدم ${datUserClickAct.username} لم يرد على طلبية تكوين علاقة معك بعد رجاء انتظار رده `
+            );
+          return;
+          case 12:
+            OpenDialogForActionFound(
+              "رجاء انتظار اكمال العلاقة بينكم من اجل تعديل لحيارات حيث لم يرد المستخدم على طلبك بعد"
+            );
+          return;
+          case 99:
+          OpenDialogForActionFound(
+              "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+          );
+          return;
+        }
+      return;
+      case "ShowAllsDataOrderZebouneFromEdartOrdersBss":
+        typRequest = typActionrespNoew;
+        if (resultrquestaction === 99) {
+          OpenDialogForActionFound(
+            "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+          );
+          return;
+        }
+        StartShowMoreDatImClick(
+          ShowAllsProdData.datone,
+          "",
+          "",
+          ShowAllsProdData.datou,
+          `تفاصيل معاملات مع زبون ${ShowAllsProdData.username}`,
+          "صورة حساب زبون",
+          ShowAllsProdData.image,
+          "",
+          `المزيد من المعلومات معاملات مع ${ShowAllsProdData.username}`,
+          ShowAllsProdData.created_at,
+          ShowAllsProdData.id
         );
-      }
-    } else if (typRequest === "edartzebaynesbsstoactivedeyneforzeboune") {
-      typRequest = typActionrespNoew;
-      HandleCloseOrOpenReadinPage(false);
-      if (resultrquestaction === 1) {
-        OpenDialogForActionSuccess(
-          `لقد تم تفعيل لخيار دين للزبون ${datUserClickAct.username} بنجاح كما تم تحديث لبيانات`
-        );
-        sangePageDat = 1;
-        typRequest = "Show";
-        ModelShowDate = "";
-      } else if (resultrquestaction === 7) {
-        OpenDialogForActionFound(
-          "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
-        );
-      } else if (resultrquestaction === 8) {
-        OpenDialogForActionFound(
-          `يبدو بانك سبف لك و فعلت لخيار دين للزبون ${datUserClickAct.username} بلغعل`
-        );
-      } else if (resultrquestaction === 5) {
-        OpenDialogForActionFound(
-          `يبدو بانك لا تملك كلمة السر الاعدادات تحتاج لتفغيلعا و توجد فلاعدادات الحساب`
-        );
-      } else if (resultrquestaction === 12) {
-        OpenDialogForActionFound(
-          "رجاء انتظار اكمال العلاقة بينكم من اجل تعديل لحيارات حيث لم يرد المستخدم على طلبك بعد"
-        );
-      } else if (resultrquestaction === 99) {
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
-        );
-      }
-    } else if (typRequest === "edartzebounestodecativedeyneforzeboune") {
-      typRequest = typActionrespNoew;
-      HandleCloseOrOpenReadinPage(false);
-      if (resultrquestaction === 1) {
-        OpenDialogForActionSuccess(
-          `لقد تم تعطيل لخيار دين للزبون ${datUserClickAct.username} بنجاح كما تم تحديث لبيانات`
-        );
-        ModelShowDate = "";
-        sangePageDat = 1;
-        typRequest = "Show";
-      } else if (resultrquestaction === 7) {
-        OpenDialogForActionFound(
-          "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
-        );
-      } else if (resultrquestaction === 8) {
-        OpenDialogForActionFound(
-          `يبدو بانك سبف لك و عطلت لخيار دين للزبون ${datUserClickAct.username} بلغعل`
-        );
-      } else if (resultrquestaction === 5) {
-        OpenDialogForActionFound(
-          `يبدو بانك لا تملك كلمة السر الاعدادات تحتاج لتفغيلعا و توجد فلاعدادات الحساب`
-        );
-      } else if (resultrquestaction === 12) {
-        OpenDialogForActionFound(
-          "رجاء انتظار اكمال العلاقة بينكم من اجل تعديل لحيارات حيث لم يرد المستخدم على طلبك بعد"
-        );
-      } else if (resultrquestaction === 99) {
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
-        );
-      }
-    } else if (typRequest === "edartzebaynetoupdatedeynezeboune") {
-      typRequest = typActionrespNoew;
-      HandleCloseOrOpenReadinPage(false);
-      if (resultrquestaction === 1) {
-        OpenDialogForActionSuccess(
-          `لقد تم تعديل دين للزبون ${datUserClickAct.username} بنجاح كما تم تحديث لبيانات`
-        );
-        sangePageDat = 1;
-        typRequest = "Show";
-      } else if (resultrquestaction === 7) {
-        OpenDialogForActionFound(
-          "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
-        );
-      } else if (resultrquestaction === 9) {
-        // انتظار لقرار من اجل ايقاف تعديل عللى اليدن زبون في حالت لم يتاح له خيار دين؟؟؟؟؟
-        OpenDialogForActionFound(
-          `يبدو بان لمستخدم ${datUserClickAct.username} لم يرد على طلبية تكوين علاقة معك بعد رجاء انتظار رده `
-        );
-      } else if (resultrquestaction === 5) {
-        OpenDialogForActionFound(
-          `يبدو بانك لا تملك كلمة السر الاعدادات تحتاج لتفغيلعا و توجد فلاعدادات الحساب`
-        );
-      } else if (resultrquestaction === 12) {
-        OpenDialogForActionFound(
-          "رجاء انتظار اكمال العلاقة بينكم من اجل تعديل لحيارات حيث لم يرد المستخدم على طلبك بعد"
-        );
-      } else if (resultrquestaction === 99) {
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
-        );
-      }
-    } else if (typRequest === "ShowAllsDataOrderZebouneFromEdartOrdersBss") {
-      HandleCloseOrOpenReadinPage(false);
-      typRequest = typActionrespNoew;
-      if (resultrquestaction === 99) {
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
-        );
-        return;
-      }
-      StartShowMoreDatImClick(
-        ShowAllsProdData.datone,
-        "",
-        "",
-        ShowAllsProdData.datou,
-        `تفاصيل معاملات مع زبون ${ShowAllsProdData.username}`,
-        "صورة حساب زبون",
-        ShowAllsProdData.image,
-        "",
-        `المزيد من المعلومات معاملات مع ${ShowAllsProdData.username}`,
-        ShowAllsProdData.created_at,
-        ShowAllsProdData.id
-      );
+      return;
     }
   }, [resultrquestaction]); // End Sheck Type Request To Show Result For User ==/
 
@@ -350,8 +371,7 @@ export default function Customers_Management() {
   }, [leadingtable]); // Start Type Page Now To Show Data
 
   // Start To Send Request Semthibg Action Now To Return Show Prev Data
-  function HandleSowPrevMyCategory() {
-    console.log(dateClickToSerch);
+  const HandleSowPrevMyCategory = async() => {
     if (typRequest === "Show") {
       if (sangePageDat > 1) {
         sangePageDat = sangePageDat - 1;
@@ -362,8 +382,7 @@ export default function Customers_Management() {
   } //== End To Send Request Semthibg Action Now To Return Show Prev Data ==//
 
   // Start To Send Request Semthibg Action Now To Show More Data
-  function HandleSowNextMyCategory() {
-    console.log(dateClickToSerch);
+  const HandleSowNextMyCategory = async () => {
     if (typRequest === "Show") {
       if (sangePageDat < last_page) {
         sangePageDat = sangePageDat + 1;
@@ -374,7 +393,7 @@ export default function Customers_Management() {
   } //== End To Send Request Semthibg Action Now To Show More Data ==//
 
   // Start Sereach All Orders For Semthinge Zeboune
-  function HandleShowSAllProdectsUser() {
+  const HandleShowSAllProdectsUser = async () => {
     typRequest = "Show";
     sangePageDat = 1;
     dispatsh(edartZebayensBssIndeexShow(sangePageDat));
@@ -393,13 +412,14 @@ export default function Customers_Management() {
   }; // End To Sereach Data For Semthing Zeboune Bss Clcik ==//
 
   // Start To Do Open Or Close Aleart For Confirmed Payment Prodect
-  function HandleToDoActionsNow(data, Type) {
+  const HandleToDoActionsNow = (data, Type) => {
     datUserClickAct = data;
     if (typActionrespNoew === "Sereach") {
       ModelShowDate = "GoToAllMyCategory";
     }
-    if (Type === "ActiveDeyn") {
-      TypeAlearVipNow(
+    switch (Type) {
+      case "ActiveDeyn":
+      return TypeAlearVipNow(
         data,
         Type + "FromEdartZebayensBss",
         "",
@@ -413,8 +433,8 @@ export default function Customers_Management() {
         `اللاكمال تفعيل خيار الدين للزبون ${data.username} يرجا ادخال كلمة السر لخاص بلاعدادات`,
         data.id
       );
-    } else if (Type === "DscActiveDeyn") {
-      TypeAlearVipNow(
+      case "DscActiveDeyn":
+      return TypeAlearVipNow(
         data,
         Type + "FromEdartZebayensBss",
         "",
@@ -428,8 +448,8 @@ export default function Customers_Management() {
         `اللاكمال تعطيل خيار الدين للزبون ${data.username} يرجا ادخال كلمة السر لخاص بلاعدادات`,
         data.id
       );
-    } else if (Type === "UpdateDeynMyZeboune") {
-      TypeAlearVipNow(
+      case "UpdateDeynMyZeboune":
+      return TypeAlearVipNow(
         data,
         Type + "FromEdartZebouns",
         `دين لحالي و لجديد (${data.TotelDeyn ? data.TotelDeyn : "خاوي"})`,
@@ -443,8 +463,8 @@ export default function Customers_Management() {
         "",
         data.id
       );
-    } else if (Type === "ShowMyZeboune") {
-      dispatsh(edartzebayensBsshowallsdataMyZeboune(data.id));
+      case 'ShowMyZeboune':
+        return dispatsh(edartzebayensBsshowallsdataMyZeboune(data.id));
     }
   } //== End To Do Open Or Close Aleart For Confirmed Payment Prodect ==//
 
