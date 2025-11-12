@@ -1,5 +1,4 @@
 import "./App.css";
-import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import IndexHome from "./FrontEnd/IndexHome";
 import Login from "./FrontEnd/layoute/Login";

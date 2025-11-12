@@ -462,7 +462,7 @@ export default function Categories_Management() {
 
             {leadingtable ? (
               ""
-            ) : totalalldate >= 15 ? (
+            ) : totalalldate >= 20 ? (
               <FormInInputAndBtnToDoAction
                 typeMyInput={"text"}
                 HandelSendDateAllsInThisForm={
