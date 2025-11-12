@@ -148,11 +148,6 @@ const Navigation = ({ typeactive }) => {
         TypeProfile: TypeAction,
       };
     }
-    console.log('=========');
-    console.log(TypeAction);
-    console.log(value);
-    console.log('=========');
-    
     HandleCloseOrOpenReadinPage(true);
     dispatsh(startshngeprofileusernowtologin(UrlRequest));
   };

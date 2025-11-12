@@ -4,7 +4,7 @@
   "description": "React application for NBM Store with Material-UI and Redux",
   "private": true,
   "type": "module",
-  "homepage": "https://github.com/NBM_StoreG_FD/NBMprogrammin.git",
+  "homepage": "https://NBMprogrammin.github.io/NBM_StoreG_FD",
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
