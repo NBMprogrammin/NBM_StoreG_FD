@@ -466,7 +466,6 @@ const Messages = () => {
     dispatsh(ShowAllsMyMessage({page: 1, typ: 'first'}));
     typeShowDataNow = "Show";
     typRequest = "Show";
-    
   }, []);
   
 
@@ -512,7 +511,7 @@ const Messages = () => {
   };
 
   return (
-    <>
+    <div>
       <Header typeactive={"Message"} />
       <Container maxWidth="md" sx={{ py: 4, mt: "110px" }}>
         {/* رأس الصفحة */}
@@ -787,7 +786,7 @@ const Messages = () => {
           </Alert>
         </Snackbar>
       </Container>
-    </>
+    </div>
   );
 };
 
