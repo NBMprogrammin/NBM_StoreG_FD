@@ -78,91 +78,107 @@ const DashboardUser = () => {
 
   // Start Sheck Type Request To Show Result For User
   React.useMemo(() => {
-    if (typRequest === "edartordersuserstomyorder") {
-      HandleCloseOrOpenReadinPage(false);
-      if (resultrquestaction === 1) {
-        OpenDialogForActionSuccess(
-          `لقد تم تعطيل طلبية لتي تم ارسالها للتاجر  ${datUserClickAct.namebss} بنجاح كما تم اظهار تحديث لبيانات`
-        );
-        typRequest = "Show";
-        return;
-      } else if (resultrquestaction === 3) {
-        OpenDialogForActionFound(
-          "يبدو بان طلبية لم تعد موجود ربما حذفتها سابقا كما تم تحديث لبيانات يمكنك اعادت لمحاول"
-        );
-        return;
-      } else if (resultrquestaction === 4) {
-        OpenDialogForActionFound(
-          `لقد قام تاجر بتعديل على لطلبيتك ${datUserClickAct.namebss} كما تم تحديث لبيانات بلجديدة `
-        );
+    switch (typRequest) {
+      case "edartordersuserstomyorder":
+        switch (resultrquestaction) {
+          case 1:
+            OpenDialogForActionSuccess(
+              `لقد تم تعطيل طلبية لتي تم ارسالها للتاجر  ${datUserClickAct.namebss} بنجاح كما تم اظهار تحديث لبيانات`
+            );
+            typRequest = "";
+          return;
+          case 3:
+            typRequest = "";
+            OpenDialogForActionFound(
+              "يبدو بان طلبية لم تعد موجود ربما حذفتها سابقا كما تم تحديث لبيانات يمكنك اعادت لمحاول"
+            );
+          return;
+          case 4:
+            typRequest = "";
+            OpenDialogForActionFound(
+              `لقد قام تاجر بتعديل على لطلبيتك ${datUserClickAct.namebss} كما تم تحديث لبيانات بلجديدة `
+            );
+          return;
+          case 6:
+            typRequest = "";
+            OpenDialogForActionFound(
+              " يبدو بانك سبق و قمت بلاغاء طلبية بلفعل و لا يتاح لخيار تعديل لقرارات كما تم تحديث لبيانات"
+            );
+            return;
+          case 99:
+            typRequest = "";
+          OpenDialogForActionFound(
+              "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+          );
+          return;
+        }  
       return;
-      } else if (resultrquestaction === 6) {
+      case "edartordersuserdeletemyorder":
+      switch (resultrquestaction) {
+        case 1:
+          typRequest = "";
+          OpenDialogForActionSuccess(
+            `لقد تم الحذف طلبية بنجاح لتي تم ارسالها للتاجر  ${datUserClickAct.namebss} كما تم تحديث لبيانات`
+          );
+          typRequest = "";
+        return;
+        case 3:
+          typRequest = "";
+          OpenDialogForActionFound(
+            "يبدو بان طلبية لم تعد موجود ربما حذفتها سابقا كما تم تحديث لبيانات يمكنك اعادت لمحاول"
+          );
+        return;
+        case 4:
+          typRequest = "";
+          OpenDialogForActionFound(
+            "يبدو بان طلبية لم تعد موجود ربما حذفتها سابقا كما تم تحديث لبيانات يمكنك اعادت لمحاول"
+          );
+        return;
+        case 6:
+          typRequest = "";
+          OpenDialogForActionFound(
+            " يبدو بانك سبق و قمت بلاغاء طلبية بلفعل و لا يتاح لخيار تعديل لقرارات كما تم تحديث لبيانات"
+          );
+        return;
+        case 99:
+          typRequest = "";
         OpenDialogForActionFound(
-          " يبدو بانك سبق و قمت بلاغاء طلبية بلفعل و لا يتاح لخيار تعديل لقرارات كما تم تحديث لبيانات"
+            "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
         );
-      return;
-      } else if (resultrquestaction === 99) {
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
-        );
+        return;
       }
       return;
-    } else if (typRequest === "edartordersuserdeletemyorder") {
-      HandleCloseOrOpenReadinPage(false);
-      if (resultrquestaction === 1) {
-        OpenDialogForActionSuccess(
-          `لقد تم الحذف طلبية بنجاح لتي تم ارسالها للتاجر  ${datUserClickAct.namebss} كما تم تحديث لبيانات`
-        );
-        typRequest = "Show";
-        return;
-      } else if (resultrquestaction === 3) {
-        OpenDialogForActionFound(
-          "يبدو بان طلبية لم تعد موجود ربما حذفتها سابقا كما تم تحديث لبيانات يمكنك اعادت لمحاول"
-        );
-        return;
-      } else if (resultrquestaction === 4) {
-        OpenDialogForActionFound(
-          `لقد قام تاجر بتعديل على لطلبيتك ${datUserClickAct.namebss} كما تم تحديث لبيانات بلجديدة `
-        );
-        return;
-      } else if (resultrquestaction === 6) {
-        OpenDialogForActionFound(
-          " يبدو بانك سبق و قمت بلاغاء طلبية بلفعل و لا يتاح لخيار تعديل لقرارات كما تم تحديث لبيانات"
-        );
-        return;
-      } else if (resultrquestaction === 99) {
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
-        );
-        return;
-      }
-    } else if (typRequest === "ShowAllsMyOrderDataFromEdartOrdersUser") {
-      HandleCloseOrOpenReadinPage(false);
-      if (resultrquestaction === 2) {
-        OpenDialogForActionFound(
-          "حدث خطا غير معروف اثناء جذب لبيانات او انك حذفت طلبية لذا تم تحديث لبيانات رجاء حاول مرة اخرى"
-        );
-        return;
-      } else if (resultrquestaction === 99) {
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
-        );
-        return;
-      } else {
-        StartShowMoreDatImClick(
-          ShowAllsProdData.datone,
-          "prodect",
-          ShowAllsProdData.datthere,
-          ShowAllsProdData.datou,
-          `تفاصيل طلبية مرسل الى  ${ShowAllsProdData.namebss}`,
-          "صورة تحويل  الاموال  ",
-          ShowAllsProdData.imgconfirmedpay,
-          `تفاصيل المنتجات المختار في طبيتك الى ${ShowAllsProdData.namebss}`,
-          `المزيد من المعلومات طلبية مرسل الى ${ShowAllsProdData.namebss}`,
-          ShowAllsProdData.created_at,
-          ShowAllsProdData.id
-        );
-      }
+      case "ShowAllsMyOrderDataFromEdartOrdersUser":
+        HandleCloseOrOpenReadinPage(false);
+        typRequest = '';
+        switch (resultrquestaction) {
+          case 2:
+            typRequest = "";
+            OpenDialogForActionFound(
+              "حدث خطا غير معروف اثناء جذب لبيانات او انك حذفت طلبية لذا تم تحديث لبيانات رجاء حاول مرة اخرى"
+            );
+          return;
+          case 99:
+          typRequest = "";
+          OpenDialogForActionFound(
+              "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+          );
+          return;
+          default: StartShowMoreDatImClick(
+            ShowAllsProdData.datone,
+            "prodect",
+            ShowAllsProdData.datthere,
+            ShowAllsProdData.datou,
+            `تفاصيل طلبية مرسل الى  ${ShowAllsProdData.namebss}`,
+            "صورة تحويل  الاموال  ",
+            ShowAllsProdData.imgconfirmedpay,
+            `تفاصيل المنتجات المختار في طبيتك الى ${ShowAllsProdData.namebss}`,
+            `المزيد من المعلومات طلبية مرسل الى ${ShowAllsProdData.namebss}`,
+            ShowAllsProdData.created_at,
+            ShowAllsProdData.id
+          );
+          return;
+        }
     }
   }, [resultrquestaction]); // End Sheck Type Request To Show Result For User ==//
 
@@ -282,8 +298,7 @@ const DashboardUser = () => {
       const allbbshasdeyforMy = AllsDataUserNow.DatBssICalyan.filter((prod) => {
         return prod.totaleMyDeyn > 0;
       });
-
-      const MyDataToShow = [
+      return [
         {
           id: 1,
           icon: <AccountBalance className="iconShwStyle" />,
@@ -319,15 +334,13 @@ const DashboardUser = () => {
           value: `${AllsDataUserNow.TotalOrderIDo.toLocaleString()}`,
           color: "#f59e0b",
         },
-      ];
-
-      return MyDataToShow.map((card, index) => {
+      ].map((card, index) => {
         return (
           <div key={index} className="stat-card warning animate-slide-in" style={{ animationDelay: `${index * 0.4}s` }} >
             <div className="stat-icon">{card.icon}</div>
             <div className="stat-content">
               <h3>{card.title}</h3>
-              <span className="stat-number" data-count={card.value} ></span>
+              <span className="stat-number" data-count={card.value} >0</span>
             </div>
           </div>
         );

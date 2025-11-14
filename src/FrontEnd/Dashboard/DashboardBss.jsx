@@ -98,8 +98,6 @@ const DashboardBss = () => {
           `لقد نمت موافق  و تاكيد  على استلام الاموال من زبون ${datUserClickAct.namezeboune} و اتمام لمبيع بنجاح و اظهار تحديث`
           );
           typRequest = "Show";
-          ModelShowDate = "";
-          sangePageDat = 1;  
           return;
           case 4:
           OpenDialogForActionFound(
@@ -140,57 +138,64 @@ const DashboardBss = () => {
       return;
       case 'edartpayprodectdscconfirmedpaymentprod':
       HandleCloseOrOpenReadinPage(false);
-      typRequest = '';
       switch (resultrquestaction) {
           case 1:
           OpenDialogForActionSuccess(
               `لقد نم رفض تاكيد استلام الاموال من زبون ${datUserClickAct.namezeboune}  و استرداد كل لمنتجات لموجود في طلبية و بلكمية للمخزون كل منج و تم اظهار تحديث`
           );
-          typRequest = "Show";
-          ModelShowDate = "";
-          sangePageDat = 1;
+          typRequest = "";
           return;
           case 2:
+          typRequest = "";
           OpenDialogForActionSuccess(
               "حدث خطا اثناء اتمام طلبية لتي تمثل تاكيد استلام الاموال سيتم تحميل صفحة و معاود مرة اخرى"
           );
+          typRequest = "";
           return;
           case 4:
           OpenDialogForActionFound(
               `يبدو بان ناجر اوقف خاصية دين عن زبون ${datUserClickAct.namezeboune} و لقد تم استرداد طلبية و ارجاع لكمية لمبيع من للمخزون فكل لمنتج موجود فطلبية`
           );
+          typRequest = "";
           return;
           case 6:
+          typRequest = "";
           OpenDialogForActionFound(
               "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
           );
           return;
           case 9:
+          typRequest = "";
           OpenDialogForActionFound(
               "بدو بانك لا تمتلك صلاحية تاكيد الاستلام الاموال لطرق دفع الاكترونية  و هي تنتمي للادارة الدفع الاكتروني"
           );
           return;
           case 13:
+          typRequest = "";
           OpenDialogForActionFound(
               "بدو باتنك سبق لك و ان رفضت دفع طلبية سيتم تحميل صفحة و اضهار نتيجة نهائية "
           );
           return;
           case 14:
+          typRequest = "";
           OpenDialogForActionFound(
               "بدو باتنك سبق لك و ان وافقت على دفع للطلبية سيتم تحميل صفحة و اضهار نتيجة نهائية "
           );
           return;
           case 16:
+          typRequest = "";
           OpenDialogForActionFound(
               "يبدو بانك لا تمتلك صلاحية ادارة لمبيعات يمكنك طلبها من تاجر لتوفيرها لك"
           );
           return;
           case 22:
+          typRequest = "";
           OpenDialogForActionFound(
               "تم رصد مشكلة في احد لمنتجات لمبيع حيث لم يتم لعثور عليها و لاحتمال لاكبر يقول بان تاجر حذف لمنتج يمكنك محاول لاحقا"
           );
           return;
           case 99:
+          typRequest = "";
           OpenDialogForActionFound(
               "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
           );
@@ -203,6 +208,7 @@ const DashboardBss = () => {
           OpenDialogForActionFound(
           "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
           );
+          typRequest = "";
           return;
       }
       typRequest = '';
@@ -232,7 +238,7 @@ const DashboardBss = () => {
   }, [lodingtorspact]); // End Her To Sheck loding Response
 
   // Start Open Aleart For Semthing Action
-  function HandAddTypeThisActions(AllDataNow, TypeAction) {
+  const HandAddTypeThisActions = (AllDataNow, TypeAction) => {
     datUserClickAct = AllDataNow;
     switch (TypeAction) {
       case "ConfirmedPaymentProd":
@@ -366,7 +372,7 @@ const DashboardBss = () => {
     };
   }, []);
 
-const JSXShowAllsDataBss = useMemo(() => {
+  const JSXShowAllsDataBss = useMemo(() => {
   ProdFinsh = AllsDataUserNow.MayProd.filter((prod) => {
     return prod.nameThere == 0;
   });
@@ -388,7 +394,7 @@ const JSXShowAllsDataBss = useMemo(() => {
     totalCustomersGnL = AllsDataUserNow.MayZeboune.length;
 
     if (AllsDataUserNow.MyPaymentProdectPay) {
-      const dataShowMoreBss = [
+      return [
         {
           id: 8,
           titel: "التصنيفات",
@@ -454,9 +460,7 @@ const JSXShowAllsDataBss = useMemo(() => {
           icon: <AssuredWorkloadIcon className="iconShwStyledas" />,
           tycolor: "danger",
         },
-      ];
-
-      return dataShowMoreBss.map((card, index) => {
+      ].map((card, index) => {
         return (
           <div key={index} className="stat-card warning animate-slide-in" style={{ animationDelay: `${index * 0.4}s` }} >
             <div className="stat-icon">{card.icon}</div>

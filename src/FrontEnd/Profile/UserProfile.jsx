@@ -16,6 +16,7 @@ import GroupIcon from "@mui/icons-material/Group";
 import GroupRemoveIcon from "@mui/icons-material/GroupRemove";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
 import Cookies from "js-cookie";
+import { formatDate, formatRelativeDate } from "../../utils/dateUtils";
 
 let NameFirstTrave = "";
 
@@ -31,7 +32,7 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-let jsxshowmoredata = "";
+let typRequest = '';
 
 // الامتدادات المسموح بها
 const ALLOWED_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp"];
@@ -68,7 +69,6 @@ const UserProfile = () => {
   });
   //== End Get Alls Data To Do Semthong In The Page Form Slice Controller ==//
 
-  // const [valueImgeProfilUpdate, setvalueImgeProfilUpdate] = React.useState("");
   const valueImgeProfilUpdate = React.useRef('');
   // أضف هذه الـ refs في بداية المكون
   const numbersAnimated = React.useRef(false);
@@ -76,22 +76,25 @@ const UserProfile = () => {
 
   // Start Here To Get Sult For Semthing Request In Page
   React.useEffect(() => {
-    if (typeRequestRsp === "startshangebigimgprofile") {
-      if (resultrquestaction === 1) {
-        HandleCloseOrOpenReadinPage(false);
-        OpenDialogForActionSuccess(
-          "تم تحديث صورة الحسابك شخصي بنجاح كما تم تحديث البيانات"
-        );
-        setImgProfShangebss(ProfileSnageNow.image);
-        valueImgeProfilUpdate.current = '';
-        dispatsh(lastedefaultdatastate());
-      } else if (resultrquestaction === 2) {
-        HandleCloseOrOpenReadinPage(false);
-        dispatsh(lastedefaultdatastate());
-        OpenDialogForActionFound(
-          "حدث خطا غير معروف رجاء حاول فلوقت لاحق او قم بتحميل صفحة"
-        );
-      }
+    switch (typRequest) {
+      case 'startshangebigimgprofile':
+        typRequest = '';
+        switch (typeRequestRsp) {
+          case 1:
+            OpenDialogForActionSuccess(
+              "تم تحديث صورة الحسابك شخصي بنجاح كما تم تحديث البيانات"
+            );
+            setImgProfShangebss(ProfileSnageNow.image);
+            valueImgeProfilUpdate.current = '';
+            dispatsh(lastedefaultdatastate());
+          return;
+          case 2:
+            dispatsh(lastedefaultdatastate());
+            OpenDialogForActionFound(
+              "حدث خطا غير معروف رجاء حاول فلوقت لاحق او قم بتحميل صفحة"
+            );
+          return;
+        }
     }
   }, [resultrquestaction, typeRequestRsp === "startshangebigimgprofile"]); //== End Here To Get Sult For Semthing Request In Page ==//
 
@@ -99,6 +102,7 @@ const UserProfile = () => {
   React.useEffect(() => {
     if (lodingtorspact === true) {
       HandleCloseOrOpenReadinPage(true);
+      typRequest = typeRequestRsp;
     } else {
       HandleCloseOrOpenReadinPage(false);
     }
@@ -131,7 +135,6 @@ const UserProfile = () => {
   // بعد جلب البيانات من API، أضف هذا useEffect منفصل للحركة
   useEffect(() => {
     if (!AllsDataUserNow || numbersAnimated.current) return;
-
     // انتظر حتى يصبح DOM جاهزاً
     const timer = setTimeout(() => {
       const statNumbers = document.querySelectorAll('.main-stat-value');
@@ -143,7 +146,6 @@ const UserProfile = () => {
       });
       numbersAnimated.current = true;
     }, 500);
-
     return () => clearTimeout(timer);
   }, [AllsDataUserNow]);
 
@@ -168,12 +170,10 @@ const UserProfile = () => {
   // useMemo للبيانات فقط
   const jsxshowmoredata = React.useMemo(() => {
     if (!AllsDataUserNow || !AllsDataUserNow.DatBssICalyan) return null;
-
     const TotalMyDeyanForBss = AllsDataUserNow.DatBssICalyan.reduce(
       (sum, item) => sum + item.totaleMyDeyn,
       0
     );
-
     // هذا المتغير يحتاج إلى تعريف - إذا كان global أضف let أو const
     let NameFirstTrave;
     if (AllsDataUserNow.Profile_tweve.length > 0) {
@@ -183,12 +183,10 @@ const UserProfile = () => {
     } else {
       NameFirstTrave = "Not";
     }
-
     const allbbshasdeyforMy = AllsDataUserNow.DatBssICalyan.filter((prod) => {
       return prod.totaleMyDeyn > 0;
     });
-
-    const mainStatsCards = [
+    return [
       {
         id: 1,
         icon: <GroupIcon className="iconShwStyle" />,
@@ -210,9 +208,7 @@ const UserProfile = () => {
         value: TotalMyDeyanForBss,
         color: "#f59e0b",
       },
-    ];
-
-    return mainStatsCards.map((card, index) => {
+    ].map((card, index) => {
       return (
         <div
           key={card.id}
@@ -231,6 +227,7 @@ const UserProfile = () => {
               className="main-stat-value" 
               data-count={card.value}
             >
+              0
             </div>
           </div>
         </div>
@@ -292,7 +289,6 @@ const UserProfile = () => {
       }
 
       const reader = new FileReader();
-      // setvalueImgeProfilUpdate(file);
       valueImgeProfilUpdate.current = file;
       reader.onload = (e) => setImgProfShangebss(e.target.result);
       reader.readAsDataURL(file);
@@ -462,7 +458,7 @@ const UserProfile = () => {
                 <div className="detail-item">
                   <span className="detail-label">📅 تاريخ انشاء لحساب:</span>
                   <span className="detail-value">
-                    {ProfileSnageNow.created_at}
+                    {formatDate(ProfileSnageNow.created_at, { type: 'short' })}
                   </span>
                 </div>
 

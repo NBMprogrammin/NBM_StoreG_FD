@@ -7,11 +7,11 @@ import { edartpayprodectshowallsdatapaymentprod } from "../../allsliceproj/Sales
 import { useSelector, useDispatch } from "react-redux";
 import CartLoader from "../Commponent/Commponet Table Alls Page/CartLoader";
 
-let AllsTrAndTdForMyTable = "";
+
+import CategoryIcon from "@mui/icons-material/Category";
+import PeopleIcon from "@mui/icons-material/People";
 
 let JSXShowAllsDataBss = "";
-let JsxtopCustomers = "";
-let JsxdatalastBaymentsProdects = "";
 
 let datShowUser = "";
 let datUserClickAct = "";
@@ -68,96 +68,144 @@ const DasboardTraver = () => {
 
   // Start Sheck Type Request To Show Result For User
   React.useMemo(() => {
-    if (typRequest === "edartpayprodectconfirmedpaymentprod") {
+    switch (typRequest) {
+      case "edartpayprodectconfirmedpaymentprod":
       HandleCloseOrOpenReadinPage(false);
-      typRequest = "";
-      if (resultrquestaction === 1) {
-        OpenDialogForActionSuccess(
+      typRequest = '';
+      switch (resultrquestaction) {
+          case 1:
+          OpenDialogForActionSuccess(
           `لقد نمت موافق  و تاكيد  على استلام الاموال من زبون ${datUserClickAct.namezeboune} و اتمام لمبيع بنجاح و اظهار تحديث`
-        );
-      } else if (resultrquestaction === 13) {
-        OpenDialogForActionFound(
-          "بدو باتنك سبق لك و ان رفضت دفع طلبية سيتم تحميل صفحة و اضهار نتيجة نهائية "
-        );
-      } else if (resultrquestaction === 9) {
-        OpenDialogForActionFound(
-          "بدو بانك لا تمتلك صلاحية تاكيد الاستلام الاموال لطرق دفع الاكترونية  و هي تنتمي للادارة الدفع الاكتروني"
-        );
-      } else if (resultrquestaction === 6) {
-        OpenDialogForActionFound(
-          "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
-        );
-      } else if (resultrquestaction === 4) {
-        OpenDialogForActionFound(
-          `يبدو بان ناجر اوقف خاصية دين عن زبون ${datUserClickAct.namezeboune} و لقد تم استرداد طلبية و ارجاع لكمية لمبيع من للمخزون فكل لمنتج موجود فطلبية`
-        );
-      } else if (resultrquestaction === 16) {
-        OpenDialogForActionFound(
-          "يبدو بانك لا تمتلك صلاحية ادارة لمبيعات يمكنك طلبها من تاجر لتوفيرها لك"
-        );
-      } else if (resultrquestaction === 22) {
-        OpenDialogForActionFound(
-          "تم رصد مشكلة في احد لمنتجات لمبيع حيث لم يتم لعثور عليها و لاحتمال لاكبر يقول بان تاجر حذف لمنتج يمكنك محاول لاحقا"
-        );
-      } else {
-        typRequest = "";
+          );
+          typRequest = "Show";
+          return;
+          case 4:
+          OpenDialogForActionFound(
+              `يبدو بان ناجر اوقف خاصية دين عن زبون ${datUserClickAct.namezeboune} و لقد تم استرداد طلبية و ارجاع لكمية لمبيع من للمخزون فكل لمنتج موجود فطلبية`
+          );
+          return;
+          case 6:
+          OpenDialogForActionFound(
+              "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
+          );
+          return;
+          case 9:
+          OpenDialogForActionFound(
+              "بدو بانك لا تمتلك صلاحية تاكيد الاستلام الاموال لطرق دفع الاكترونية  و هي تنتمي للادارة الدفع الاكتروني"
+          );
+          return;
+          case 13:
+          OpenDialogForActionFound(
+              "بدو باتنك سبق لك و ان رفضت دفع طلبية سيتم تحميل صفحة و اضهار نتيجة نهائية "
+          );
+          return;
+          case 16:
+          OpenDialogForActionFound(
+              "يبدو بانك لا تمتلك صلاحية ادارة لمبيعات يمكنك طلبها من تاجر لتوفيرها لك"
+          );
+          return;
+          case 22:
+          OpenDialogForActionFound(
+              "تم رصد مشكلة في احد لمنتجات لمبيع حيث لم يتم لعثور عليها و لاحتمال لاكبر يقول بان تاجر حذف لمنتج يمكنك محاول لاحقا"
+          );
+          return;
+          case 99:
+          OpenDialogForActionFound(
+              "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+          );
+          return;
       }
-    } else if (typRequest === "edartpayprodectdscconfirmedpaymentprod") {
+      return;
+      case 'edartpayprodectdscconfirmedpaymentprod':
       HandleCloseOrOpenReadinPage(false);
-      typRequest = "";
-      if (resultrquestaction === 1) {
-        OpenDialogForActionSuccess(
-          `لقد نم رفض تاكيد استلام الاموال من زبون ${datUserClickAct.namezeboune}  و استرداد كل لمنتجات لموجود في طلبية و بلكمية للمخزون كل منج و تم اظهار تحديث`
-        );
-      } else if (resultrquestaction === 2) {
-        OpenDialogForActionSuccess(
-          "حدث خطا اثناء اتمام طلبية لتي تمثل تاكيد استلام الاموال سيتم تحميل صفحة و معاود مرة اخرى"
-        );
-      } else if (resultrquestaction === 14) {
-        OpenDialogForActionFound(
-          "بدو باتنك سبق لك و ان وافقت على دفع للطلبية سيتم تحميل صفحة و اضهار نتيجة نهائية "
-        );
-      } else if (resultrquestaction === 13) {
-        OpenDialogForActionFound(
-          "بدو باتنك سبق لك و ان رفضت دفع طلبية سيتم تحميل صفحة و اضهار نتيجة نهائية "
-        );
-      } else if (resultrquestaction === 9) {
-        OpenDialogForActionFound(
-          "بدو بانك لا تمتلك صلاحية تاكيد الاستلام الاموال لطرق دفع الاكترونية  و هي تنتمي للادارة الدفع الاكتروني"
-        );
-      } else if (resultrquestaction === 6) {
-        OpenDialogForActionFound(
-          "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
-        );
-      } else if (resultrquestaction === 4) {
-        OpenDialogForActionFound(
-          `يبدو بان ناجر اوقف خاصية دين عن زبون ${datUserClickAct.namezeboune} و لقد تم استرداد طلبية و ارجاع لكمية لمبيع من للمخزون فكل لمنتج موجود فطلبية`
-        );
-      } else if (resultrquestaction === 16) {
-        OpenDialogForActionFound(
-          "يبدو بانك لا تمتلك صلاحية ادارة لمبيعات يمكنك طلبها من تاجر لتوفيرها لك"
-        );
-      } else if (resultrquestaction === 22) {
-        OpenDialogForActionFound(
-          "تم رصد مشكلة في احد لمنتجات لمبيع حيث لم يتم لعثور عليها و لاحتمال لاكبر يقول بان تاجر حذف لمنتج يمكنك محاول لاحقا"
-        );
+      switch (resultrquestaction) {
+          case 1:
+          OpenDialogForActionSuccess(
+              `لقد نم رفض تاكيد استلام الاموال من زبون ${datUserClickAct.namezeboune}  و استرداد كل لمنتجات لموجود في طلبية و بلكمية للمخزون كل منج و تم اظهار تحديث`
+          );
+          typRequest = "";
+          return;
+          case 2:
+          typRequest = "";
+          OpenDialogForActionSuccess(
+              "حدث خطا اثناء اتمام طلبية لتي تمثل تاكيد استلام الاموال سيتم تحميل صفحة و معاود مرة اخرى"
+          );
+          typRequest = "";
+          return;
+          case 4:
+          OpenDialogForActionFound(
+              `يبدو بان ناجر اوقف خاصية دين عن زبون ${datUserClickAct.namezeboune} و لقد تم استرداد طلبية و ارجاع لكمية لمبيع من للمخزون فكل لمنتج موجود فطلبية`
+          );
+          typRequest = "";
+          return;
+          case 6:
+          typRequest = "";
+          OpenDialogForActionFound(
+              "كلمة السر الاعدادات لتي ادخلتها غير صحيحة حاول مرة اخرى"
+          );
+          return;
+          case 9:
+          typRequest = "";
+          OpenDialogForActionFound(
+              "بدو بانك لا تمتلك صلاحية تاكيد الاستلام الاموال لطرق دفع الاكترونية  و هي تنتمي للادارة الدفع الاكتروني"
+          );
+          return;
+          case 13:
+          typRequest = "";
+          OpenDialogForActionFound(
+              "بدو باتنك سبق لك و ان رفضت دفع طلبية سيتم تحميل صفحة و اضهار نتيجة نهائية "
+          );
+          return;
+          case 14:
+          typRequest = "";
+          OpenDialogForActionFound(
+              "بدو باتنك سبق لك و ان وافقت على دفع للطلبية سيتم تحميل صفحة و اضهار نتيجة نهائية "
+          );
+          return;
+          case 16:
+          typRequest = "";
+          OpenDialogForActionFound(
+              "يبدو بانك لا تمتلك صلاحية ادارة لمبيعات يمكنك طلبها من تاجر لتوفيرها لك"
+          );
+          return;
+          case 22:
+          typRequest = "";
+          OpenDialogForActionFound(
+              "تم رصد مشكلة في احد لمنتجات لمبيع حيث لم يتم لعثور عليها و لاحتمال لاكبر يقول بان تاجر حذف لمنتج يمكنك محاول لاحقا"
+          );
+          return;
+          case 99:
+          typRequest = "";
+          OpenDialogForActionFound(
+              "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+          );
+          return;
       }
-    } else if (typRequest === "ShowAllsDataPayProdectForId") {
+      return;
+      case 'ShowAllsDataPayProdectForId':
       HandleCloseOrOpenReadinPage(false);
-      typRequest = "";
+      if (resultrquestaction === 99) {
+          OpenDialogForActionFound(
+          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+          );
+          typRequest = "";
+          return;
+      }
+      typRequest = '';
       StartShowMoreDatImClick(
-        ShowAllsProdData.datone,
-        "prodect",
-        ShowAllsProdData.datthere,
-        ShowAllsProdData.datou,
-        `تفاصيل المبيعة لل  ${ShowAllsProdData.namezeboune}`,
-        "صورة تحويل  الاموال  ",
-        ShowAllsProdData.imgconfirmedpay,
-        `تفاصيل المنتجات المختار في المبيعة ${ShowAllsProdData.namezeboune}`,
-        `المزيد من المعلومات المبيعة لل ${ShowAllsProdData.namezeboune}`,
-        ShowAllsProdData.created_at,
-        ShowAllsProdData.id
+          ShowAllsProdData.datone,
+          "prodect",
+          ShowAllsProdData.datthere,
+          ShowAllsProdData.datou,
+          `تفاصيل المبيعة لل  ${ShowAllsProdData.namezeboune}`,
+          "صورة تحويل  الاموال  ",
+          ShowAllsProdData.imgconfirmedpay,
+          `تفاصيل المنتجات المختار في المبيعة ${ShowAllsProdData.namezeboune}`,
+          `المزيد من المعلومات المبيعة لل ${ShowAllsProdData.namezeboune}`,
+          ShowAllsProdData.created_at,
+          ShowAllsProdData.id
       );
+      return;
     }
   }, [resultrquestaction]); //== End Sheck Type Request To Show Result For User ==//
 
@@ -170,8 +218,8 @@ const DasboardTraver = () => {
   }, [lodingtorspact]); // End Her To Sheck loding Response
 
   // He To Sow Reloding In Table
-  React.useMemo(() => {
-    AllsTrAndTdForMyTable = (
+  const AllsTrAndTdForMyTable = React.useMemo(() => {
+    return (
       <tr>
         <td></td>
         <td></td>
@@ -191,8 +239,9 @@ const DasboardTraver = () => {
   // Start Open Aleart For Semthing Action
   function HandAddTypeThisActions(AllDataNow, TypeAction) {
     datUserClickAct = AllDataNow;
-    if (TypeAction === "ConfirmedPaymentProd") {
-      TypeAlearVipNow(
+    switch (TypeAction) {
+      case "ConfirmedPaymentProd":
+        return TypeAlearVipNow(
         AllDataNow,
         TypeAction + "FromEdartPayprod",
         "",
@@ -203,13 +252,11 @@ const DasboardTraver = () => {
         "تاكيد",
         "",
         datShowUser,
-        datShowUser === "teweve"
-          ? "هل انت متاكد من تحملت لمسؤولية تاكيد استلام الاموال من زبون نظرا لعدم قدرة على تراجع عن القرار رجاء تاكد من اتخاذ لقرار صحيح"
-          : "من اجل تاكيد الاستلام الاموال رجاء ادخال كلمة السر الاعدادات مع لعلم بعدم قدرتك في تغيير القرار بعد تاكيده تاكد من اختيار القرار صحيح",
+        "هل انت متاكد من تحملت لمسؤولية تاكيد استلام الاموال من زبون نظرا لعدم قدرة على تراجع عن القرار رجاء تاكد من اتخاذ لقرار صحيح",
         AllDataNow.id
       );
-    } else if (TypeAction === "StopPaymentProd") {
-      TypeAlearVipNow(
+      case "StopPaymentProd":
+        return TypeAlearVipNow(
         AllDataNow,
         TypeAction + "FromEdartPayprod",
         "",
@@ -220,20 +267,18 @@ const DasboardTraver = () => {
         "تاكيد",
         "",
         datShowUser,
-        datShowUser === "teweve"
-          ? "هل انت متاكد من تحملت لمسؤولية رفض او نفي استلام الاموال من زبون نظرا لعدم قدرة على تراجع عن القرار رجاء تاكد من اتخاذ لقرار صحيح"
-          : "من اجل تاكيد الاستلام الاموال رجاء ادخال كلمة السر الاعدادات مع لعلم بعدم قدرتك في تغيير القرار بعد تاكيده تاكد من اختيار القرار صحيح",
+        "هل انت متاكد من تحملت لمسؤولية رفض او نفي استلام الاموال من زبون نظرا لعدم قدرة على تراجع عن القرار رجاء تاكد من اتخاذ لقرار صحيح",
         AllDataNow.id
       );
-    } else if (TypeAction === "ShowDatePaymentProd") {
-      dispatsh(edartpayprodectshowallsdatapaymentprod(AllDataNow.id));
+      case "ShowDatePaymentProd":
+      return dispatsh(edartpayprodectshowallsdatapaymentprod(AllDataNow.id));
     }
   } //=== End Open Aleart For Semthing Action ===//
 
   // محاكاة تحميل البيانات
-  useMemo(() => {
+  const JsxtopCustomers = useMemo(() => {
     if (AllsDataUserNow && AllsDataUserNow.MayZeboune) {
-      JsxtopCustomers = AllsDataUserNow.MayZeboune.map((customer) => (
+      return AllsDataUserNow.MayZeboune.map((customer) => (
         <div key={customer.id} className="customer-card">
           <AvatarImgForAllType
             MyAvatar={customer.image}
@@ -267,60 +312,60 @@ const DasboardTraver = () => {
   }, [AllsDataUserNow.MayZeboune]);
 
   // أضف هذه الـ refs في بداية المكون
-      const numbersAnimated = React.useRef(false);
-      const sectionRef = React.useRef(null);
+  const numbersAnimated = React.useRef(false);
+  const sectionRef = React.useRef(null);
   
-      // دالة الحركة الرقمية
-    const animateNumber = (element, start, end, duration) => {
-      let startTimestamp = null;
-      const step = (timestamp) => {
-        if (!startTimestamp) startTimestamp = timestamp;
-        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-        const value = Math.floor(progress * (end - start) + start);
-        element.textContent = value.toLocaleString();
-        if (progress < 1) {
-          window.requestAnimationFrame(step);
-        }
-      };
-      window.requestAnimationFrame(step);
+    // دالة الحركة الرقمية
+  const animateNumber = (element, start, end, duration) => {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      const value = Math.floor(progress * (end - start) + start);
+      element.textContent = value.toLocaleString();
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
     };
+    window.requestAnimationFrame(step);
+  };
+
+  // بعد جلب البيانات من API، أضف هذا useEffect منفصل للحركة
+  useEffect(() => {
+    if (!AllsDataUserNow || numbersAnimated.current) return;
   
-    // بعد جلب البيانات من API، أضف هذا useEffect منفصل للحركة
-    useEffect(() => {
-      if (!AllsDataUserNow || numbersAnimated.current) return;
-    
-      // انتظر حتى يصبح DOM جاهزاً
-      const timer = setTimeout(() => {
-        const statNumbers = document.querySelectorAll('.stat-number');
-        statNumbers.forEach((element) => {
-          const target = parseInt(element.getAttribute('data-count'));
-          if (!isNaN(target) && target > 0) {
-            animateNumber(element, 0, target, 2000);
-          }
-        });
-        numbersAnimated.current = true;
-      }, 500);
-    
-      return () => clearTimeout(timer);
-    }, [AllsDataUserNow]);
-    
-    // useEffect للحركة
-    React.useEffect(() => {
-      if (!sectionRef.current) return;
-        
-        observer.observe(sectionRef.current);
-        if (sectionRef.current) {
-          observer.unobserve(sectionRef.current);
+    // انتظر حتى يصبح DOM جاهزاً
+    const timer = setTimeout(() => {
+      const statNumbers = document.querySelectorAll('.stat-number');
+      statNumbers.forEach((element) => {
+        const target = parseInt(element.getAttribute('data-count'));
+        if (!isNaN(target) && target > 0) {
+          animateNumber(element, 0, target, 2000);
         }
+      });
+      numbersAnimated.current = true;
+    }, 500);
+  
+    return () => clearTimeout(timer);
+  }, [AllsDataUserNow]);
     
+  // useEffect للحركة
+  React.useEffect(() => {
+    if (!sectionRef.current) return;
+      
       observer.observe(sectionRef.current);
-    
-      return () => {
-        if (sectionRef.current) {
-          observer.unobserve(sectionRef.current);
-        }
-      };
-    }, []);
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+  
+    observer.observe(sectionRef.current);
+  
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
 
   const JSXShowAllsDataBss = useMemo(() => {
     ProdFinsh = AllsDataUserNow.MayProd.filter((prod) => {
@@ -343,12 +388,12 @@ const DasboardTraver = () => {
     totalCustomersGnL = AllsDataUserNow.MayZeboune.length;
 
     if (AllsDataUserNow.MyPaymentProdectPay) {
-      const dataShowMoreBss = [
+      return [
         {
           id: 2,
           titel: "عدد المنتجات",
           data: totalProdects.toLocaleString(),
-          icon: "📦",
+          icon: <CategoryIcon className="iconShwStyledas" />,
           tycolor: "",
         },
         {
@@ -369,7 +414,7 @@ const DasboardTraver = () => {
           id: 5,
           titel: "عدد زباين",
           data: totalCustomersGnL.toLocaleString(),
-          icon: "👥",
+          icon: <PeopleIcon className="iconShwStyledas" />,
           tycolor: "",
         },
 
@@ -384,12 +429,10 @@ const DasboardTraver = () => {
           id: 7,
           titel: "زباين مدانون",
           data: TotalDeynForAlsZeboune.length.toLocaleString(),
-          icon: "👥",
+          icon: <PeopleIcon className="iconShwStyledas" />,
           tycolor: "danger",
         },
-      ];
-
-      return dataShowMoreBss.map((card, index) => {
+      ].map((card, index) => {
         return (
           <div key={index} className="stat-card warning animate-slide-in" style={{ animationDelay: `${index * 0.4}s` }} >
             <div className="stat-icon">{card.icon}</div>
@@ -403,9 +446,9 @@ const DasboardTraver = () => {
     }
   }, [AllsDataUserNow]);
 
-  useMemo(() => {
+  const JsxdatalastBaymentsProdects = useMemo(() => {
     if (AllsDataUserNow.MyPaymentProdectPay) {
-      JsxdatalastBaymentsProdects = AllsDataUserNow.MyPaymentProdectPay.map(
+      return AllsDataUserNow.MyPaymentProdectPay.map(
         (order) => (
           <tr key={order.id}>
             <td>#{order.id}</td>

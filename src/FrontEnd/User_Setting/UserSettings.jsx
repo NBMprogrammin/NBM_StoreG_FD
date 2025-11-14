@@ -230,116 +230,177 @@ const UserSettings = () => {
 
   // Start Here To Get Sult For Semthing Request In Page
   React.useEffect(() => {
-    if (typRequest === "starttocreateorupdpasswordsettings") {
-      if (resultrquestaction === 1) {
-        setDatPasswordSettings({
-          ...datPasswordSettings,
-          passwordF: "",
-          passwordC: "",
-        });
-        dispatsh(lastedefaultdatastate());
-        OpenDialogForActionSuccess(
-          "تم تحديث كلمة السر السر لحسابك شخصي بنجاح يمكنك استعمالها الان"
-        );
-      } else if (resultrquestaction === 3 || resultrquestaction === 2) {
-        OpenDialogForActionFound(
-          "حدث خطا غير معروف اثناء لعملية قم بتحميل صفحة الاظهار تحديث",
-        );
-        dispatsh(lastedefaultdatastate());
-      } else if (resultrquestaction === 99) {
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
-        );
-        dispatsh(lastedefaultdatastate());
-      }
-    } else if (typRequest === "startshangeprofilesettingsforuser") {
-      
-      if (resultrquestaction === 1) {
-        OpenDialogForActionSuccess(
-          "تم تحديث بيانات لحسابك شخصي بنجاح كما تم تحديث لبيانات",
-        );
-        dispatsh(lastedefaultdatastate());
-      } else if (resultrquestaction === 2 || resultrquestaction === 5) {
-        OpenDialogForActionFound(
-          "حدث خطا غير معروف اثناء لعملية قم بتحميل صفحة الاظهار تحديث",
-        );
-        dispatsh(lastedefaultdatastate());
-      } else if (resultrquestaction === 99) {
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
-        );
-        dispatsh(lastedefaultdatastate());
-      }
-    } else if (typRequest === "startshangenumberphonemyprofile") {
-      if (resultrquestaction === 3) {
-        OpenDialogForActionFound(
-          `تم رصد رقم لهاتف ${dataProfileBssNow.storePhone} حاليا قيد لاستخدام من طرف لمستخدم اخر يمكنك تغيير لبيانات و لمحاولة`
-        );
-        dispatsh(lastedefaultdatastate());
-      } else if (resultrquestaction === 1) {
-        setPhoneEditing(false);
-        OpenDialogForActionSuccess(
-          "تم تحديث رقم لهاتف للحسابك شخصي بنجاح كما تم تحديث لبيانات",
-        );
-      } else if (resultrquestaction === 2) {
-        OpenDialogForActionFound(
-          "حدث خطا اثناء محاولتك قم بتحميل صفحة لاظهار تحديث"
-        );
-        dispatsh(lastedefaultdatastate());
-      } else if (resultrquestaction === 99) {
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
-        );
-        dispatsh(lastedefaultdatastate());
-      }
-    } else if (typRequest === "shartshangeemailprofile") {
-      if (resultrquestaction === 1) {
-        setCooldown(60);
-        setEmailEditing(false);
-        openVerificationModal("email");
-        dispatsh(lastedefaultdatastate());
-        OpenDialogForActionSuccess("تم إرسال رمز التأكيد إلى بريدك الإلكتروني");
-      } else if (resultrquestaction === 2) {
-        OpenDialogForActionFound(
-          "االبريد الإلكتروني مستخدم بلفعل حاول بانوان اخر"
-        );
-        dispatsh(lastedefaultdatastate());
-      } else if (resultrquestaction === 5) {
-        OpenDialogForActionFound(
-          "حدث خطا فشل ارسال كود او هناك مشكلة فلشبة حاول مرة اخرى"
-        );
-        dispatsh(lastedefaultdatastate());
-      } else if (resultrquestaction === 99) {
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
-        );
-        dispatsh(lastedefaultdatastate());
-      }
-    } else if (typRequest === "startconfirmedshangeemailprofile") {
-      if (resultrquestaction === 1) {
-        verificationType.current = null;
-        setVerificationCode("");
-        OpenDialogForActionSuccess(
-          "تم تغيير البريدك الاكتروني للحسابك شخصي بنجاح كما تم تحديث لبيانات",
-        );
-        dispatsh(lastedefaultdatastate());
-      } else if (resultrquestaction === 2) {
-        OpenDialogForActionFound("البريد الإلكتروني مستخدم بلفعل ");
-        dispatsh(lastedefaultdatastate());
-      } else if (resultrquestaction === 3) {
-        OpenDialogForActionFound("الرمز غير صحيح أو منتهي الصلاحية ");
-        dispatsh(lastedefaultdatastate());
-      } else if (resultrquestaction === 9) {
-        OpenDialogForActionFound(
-          "فشلت لعملية رجاء حاول مرة اخرى فلوقت لاحق"
-        );
-        dispatsh(lastedefaultdatastate());
-      } else if (resultrquestaction === 99) {
-        OpenDialogForActionFound(
-          "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق"
-        );
-        dispatsh(lastedefaultdatastate());
-      }
+    switch (typRequest) {
+      case 'starttocreateorupdpasswordsettings':
+        switch (resultrquestaction) {
+          case 1:
+            typRequest = '';
+            setDatPasswordSettings({
+              ...datPasswordSettings,
+              passwordF: "",
+              passwordC: "",
+            });
+            dispatsh(lastedefaultdatastate());
+            OpenDialogForActionSuccess(
+              "تم تحديث كلمة السر السر لحسابك شخصي بنجاح يمكنك استعمالها الان"
+            );
+          return;
+          case 2:
+            typRequest = '';
+            OpenDialogForActionFound(
+              "حدث خطا غير معروف اثناء لعملية قم بتحميل صفحة الاظهار تحديث",
+            );
+            dispatsh(lastedefaultdatastate());
+          return;
+          case 3:
+            typRequest = '';
+            OpenDialogForActionFound(
+              "حدث خطا غير معروف اثناء لعملية قم بتحميل صفحة الاظهار تحديث",
+            );
+            dispatsh(lastedefaultdatastate());
+          return;
+          case 99:
+            typRequest = '';
+            OpenDialogForActionFound(
+              "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+            );
+            dispatsh(lastedefaultdatastate());
+          return;
+        }
+      return;
+      case 'startshangeprofilesettingsforuser':
+        switch (resultrquestaction) {
+          case 1:
+            OpenDialogForActionSuccess(
+              "تم تحديث بيانات لحسابك شخصي بنجاح كما تم تحديث لبيانات",
+            );
+            dispatsh(lastedefaultdatastate());
+            typRequest = '';
+          return;
+            case 2:
+              OpenDialogForActionFound(
+                "حدث خطا غير معروف اثناء لعملية قم بتحميل صفحة الاظهار تحديث",
+              );
+              dispatsh(lastedefaultdatastate());
+              typRequest = '';
+            return;
+            case 3:
+              OpenDialogForActionFound(
+                "حدث خطا غير معروف اثناء لعملية قم بتحميل صفحة الاظهار تحديث",
+              );
+              dispatsh(lastedefaultdatastate());
+              typRequest = '';
+            return;
+            case 99:
+              OpenDialogForActionFound(
+                "حدث خطا فشكة او لمزود لخدمة حاول في وقت لاحق او قم بتحميل صفحة"
+              );
+              dispatsh(lastedefaultdatastate());
+              typRequest = '';
+            return;
+        }
+      return;
+      case 'startshangenumberphonemyprofile':
+        switch (resultrquestaction) {
+          case 1:
+            OpenDialogForActionSuccess(
+              "تم تحديث رقم لهاتف للحسابك شخصي بنجاح كما تم تحديث لبيانات",
+            );
+            typRequest = '';
+          return;
+            case 2:
+              OpenDialogForActionFound(
+                "حدث خطا اثناء محاولتك قم بتحميل صفحة لاظهار تحديث"
+              );
+              dispatsh(lastedefaultdatastate());
+              typRequest = '';
+            return;
+            case 3:
+              OpenDialogForActionFound(
+                "حدث خطا غير معروف اثناء لعملية قم بتحميل صفحة الاظهار تحديث",
+              );
+              dispatsh(lastedefaultdatastate());
+              typRequest = '';
+            return;
+            case 99:
+              OpenDialogForActionFound(
+                `تم رصد رقم لهاتف ${dataProfileBssNow.storePhone} حاليا قيد لاستخدام من طرف لمستخدم اخر يمكنك تغيير لبيانات و لمحاولة`
+              );
+              dispatsh(lastedefaultdatastate());
+              typRequest = '';
+            return;
+        }
+      return;
+      case 'shartshangeemailprofile':
+        switch (resultrquestaction) {
+          case 1:
+            setCooldown(60);
+            setEmailEditing(false);
+            openVerificationModal("email");
+            dispatsh(lastedefaultdatastate());
+            OpenDialogForActionSuccess("تم إرسال رمز التأكيد إلى بريدك الإلكتروني");
+            typRequest = '';
+          return;
+            case 2:
+              OpenDialogForActionFound(
+                "االبريد الإلكتروني مستخدم بلفعل حاول بانوان اخر"
+              );
+              dispatsh(lastedefaultdatastate());
+              typRequest = '';
+            return;
+            case 5:
+              OpenDialogForActionFound(
+                "حدث خطا فشل ارسال كود او هناك مشكلة فلشبة حاول مرة اخرى"
+              );
+              dispatsh(lastedefaultdatastate());
+              typRequest = '';
+            return;
+            case 99:
+              OpenDialogForActionFound(
+                `تم رصد رقم لهاتف ${dataProfileBssNow.storePhone} حاليا قيد لاستخدام من طرف لمستخدم اخر يمكنك تغيير لبيانات و لمحاولة`
+              );
+              dispatsh(lastedefaultdatastate());
+              typRequest = '';
+            return;
+        }
+      return;
+      case 'startconfirmedshangeemailprofile':
+        switch (resultrquestaction) {
+          case 1:
+            verificationType.current = null;
+            setVerificationCode("");
+            OpenDialogForActionSuccess(
+              "تم تغيير البريدك الاكتروني للحسابك شخصي بنجاح كما تم تحديث لبيانات",
+            );
+            dispatsh(lastedefaultdatastate());
+            typRequest = '';
+          return;
+            case 2:
+              OpenDialogForActionFound("البريد الإلكتروني مستخدم بلفعل ");
+              dispatsh(lastedefaultdatastate());
+              typRequest = '';
+            return;
+            case 3:
+              OpenDialogForActionFound("الرمز غير صحيح أو منتهي الصلاحية ");
+              dispatsh(lastedefaultdatastate());
+              typRequest = '';
+            return;
+            case 9:
+              OpenDialogForActionFound(
+                "فشلت لعملية رجاء حاول مرة اخرى فلوقت لاحق"
+              );
+              dispatsh(lastedefaultdatastate());
+              typRequest = '';
+            return;
+            case 99:
+              OpenDialogForActionFound(
+                `تم رصد رقم لهاتف ${dataProfileBssNow.storePhone} حاليا قيد لاستخدام من طرف لمستخدم اخر يمكنك تغيير لبيانات و لمحاولة`
+              );
+              dispatsh(lastedefaultdatastate());
+              typRequest = '';
+            return;
+        }
+      return;
     }
   }, [
     resultrquestaction,

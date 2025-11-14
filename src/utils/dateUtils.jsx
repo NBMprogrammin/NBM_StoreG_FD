@@ -11,7 +11,6 @@ export const formatRelativeDate = (dateString) => {
       locale: ar
     });
   } catch (error) {
-    console.error('Error formatting date:', error);
     return 'تاريخ غير معروف';
   }
 };

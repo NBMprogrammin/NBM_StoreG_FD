@@ -363,7 +363,7 @@ const Sales_Management_Add = () => {
                       </FormLabel>
                       <CountryInput
                         datPaymentToCont={TypeNamePaymenttOdOaCtion}
-                        TypeShowData={"PayProdForZeboune"}
+                        TypeShowData={ValuePayMenteMethod.nameOne}
                         TypeAction="BssUserClick"
                         dataFeth={AllsDataUserNow.MayZeboune}
                         ValueUserSeckeClick={ValueUserSeckeClick}

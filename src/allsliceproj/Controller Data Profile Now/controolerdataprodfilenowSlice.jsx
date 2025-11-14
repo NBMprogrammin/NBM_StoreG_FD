@@ -79,19 +79,19 @@ export const startshngeprofileusernowtologin = createAsyncThunk(
         QuaryData,
         {
           headers: {
-            Authorization: "Bearer " + Cookies.get("token"),
+            Authorization: "Bearer " + token,
             Accept: "application/json",
           },
           withCredentials: true,
         }
       );
       const resultaction = response.data.typAction;
-      const token = response.data.token;
+      const tokenR = response.data.token;
       const datprofNow = response.data.data.Profilenow;
       const AllsDataProfNow = response.data.data;
       return {
         resultaction,
-        token,
+        tokenR,
         datprofNow,
         AllsDataProfNow,
       };
@@ -725,7 +725,7 @@ const controolerdataprodfilenowSlice = createSlice({
       .addCase(startshngeprofileusernowtologin.fulfilled, (state, action) => {
         state.resultrquestaction = 1;
         if(action.payload.resultaction === 1) {
-          Cookies.set("token", action.payload.token, { expires: 7 });
+          Cookies.set("token", action.payload.tokenR, { expires: 7 });
           state.ProfileSnageNow = action.payload.datprofNow;
           state.datauser = action.payload.AllsDataProfNow;
         }

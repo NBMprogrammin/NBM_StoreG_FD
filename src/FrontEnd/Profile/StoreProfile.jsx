@@ -31,7 +31,8 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-let jsxshowmoredata = "";
+let typRequest = '';
+
 
 // الامتدادات المسموح بها
 const ALLOWED_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp"];
@@ -78,24 +79,29 @@ const StoreProfile = () => {
 
   // Start Here To Get Sult For Semthing Request In Page
   React.useEffect(() => {
-    if (typeRequestRsp === "startshangebigimgprofile") {
-      if (resultrquestaction === 1) {
-        OpenDialogForActionSuccess(
-          "تم تحديث صورة الغلاف الحساب تجاري بنجاح كما تم تحديث لبيانات",
-        );
-        setvalueBigImgeProfilUpdate("");
-        setBigImgProfileBss(valueBigImgeProfilUpdate);
-      } else if (resultrquestaction === 3) {
-        OpenDialogForActionSuccess(
-          "تم تحديث صورة الحسابك تجاري بنجاح كما تم تحديث لبيانات",
-        );
-        setvalueImgeProfilUpdate("");
-        setImgProfShangebss(ProfileSnageNow.image);
-      } else if (resultrquestaction === 2) {
-        OpenDialogForActionFound(
-          "حدث خطا غير معروف رجاء حاول فلوقت لاحق او قم بتحميل صفحة"
-        );
-      }
+    switch (typRequest) {
+      case 'startshangebigimgprofile':
+        typRequest = '';
+        switch (resultrquestaction) {
+          case 1:
+            OpenDialogForActionSuccess(
+              "تم تحديث صورة الغلاف الحساب تجاري بنجاح كما تم تحديث لبيانات",
+            );
+            setvalueBigImgeProfilUpdate("");
+            setBigImgProfileBss(valueBigImgeProfilUpdate);
+          return;
+          case 2:
+            OpenDialogForActionFound(
+              "حدث خطا غير معروف رجاء حاول فلوقت لاحق او قم بتحميل صفحة"
+            );
+          return;
+          case 3:
+            OpenDialogForActionSuccess(
+              "تم تحديث صورة الحسابك تجاري بنجاح كما تم تحديث لبيانات",
+            );
+            setvalueImgeProfilUpdate("");
+            setImgProfShangebss(ProfileSnageNow.image);
+        }
     }
   }, [resultrquestaction, typeRequestRsp === "startshangebigimgprofile"]); //== End Here To Get Sult For Semthing Request In Page ==//
 
@@ -103,6 +109,7 @@ const StoreProfile = () => {
   React.useEffect(() => {
     if (lodingtorspact === true) {
       HandleCloseOrOpenReadinPage(true);
+      typRequest = typeRequestRsp;
     } else {
       HandleCloseOrOpenReadinPage(false);
     }
@@ -182,7 +189,7 @@ const StoreProfile = () => {
     };
   }, []);
 
-  React.useMemo(() => {
+  const jsxshowmoredata = React.useMemo(() => {
     if (AllsDataUserNow && AllsDataUserNow.MayZeboune) {
       const ProdFinsh = AllsDataUserNow.MayProd.filter((prod) => {
         return prod.nameThere == 0;
@@ -212,7 +219,7 @@ const StoreProfile = () => {
         }
       };
 
-      const mainStatsCards = [
+      return [
         {
           icon: <AssuredWorkloadIcon className="iconShwStyledas" />,
           title: "اجمالي الارباح",
@@ -241,9 +248,7 @@ const StoreProfile = () => {
           details: AllOdersIsConf,
           color: "#10b981",
         },
-      ];
-
-      jsxshowmoredata = mainStatsCards.map((card, index) => {
+      ].map((card, index) => {
         return (
           <div
             key={index}

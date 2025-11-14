@@ -35,11 +35,32 @@ let boxDsConfirmd = (
   ></div>
 );
 
-const TypDipsBoxShow = (status) => {
+const TypDipsBoxShow = (status, typact) => {
   switch (status) {
     case "Sereash":
       return false;
-    case "DscActive":
+      case "payment":
+      switch (typact) {
+        case 'DscActive':
+          return true;
+        default:
+          return false;
+      }
+      case "Prodects":
+      switch (typact) {
+        case 'DscActive':
+          return true;
+        default:
+          return false;
+      }
+    case "Selefe":
+      switch (typact) {
+        case 'DscActive':
+          return true;
+        default:
+          return false;
+      }
+    case typact === "DscActive":
       return true;
     default:
       return false;
@@ -141,7 +162,7 @@ export default function CountryInput({
               style={{ fontSize: "20px" }}
               disabled={disabled}
               aria-disabled={
-                TypDipsBoxShow(TypeShowData === 'Sereash' ? TypeShowData :  option.TypeActionNow || TypeShowData)
+                TypDipsBoxShow(TypeShowData, option.TypeActionNow)
               }
             >
               <>
